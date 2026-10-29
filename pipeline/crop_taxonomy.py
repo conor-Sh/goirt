@@ -26,7 +26,7 @@ GROUP_COLORS = {
     "grassland": "#9DBE8D",
     "cereals": "#C69A55",
     "maize": "#A9B65F",
-    "oilseeds_break": "#BFA184",
+    "oilseeds_break": "#E1CB5F",
     "roots": "#B07D63",
     "horticulture": "#C48691",
     "fruit": "#9A7F9E",

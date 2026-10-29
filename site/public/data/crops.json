@@ -486,7 +486,7 @@
     },
     {
       "aliases": "",
-      "color": "#BFA184",
+      "color": "#E1CB5F",
       "crop_id": 45,
       "display_name": "100% protein crop",
       "group": "oilseeds_break",
@@ -2007,7 +2007,7 @@
       "name": "Maize"
     },
     {
-      "color": "#BFA184",
+      "color": "#E1CB5F",
       "crop_ids": [
         45,
         46,

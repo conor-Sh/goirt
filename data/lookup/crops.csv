@@ -43,7 +43,7 @@ crop_id,crop,group,color,pattern,aliases,display_name,notes,include
 42,Wheat - Spring,cereals,#D9B879,cereals,spring wheat;wheat spring;wheat,Spring wheat,Cereal crop; retained as a crop group.,true
 43,Wheat - Winter,cereals,#D0A961,cereals,winter wheat;wheat winter;wheat,Winter wheat,Cereal crop; retained as a crop group.,true
 44,Maize,maize,#A9B65F,maize,corn;maize;fodder maize,Maize,Maize; retained as a crop group.,true
-45,100% Protein,oilseeds_break,#BFA184,oilseeds,,100% protein crop,"Oilseed, break or industrial crop; retained as a crop group.",true
+45,100% Protein,oilseeds_break,#E1CB5F,oilseeds,,100% protein crop,"Oilseed, break or industrial crop; retained as a crop group.",true
 46,Beans - Spring,oilseeds_break,#BFA184,oilseeds,spring beans;beans;bean,Spring beans,"Oilseed, break or industrial crop; retained as a crop group.",true
 47,Beans - Winter,oilseeds_break,#C7A98C,oilseeds,winter beans;beans;bean,Winter beans,"Oilseed, break or industrial crop; retained as a crop group.",true
 48,Camelina,oilseeds_break,#C9B27A,oilseeds,,Camelina,"Oilseed, break or industrial crop; retained as a crop group.",true

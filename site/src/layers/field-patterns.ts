@@ -59,7 +59,7 @@ function dots(
 const drawings: Record<string, Draw> = {
   cereals: (ctx) => diagonal(ctx, 1.2, 8),
   maize: (ctx) => vertical(ctx, 1.2, 7),
-  oilseeds: (ctx) => dots(ctx, 10, 1.4),
+  oilseeds_break: (ctx) => dots(ctx, 10, 1.4),
   roots: (ctx) => {
     diagonal(ctx, 1.1, 9);
     ctx.beginPath();
