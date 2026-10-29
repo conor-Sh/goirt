@@ -5,7 +5,7 @@ goal is data minimisation, not a claim that geometry can be made fully anonymous
 
 ## 1. Threat model
 
-A field polygon plus crop, claimed area and county can still be re-identifying in a
+A field polygon plus crop, area and county can still be re-identifying in a
 small area, especially for an uncommon crop or a large holding. The source is
 already anonymised by DAFM, but anonymity is a property of the source release, not
 a guarantee that survives every combination of attributes. Location and shape are

@@ -52,7 +52,7 @@ export function renderDataDialog(): void {
       em("Anonymous LPIS data for 2025"),
       ", licensed under ",
       link(dataLicences.lpisLicence, "CC BY 4.0"),
-      ". Modifications: filtered to agricultural parcels, reduced to crop group and claimed area, geometry repaired where needed, reprojected, county joined, and rendered as a local fixture. Not endorsed by DAFM.",
+      ". Modifications: filtered to agricultural parcels, reduced to crop group and area (claimed or eligible basis), geometry repaired where needed, reprojected, county joined, and rendered as a local fixture. Not endorsed by DAFM.",
     ]),
     paragraph([
       strong("Basemap: "),

@@ -16,6 +16,7 @@ fixture outcomes. The evidence base is copied verbatim into
 | Archive SHA-256 | `c9b2ea2ea4ac517c6bb9ae304aec7d6d2553317e959203b8507a9c8f2ff3c502` |
 | Extracted GeoPackage | `GEO_860-PARCELS_GPK.gpkg`, 5,338,451,968 bytes |
 | Layer | `GEO_860_PARCELS_ANON` |
+| Feature id column | `id` |
 | Source CRS | EPSG:2157 (Irish Transverse Mercator) |
 | Geometry | `MultiPolygon Z`, 4,922,074 rows |
 | Licence | CC BY 4.0; see [ATTRIBUTION.md](ATTRIBUTION.md) |

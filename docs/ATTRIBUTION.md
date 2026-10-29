@@ -32,9 +32,9 @@ The dialog repeats the obligations in full:
 
 > **Field data:** Department of Agriculture, Food and the Marine (DAFM),
 > *Anonymous LPIS data for 2025*, licensed under CC BY 4.0. Modifications:
-> filtered to agricultural parcels, reduced to crop group and claimed area,
-> geometry repaired where needed, reprojected, county joined, and rendered as a
-> local fixture. Not endorsed by DAFM.
+> filtered to agricultural parcels, reduced to crop group and area (claimed or
+> eligible basis), geometry repaired where needed, reprojected, county joined,
+> and rendered as a local fixture. Not endorsed by DAFM.
 >
 > **Basemap:** © OpenStreetMap contributors, ODbL; tiles and style by Protomaps.
 >
@@ -68,9 +68,9 @@ The map does all three:
 
 - credit: "DAFM LPIS (CC BY 4.0)" in the bar and the full DAFM name in the dialog;
 - licence link: the dataset page and the CC BY 4.0 deed;
-- changes: filtered to agricultural parcels, reduced to crop group and claimed
-  area, geometry repaired where needed, reprojected, county joined, simplified and
-  tiled for display.
+- changes: filtered to agricultural parcels, reduced to crop group and area
+  (claimed or eligible basis), geometry repaired where needed, reprojected,
+  county joined, simplified and tiled for display.
 
 The source page states that the Department does not endorse the user's use. The
 bar and dialog therefore say "Not endorsed by DAFM", and this document does not

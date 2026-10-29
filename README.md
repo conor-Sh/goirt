@@ -6,8 +6,8 @@ small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
 layer grouped by crop. Popup and crop search are the next piece, not this one.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
-- Data: 2025 LPIS only, claimed hectares rounded to 0.1 ha, 2019 statutory
-  counties, Wexford first.
+- Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
+  0.1 ha, 2019 statutory counties, Wexford first.
 - Privacy: public features carry only `crop_id`, `crop_group`, `hectares`,
   `area_basis` and `county`.
 - Evidence: the two research reports and the 2025 crop tally are copied verbatim
