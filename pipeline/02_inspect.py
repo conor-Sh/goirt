@@ -16,7 +16,6 @@ import time
 from collections import Counter
 from pathlib import Path
 
-import numpy as np
 import pyogrio
 import shapely
 
@@ -55,7 +54,6 @@ def geometry_audit(gpkg: Path) -> dict[str, object]:
     ids = common.iter_fids(gpkg)
     invalid = 0
     empty = 0
-    invalid_examples: list[int] = []
     started = time.time()
     for index, chunk in enumerate(common.chunked(ids, 200_000), start=1):
         meta, _fids, wkb, _fields = pyogrio.raw.read(
@@ -71,8 +69,6 @@ def geometry_audit(gpkg: Path) -> dict[str, object]:
         empty += int(empty_flags.sum())
         bad = ~valid_flags & ~empty_flags
         invalid += int(bad.sum())
-        for fid in chunk[bad][: max(0, 10 - len(invalid_examples))]:
-            invalid_examples.append(int(fid))
         if index % 5 == 0:
             print(
                 f"  geometry chunks: {index} ({len(chunk)*index:,} rows), "
@@ -83,7 +79,6 @@ def geometry_audit(gpkg: Path) -> dict[str, object]:
         "rows_checked": int(len(ids)),
         "invalid": invalid,
         "empty": empty,
-        "invalid_examples": invalid_examples,
         "seconds": round(time.time() - started, 1),
     }
 

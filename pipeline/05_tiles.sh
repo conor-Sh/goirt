@@ -4,7 +4,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TIPPECANOE="${TIPPECANOE:-tippecanoe}"
-INPUT="$ROOT/data/work/wexford/fields.geojson"
+WORK="${GOIRT_WORK_DIR:-$ROOT/data/work}"
+INPUT="$WORK/wexford/fields.geojson"
 OUTPUT="$ROOT/site/public/fixtures/wexford-fields.pmtiles"
 
 if ! command -v "$TIPPECANOE" >/dev/null 2>&1; then
@@ -20,7 +21,7 @@ fi
 mkdir -p "$(dirname "$OUTPUT")"
 "$TIPPECANOE" --force \
   -o "$OUTPUT" \
-  -Z10 -z15 -B9 \
+  -Z10 -z14 -B9 \
   -l fields \
   --generate-ids \
   --simplification=2 \

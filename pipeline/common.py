@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 import sqlite3
 from dataclasses import dataclass
 from decimal import Decimal, ROUND_HALF_UP
@@ -27,8 +28,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 LOOKUP_DIR = REPO_ROOT / "data" / "lookup"
 CROPS_CSV = LOOKUP_DIR / "crops.csv"
 COUNTIES_GEOJSON = LOOKUP_DIR / "counties.geojson"
-WORK_DIR = REPO_ROOT / "data" / "work"
-RAW_DIR = REPO_ROOT / "data" / "raw"
+WORK_DIR = Path(os.environ.get("GOIRT_WORK_DIR", REPO_ROOT / "data" / "work"))
+RAW_DIR = Path(os.environ.get("GOIRT_RAW_DIR", REPO_ROOT / "data" / "raw"))
 SITE_FIXTURES = REPO_ROOT / "site" / "public" / "fixtures"
 
 LAYER_NAME = "GEO_860_PARCELS_ANON"

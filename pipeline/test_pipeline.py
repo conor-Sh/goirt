@@ -8,12 +8,17 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+
+from shapely.geometry import MultiPolygon, box
+from shapely.prepared import prep
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import common
+import privacy_scan
 
 
 class LookupTests(unittest.TestCase):
@@ -50,6 +55,33 @@ class AreaRuleTests(unittest.TestCase):
         self.assertEqual(common.area_hectares([0, None], [0, None]), (None, "none"))
 
 
+class CountyJoinTests(unittest.TestCase):
+    def county(self, name: str, geometry) -> common.County:
+        return common.County(name=name, geometry=geometry, prepared=prep(geometry))
+
+    def test_representative_point_inside_a_county_wins(self) -> None:
+        counties = [
+            self.county("Wexford", box(0, 0, 10, 10)),
+            self.county("Carlow", box(10, 0, 20, 10)),
+        ]
+        name, method = common.assign_county(box(1, 1, 5, 5), counties)
+        self.assertEqual((name, method), ("Wexford", "representative_point"))
+
+    def test_largest_overlap_is_used_when_the_point_misses_every_county(self) -> None:
+        geom = MultiPolygon([box(0, 0, 3, 3), box(8, 8, 10, 10)])
+        counties = [self.county("Wexford", box(7, 7, 11, 11))]
+        name, method = common.assign_county(geom, counties)
+        self.assertEqual((name, method), ("Wexford", "largest_overlap"))
+
+    def test_fallback_is_ireland(self) -> None:
+        counties = [self.county("Wexford", box(0, 0, 10, 10))]
+        name, method = common.assign_county(box(50, 50, 52, 52), counties)
+        self.assertEqual((name, method), (common.IRELAND, "fallback"))
+
+    def test_county_name_is_english_title_case(self) -> None:
+        self.assertEqual(common.title_county("DUN_LAOGHAIRE"), "Dun Laoghaire")
+
+
 class PrivacyTests(unittest.TestCase):
     def test_safe_properties_is_exact_allowlist(self) -> None:
         props = common.safe_properties(24, "grassland", 12.3, "Wexford")
@@ -80,6 +112,48 @@ class PrivacyTests(unittest.TestCase):
             common.assert_safe_properties(feature["properties"])
             self.assertEqual(feature["properties"]["county"], "Wexford")
             self.assertIn(feature["geometry"]["type"], {"Polygon", "MultiPolygon"})
+
+    def test_privacy_scan_flags_a_forbidden_property(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "leaky.geojson"
+            path.write_text(
+                json.dumps(
+                    {
+                        "type": "FeatureCollection",
+                        "features": [
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "crop_id": 1,
+                                    "crop_group": "grassland",
+                                    "hectares": 1.0,
+                                    "county": "Wexford",
+                                    "par_lab": "leak",
+                                },
+                                "geometry": {
+                                    "type": "Polygon",
+                                    "coordinates": [
+                                        [[0, 0], [1, 0], [1, 1], [0, 0]]
+                                    ],
+                                },
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaises(privacy_scan.PrivacyScanError):
+                privacy_scan.scan_artifact(path)
+
+    def test_generated_artifacts_pass_the_privacy_scan(self) -> None:
+        artifacts = privacy_scan.default_artifacts()
+        self.assertIn(common.SITE_FIXTURES / "wexford-sample.geojson", artifacts)
+        for path in artifacts:
+            result = privacy_scan.scan_artifact(path)
+            self.assertLessEqual(set(result["fields"]), privacy_scan.allowed_fields(path))
+            self.assertEqual(
+                set(result["fields"]) & common.FORBIDDEN_PROPERTY_NAMES, set()
+            )
 
 
 class SiteDataTests(unittest.TestCase):
