@@ -7,6 +7,7 @@ These do not need the 2.9 GB source archive. Run with:
 from __future__ import annotations
 
 import json
+import sqlite3
 import sys
 import tempfile
 import unittest
@@ -53,6 +54,28 @@ class AreaRuleTests(unittest.TestCase):
 
     def test_no_area_is_dropped(self) -> None:
         self.assertEqual(common.area_hectares([0, None], [0, None]), (None, "none"))
+
+
+class SourceAuditTests(unittest.TestCase):
+    def test_iter_fids_reads_the_layer_fid_column(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "source.gpkg"
+            con = sqlite3.connect(path)
+            try:
+                con.execute(
+                    f"CREATE TABLE {common.LAYER_NAME} (fid INTEGER PRIMARY KEY, crop TEXT)"
+                )
+                con.executemany(
+                    f"INSERT INTO {common.LAYER_NAME} (fid, crop) VALUES (?, ?)",
+                    [(2, "A"), (5, "B"), (9, None)],
+                )
+                con.commit()
+            finally:
+                con.close()
+            self.assertEqual(common.iter_fids(path).tolist(), [2, 5, 9])
+            self.assertEqual(
+                common.iter_fids(path, where="crop IS NOT NULL").tolist(), [2, 5]
+            )
 
 
 class CountyJoinTests(unittest.TestCase):
