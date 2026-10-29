@@ -8,6 +8,7 @@ interface FieldProperties {
   crop_id?: number;
   crop_group?: string;
   hectares?: number;
+  area_basis?: string;
   county?: string;
 }
 
@@ -47,7 +48,10 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
     const crop = cropById(crops(), Number(properties.crop_id));
     const group = properties.crop_group ? groupLabels[properties.crop_group] : undefined;
     const hectares = Number(properties.hectares);
-    const area = Number.isFinite(hectares) ? `${hectares.toFixed(1)} ha` : "area unavailable";
+    const basis = properties.area_basis === "eligible" ? "Eligible area" : "Claimed area";
+    const area = Number.isFinite(hectares)
+      ? `${basis}: ${hectares.toFixed(1)} ha`
+      : "area unavailable";
     const parts = [
       crop?.display_name ?? "Mapped field",
       group,

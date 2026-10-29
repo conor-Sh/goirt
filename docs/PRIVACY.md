@@ -14,7 +14,7 @@ inherently identifying at fine scale.
 The mitigation is to publish only what the crop map needs:
 
 - crop group and a crop id that resolves through the public lookup;
-- claimed hectares rounded to 0.1 ha;
+- area in hectares rounded to 0.1 ha, with its claimed/eligible basis;
 - county name;
 - the field geometry, as supplied for the crop-bearing part.
 
@@ -45,7 +45,7 @@ identifiers.
 The allowlist is exactly:
 
 ```text
-crop_id, crop_group, hectares, county
+crop_id, crop_group, hectares, area_basis, county
 ```
 
 `pipeline/common.py` builds every feature through `safe_properties`, which calls
@@ -62,7 +62,7 @@ analytics. The privacy scan accepts `mvt_id` only for `.pmtiles` artifacts.
 Two independent checks:
 
 1. **At build time:** the explicit allowlist in `pipeline/common.py` rejects
-   anything outside the four fields.
+   anything outside the five fields.
 2. **On the real artifacts:** `pipeline/privacy_scan.py` opens the generated
    GeoJSON, FlatGeobuf and PMTiles through GDAL/pyogrio and reads the actual
    property names. It fails if a forbidden name appears or if any property is

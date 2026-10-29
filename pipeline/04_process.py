@@ -11,7 +11,7 @@ Row-to-parcel rule (documented in docs/DATA.md):
 County rule: representative point, then largest overlap, then "Ireland".
 The Wexford fixture retains only features resolved to Wexford.
 
-Output schema is exactly crop_id, crop_group, hectares, county.
+Output schema is exactly crop_id, crop_group, hectares, area_basis, county.
 """
 
 from __future__ import annotations
@@ -158,7 +158,7 @@ def build_features(groups, crops, counties, wexford_name: str, to_wgs84: Transfo
 
         wgs84 = as_multipolygon(transform(to_wgs84.transform, geom))
         properties = common.safe_properties(
-            lookup.crop_id, lookup.group, hectares, county
+            lookup.crop_id, lookup.group, hectares, basis, county
         )
         features.append(
             {"type": "Feature", "properties": properties, "geometry": mapping(wgs84)}
@@ -196,8 +196,11 @@ def write_vector_outputs(
     crop_ids = np.array([f["properties"]["crop_id"] for f in features], dtype=np.int32)
     groups = np.array([f["properties"]["crop_group"] for f in features], dtype=object)
     hectares = np.array([f["properties"]["hectares"] for f in features], dtype=np.float64)
+    area_basis = np.array(
+        [f["properties"]["area_basis"] for f in features], dtype=object
+    )
     county = np.array([f["properties"]["county"] for f in features], dtype=object)
-    field_data = [crop_ids, groups, hectares, county]
+    field_data = [crop_ids, groups, hectares, area_basis, county]
     crs_wkt = CRS.from_epsg(4326).to_wkt()
 
     fgb = out_dir / "fields.fgb"
@@ -348,8 +351,8 @@ def main() -> int:
             "discarded; claim_area summed across folded rows; eh_area max fallback"
         ),
         "area_rule": (
-            "claim_area sum rounded half-up to 0.1 ha; else max eh_area as eligible-area "
-            "fallback; otherwise dropped"
+            "claim_area sum rounded half-up to 0.1 ha recorded as claimed; else max "
+            "eh_area recorded as eligible; otherwise dropped"
         ),
         "archive": {
             "path": str(archive),

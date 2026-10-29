@@ -105,6 +105,10 @@ parts, not by a single parcel polygon. That is the unit the map shows.
   explicit eligible-area fallback. `eh_area` is not summed.
 - If neither is usable, drop the feature and count it. The public schema has no
   sentinel or null area.
+- Record the basis on every feature as `area_basis`: `claimed` when the value
+  comes from `claim_area`, `eligible` when it comes from the `eh_area` fallback.
+  The selection label shows the matching "Claimed area" or "Eligible area" text,
+  so a fallback value is never presented as claimed.
 
 Wexford outcome: 51,644 features use claimed area, 33 use the eligible-area
 fallback, and 703 candidate parts had both area fields null or zero and were
@@ -179,7 +183,8 @@ The only public feature properties are:
 |---|---|---|
 | `crop_id` | integer | Lookup id; no source feature id |
 | `crop_group` | string | One of the eight displayed groups |
-| `hectares` | float | Claimed hectares, rounded to 0.1 ha |
+| `hectares` | float | Area in hectares, rounded to 0.1 ha |
+| `area_basis` | string | `claimed` for `claim_area`; `eligible` for the `eh_area` fallback |
 | `county` | string | English county name (`Wexford` in the fixture) |
 
 `pipeline/common.py` enforces this with an explicit allowlist in

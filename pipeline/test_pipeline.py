@@ -84,8 +84,9 @@ class CountyJoinTests(unittest.TestCase):
 
 class PrivacyTests(unittest.TestCase):
     def test_safe_properties_is_exact_allowlist(self) -> None:
-        props = common.safe_properties(24, "grassland", 12.3, "Wexford")
+        props = common.safe_properties(24, "grassland", 12.3, "claimed", "Wexford")
         self.assertEqual(set(props), set(common.SAFE_FIELDS))
+        self.assertEqual(props["area_basis"], "claimed")
         self.assertEqual(
             common.forbidden_names_in(props),
             [],
@@ -98,8 +99,21 @@ class PrivacyTests(unittest.TestCase):
                     "crop_id": 1,
                     "crop_group": "grassland",
                     "hectares": 1.0,
+                    "area_basis": "claimed",
                     "county": "Wexford",
                     "par_lab": "not allowed",
+                }
+            )
+
+    def test_invalid_area_basis_is_rejected(self) -> None:
+        with self.assertRaises(common.PipelineError):
+            common.assert_safe_properties(
+                {
+                    "crop_id": 1,
+                    "crop_group": "grassland",
+                    "hectares": 1.0,
+                    "area_basis": "estimated",
+                    "county": "Wexford",
                 }
             )
 
@@ -111,6 +125,7 @@ class PrivacyTests(unittest.TestCase):
         for feature in payload["features"]:
             common.assert_safe_properties(feature["properties"])
             self.assertEqual(feature["properties"]["county"], "Wexford")
+            self.assertIn(feature["properties"]["area_basis"], common.AREA_BASES)
             self.assertIn(feature["geometry"]["type"], {"Polygon", "MultiPolygon"})
 
     def test_privacy_scan_flags_a_forbidden_property(self) -> None:

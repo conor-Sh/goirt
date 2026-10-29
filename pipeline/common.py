@@ -38,13 +38,15 @@ WEXFORD_BBOX = (-7.05, 52.08, -6.11, 52.82)
 WEXFORD = "Wexford"
 IRELAND = "Ireland"
 
-SAFE_FIELDS = ("crop_id", "crop_group", "hectares", "county")
+SAFE_FIELDS = ("crop_id", "crop_group", "hectares", "area_basis", "county")
 SAFE_FIELD_TYPES = {
     "crop_id": "int32",
     "crop_group": "string",
     "hectares": "float64",
+    "area_basis": "string",
     "county": "string",
 }
+AREA_BASES = ("claimed", "eligible")
 
 # Source attributes that must never reach a public artifact. This is a
 # detection list for the privacy scan; the processing step uses an allowlist.
@@ -265,13 +267,14 @@ def area_hectares(
 
 
 def safe_properties(
-    crop_id: int, crop_group: str, hectares: float, county: str
+    crop_id: int, crop_group: str, hectares: float, area_basis: str, county: str
 ) -> dict[str, object]:
     """Build a public feature property map and refuse anything off-contract."""
     props = {
         "crop_id": int(crop_id),
         "crop_group": str(crop_group),
         "hectares": float(hectares),
+        "area_basis": str(area_basis),
         "county": str(county),
     }
     assert_safe_properties(props)
@@ -293,6 +296,8 @@ def assert_safe_properties(props: dict[str, object]) -> None:
         raise PipelineError(f"invalid crop_group {props['crop_group']!r}")
     if not isinstance(props["hectares"], float) or not math.isfinite(props["hectares"]):
         raise PipelineError("hectares must be a finite float")
+    if props["area_basis"] not in AREA_BASES:
+        raise PipelineError(f"invalid area_basis {props['area_basis']!r}")
     if not isinstance(props["county"], str) or not props["county"]:
         raise PipelineError("county must be a non-empty string")
 

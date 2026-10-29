@@ -922,6 +922,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "grassland",
         "crop_id": 24,
@@ -2692,6 +2693,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "grassland",
         "crop_id": 24,
@@ -3434,6 +3436,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "cereals",
         "crop_id": 36,
@@ -4592,6 +4595,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "cereals",
         "crop_id": 36,
@@ -5038,6 +5042,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "maize",
         "crop_id": 44,
@@ -5664,6 +5669,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "maize",
         "crop_id": 44,
@@ -6406,6 +6412,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "oilseeds_break",
         "crop_id": 46,
@@ -7048,6 +7055,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "oilseeds_break",
         "crop_id": 59,
@@ -7798,6 +7806,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "roots",
         "crop_id": 65,
@@ -8276,6 +8285,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "roots",
         "crop_id": 69,
@@ -8754,6 +8764,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "horticulture",
         "crop_id": 101,
@@ -9312,6 +9323,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "horticulture",
         "crop_id": 103,
@@ -9522,6 +9534,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "fruit",
         "crop_id": 120,
@@ -9784,6 +9797,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "fruit",
         "crop_id": 120,
@@ -10478,6 +10492,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "fallow",
         "crop_id": 134,
@@ -11092,6 +11107,7 @@
         "type": "MultiPolygon"
       },
       "properties": {
+        "area_basis": "claimed",
         "county": "Wexford",
         "crop_group": "fallow",
         "crop_id": 134,
