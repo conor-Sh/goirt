@@ -2,7 +2,7 @@
 """Audit the full 2025 LPIS parcels GeoPackage without loading it into memory.
 
 Writes data/work/inspection-2025.json and prints a compact summary. Geometry
-validity is computed for every row, including crop-less rows, in fid chunks.
+validity is computed for every row, including crop-less rows, in chunks by feature id.
 """
 
 from __future__ import annotations

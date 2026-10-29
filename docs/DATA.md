@@ -30,7 +30,7 @@ not mix years.
 
 `pipeline/02_inspect.py` reads the full GeoPackage and writes
 `$GOIRT_WORK_DIR/inspection-2025.json`. Geometry validity is checked for every
-row in fid chunks, including crop-less rows.
+row in chunks by feature id, including crop-less rows.
 
 | Measure | 2025 result |
 |---|---:|

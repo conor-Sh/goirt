@@ -395,7 +395,7 @@ def bbox_2157(geom_4326: BaseGeometry) -> tuple[float, float, float, float]:
 def iter_fids(path: Path | str, where: str | None = None) -> np.ndarray:
     con = sqlite3.connect(f"file:{Path(path)}?mode=ro", uri=True)
     try:
-        sql = f"SELECT fid FROM {LAYER_NAME}"
+        sql = f"SELECT id FROM {LAYER_NAME}"
         params: tuple[object, ...] = ()
         if where:
             sql += f" WHERE {where}"

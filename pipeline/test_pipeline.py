@@ -63,10 +63,10 @@ class SourceAuditTests(unittest.TestCase):
             con = sqlite3.connect(path)
             try:
                 con.execute(
-                    f"CREATE TABLE {common.LAYER_NAME} (fid INTEGER PRIMARY KEY, crop TEXT)"
+                    f"CREATE TABLE {common.LAYER_NAME} (id INTEGER PRIMARY KEY, crop TEXT)"
                 )
                 con.executemany(
-                    f"INSERT INTO {common.LAYER_NAME} (fid, crop) VALUES (?, ?)",
+                    f"INSERT INTO {common.LAYER_NAME} (id, crop) VALUES (?, ?)",
                     [(2, "A"), (5, "B"), (9, None)],
                 )
                 con.commit()
