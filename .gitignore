@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Downloaded and generated data. Rebuild with pipeline/build.sh.
+data/work/
+site/public/basemap/*.pmtiles
+site/public/fixtures/*.pmtiles
+
+# Node / site build output
+site/node_modules/
+site/dist/
+site/.env.local
+site/.env.*.local
+
+# Browser tests
+site/playwright-report/
+site/test-results/
+site/blob-report/
+
+# Editor / OS
+.DS_Store
+*.swp

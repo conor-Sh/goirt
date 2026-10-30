@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en-IE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F0EADB" />
+    <title>Goirt — County Wexford crop map, 2025</title>
+    <meta
+      name="description"
+      content="A local County Wexford crop map built from anonymised 2025 LPIS parcel data."
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#map">Skip to map</a>
+    <main id="app">
+      <div id="map" aria-label="Map of County Wexford crop groups, 2025"></div>
+      <header class="masthead" aria-label="Map title">
+        <p class="eyebrow">Goirt · County Wexford</p>
+        <h1>2025 crop map</h1>
+        <p class="lede">Anonymised LPIS parcels, grouped by crop. Area in hectares, claimed or eligible.</p>
+      </header>
+      <div id="field-label" class="field-label" role="status" aria-live="polite" hidden></div>
+      <div id="attribution" class="attribution" aria-label="Map data attribution"></div>
+      <button id="data-button" class="data-button" type="button" aria-haspopup="dialog">
+        Data &amp; licences
+      </button>
+      <dialog id="data-dialog" class="data-dialog" aria-labelledby="data-title">
+        <div class="dialog-inner">
+          <div class="dialog-head">
+            <h2 id="data-title">Data &amp; licences</h2>
+            <button id="data-close" class="dialog-close" type="button" aria-label="Close data and licences">Close</button>
+          </div>
+          <div id="data-body" class="dialog-body"></div>
+        </div>
+      </dialog>
+      <div id="map-error" class="map-error" role="alert" hidden></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

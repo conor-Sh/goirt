@@ -1,0 +1,254 @@
+:root {
+  --land: #f0eadb;
+  --card: #fffdf8;
+  --ink: #223028;
+  --ink-soft: #526157;
+  --accent: #3f6a4a;
+  --outline: #466148;
+  --county: #a99a7a;
+  --casing: #d6cbb4;
+  color-scheme: light;
+  font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--land);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app,
+#map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+#app {
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  background: var(--land);
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 20;
+  padding: 0.5rem 0.75rem;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--outline);
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+.masthead {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+  z-index: 5;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.9rem 1.1rem 1rem;
+  background: color-mix(in srgb, var(--card) 94%, transparent);
+  border: 1px solid color-mix(in srgb, var(--outline) 28%, transparent);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgb(34 48 40 / 8%);
+  backdrop-filter: blur(3px);
+}
+
+.eyebrow {
+  margin: 0 0 0.15rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  max-width: 34ch;
+}
+
+.field-label {
+  position: absolute;
+  z-index: 6;
+  max-width: min(20rem, calc(100vw - 2rem));
+  padding: 0.35rem 0.6rem;
+  transform: translate(0.75rem, -50%);
+  background: color-mix(in srgb, var(--card) 96%, transparent);
+  border: 1px solid color-mix(in srgb, var(--outline) 40%, transparent);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgb(34 48 40 / 12%);
+  color: var(--ink);
+  font-size: 0.82rem;
+  pointer-events: none;
+}
+
+.attribution {
+  position: absolute;
+  right: max(0.5rem, env(safe-area-inset-right));
+  bottom: max(0.5rem, env(safe-area-inset-bottom));
+  z-index: 8;
+  max-width: calc(100vw - 1rem);
+  padding: 0.25rem 0.5rem;
+  background: color-mix(in srgb, var(--card) 93%, transparent);
+  border: 1px solid color-mix(in srgb, var(--outline) 22%, transparent);
+  border-radius: 4px;
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.attribution a {
+  color: var(--ink);
+  text-underline-offset: 2px;
+}
+
+.data-button {
+  position: absolute;
+  right: max(0.5rem, env(safe-area-inset-right));
+  bottom: calc(max(0.5rem, env(safe-area-inset-bottom)) + 2.4rem);
+  z-index: 9;
+  padding: 0.3rem 0.6rem;
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--outline) 42%, transparent);
+  border-radius: 4px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.data-button:hover,
+.data-button:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.data-dialog {
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(80vh, 44rem);
+  padding: 0;
+  border: 1px solid var(--outline);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.data-dialog::backdrop {
+  background: rgb(34 48 40 / 32%);
+}
+
+.dialog-inner {
+  padding: 1.1rem 1.3rem 1.3rem;
+  overflow: auto;
+}
+
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.dialog-head h2 {
+  margin: 0;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.dialog-close {
+  padding: 0.3rem 0.6rem;
+  background: var(--land);
+  border: 1px solid var(--casing);
+  border-radius: 4px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.dialog-body p {
+  margin: 0.7rem 0;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.dialog-body strong {
+  color: var(--ink);
+}
+
+.dialog-body a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+.map-error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 12;
+  width: min(30rem, calc(100vw - 2rem));
+  padding: 0.75rem 1rem;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  border: 1px solid #9a5b4f;
+  border-radius: 6px;
+  color: #6d2f25;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 640px) {
+  .masthead {
+    padding: 0.65rem 0.8rem 0.75rem;
+    max-width: calc(100vw - 4.5rem);
+  }
+
+  .lede {
+    display: none;
+  }
+
+  .attribution {
+    font-size: 0.62rem;
+  }
+
+  .data-button {
+    bottom: calc(max(0.5rem, env(safe-area-inset-bottom)) + 3.1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

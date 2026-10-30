@@ -1,0 +1,177 @@
+crop_id,crop,group,color,pattern,aliases,display_name,notes,include
+1,Alfalfa,grassland,#93B57F,grass,,Alfalfa,Grassland or forage crop; retained as a crop group.,true
+2,Arable Silage (Grass),grassland,#B8CE96,grass,,Arable silage (grass),Grassland or forage crop; retained as a crop group.,true
+3,Arable Silage (No Grass),grassland,#C2C98A,grass,,Arable silage (no grass),Grassland or forage crop; retained as a crop group.,true
+4,Clover,grassland,#A8C08A,grass,clover,Clover,Grassland or forage crop; retained as a crop group.,true
+5,Extensively Grazed Pasture,grassland,#8FB87B,grass,extensive pasture;pasture;grass,Extensively Grazed Pasture,Grassland or forage crop; retained as a crop group.,true
+6,Grass Year 1,grassland,#B3CC8F,grass,grass year 1;grass;pasture,Grass Year 1,Grassland or forage crop; retained as a crop group.,true
+7,Grass Year 1 (MSS Eco-Scheme),grassland,#9DBE8D,grass,,Grass Year 1 (MSS Eco-Scheme),Grassland or forage crop; retained as a crop group.,true
+8,Grass Year 1 (MSS),grassland,#9DBE8D,grass,,Grass Year 1 (MSS),Grassland or forage crop; retained as a crop group.,true
+9,Grass Year 2,grassland,#AAC78A,grass,grass year 2;grass;pasture,Grass Year 2,Grassland or forage crop; retained as a crop group.,true
+10,Grass Year 2 (MSS Eco-Scheme),grassland,#9DBE8D,grass,,Grass Year 2 (MSS Eco-Scheme),Grassland or forage crop; retained as a crop group.,true
+11,Grass Year 2 (MSS),grassland,#9DBE8D,grass,,Grass Year 2 (MSS),Grassland or forage crop; retained as a crop group.,true
+12,Grass Year 3,grassland,#A1C285,grass,grass year 3;grass;pasture,Grass Year 3,Grassland or forage crop; retained as a crop group.,true
+13,Grass Year 3 (MSS Eco-Scheme),grassland,#9DBE8D,grass,,Grass Year 3 (MSS Eco-Scheme),Grassland or forage crop; retained as a crop group.,true
+14,Grass Year 3 (MSS),grassland,#9DBE8D,grass,,Grass Year 3 (MSS),Grassland or forage crop; retained as a crop group.,true
+15,Grass Year 4,grassland,#98BD80,grass,grass year 4;grass;pasture,Grass Year 4,Grassland or forage crop; retained as a crop group.,true
+16,Grass Year 4 (MSS),grassland,#9DBE8D,grass,,Grass Year 4 (MSS),Grassland or forage crop; retained as a crop group.,true
+17,Grass Year 5,grassland,#8FB87B,grass,grass year 5;grass;pasture,Grass Year 5,Grassland or forage crop; retained as a crop group.,true
+18,Grass Year 5 (MSS),grassland,#9DBE8D,grass,,Grass Year 5 (MSS),Grassland or forage crop; retained as a crop group.,true
+19,Low Input Grassland,grassland,#7E9F75,grass,low input grassland;low-input grass;pasture;grass,Low-input grassland,Grassland or forage crop; retained as a crop group.,true
+20,Low Input Peat Grassland,grassland,#78966F,grass,,Low-input peat grassland,Grassland or forage crop; retained as a crop group.,true
+21,Low Input Permanent Pasture,grassland,#7E9F75,grass,low input permanent pasture;pasture;grass,Low-input permanent pasture,Grassland or forage crop; retained as a crop group.,true
+22,Lucerne,grassland,#93B57F,grass,,Lucerne,Grassland or forage crop; retained as a crop group.,true
+23,Management of intensive grassland next to a watercourse,grassland,#9DBE8D,grass,,Management of intensive grassland next to a watercourse,Grassland or forage crop; retained as a crop group.,true
+24,Permanent Pasture,grassland,#9DBE8D,grass,permanent pasture;pasture;grass,Permanent Pasture,Grassland or forage crop; retained as a crop group.,true
+25,Permanent Pasture (MSS Eco-Scheme 2023),grassland,#9DBE8D,grass,,Permanent pasture (MSS 2023),Grassland or forage crop; retained as a crop group.,true
+26,Permanent Pasture (MSS Eco-Scheme 2024),grassland,#9DBE8D,grass,,Permanent pasture (MSS 2024),Grassland or forage crop; retained as a crop group.,true
+27,Permanent Pasture (MSS Eco-Scheme 2025),grassland,#9DBE8D,grass,,Permanent pasture (MSS 2025),Grassland or forage crop; retained as a crop group.,true
+28,Permanent Pasture (MSS),grassland,#9DBE8D,grass,permanent pasture;pasture;grass;mss,Permanent pasture (MSS),Grassland or forage crop; retained as a crop group.,true
+29,Red Clover,grassland,#A8C08A,grass,red clover;clover,Red Clover,Grassland or forage crop; retained as a crop group.,true
+30,Red Clover Grass Sward,grassland,#A8C08A,grass,red clover;clover;grass,Red Clover Grass Sward,Grassland or forage crop; retained as a crop group.,true
+31,Reed Canary Grass,grassland,#9DBE8D,grass,,Reed Canary Grass,Grassland or forage crop; retained as a crop group.,true
+32,Traditional Hay Meadow,grassland,#C5D4A1,grass,hay meadow;hay;meadow,Traditional Hay Meadow,Grassland or forage crop; retained as a crop group.,true
+33,Vetch,grassland,#9DBE8D,grass,,Vetch,Grassland or forage crop; retained as a crop group.,true
+34,Barley - Spring,cereals,#C69A55,cereals,spring barley;barley spring;barley,Spring barley,Cereal crop; retained as a crop group.,true
+35,Barley - Winter,cereals,#B98C4A,cereals,winter barley;barley winter;barley,Winter barley,Cereal crop; retained as a crop group.,true
+36,Oats - Spring,cereals,#CBBE8E,cereals,spring oats;oats spring;oats,Spring oats,Cereal crop; retained as a crop group.,true
+37,Oats - Winter,cereals,#C2B47F,cereals,winter oats;oats winter;oats,Winter oats,Cereal crop; retained as a crop group.,true
+38,Protein/Cereal Mix 50/50,cereals,#C69A55,cereals,,Protein/cereal mix,Cereal crop; retained as a crop group.,true
+39,Rye,cereals,#BFA06B,cereals,,Rye,Cereal crop; retained as a crop group.,true
+40,Triticale - Spring,cereals,#C3AA74,cereals,,Spring triticale,Cereal crop; retained as a crop group.,true
+41,Triticale - Winter,cereals,#B99F68,cereals,,Winter triticale,Cereal crop; retained as a crop group.,true
+42,Wheat - Spring,cereals,#D9B879,cereals,spring wheat;wheat spring;wheat,Spring wheat,Cereal crop; retained as a crop group.,true
+43,Wheat - Winter,cereals,#D0A961,cereals,winter wheat;wheat winter;wheat,Winter wheat,Cereal crop; retained as a crop group.,true
+44,Maize,maize,#A9B65F,maize,corn;maize;fodder maize,Maize,Maize; retained as a crop group.,true
+45,100% Protein,oilseeds_break,#E1CB5F,oilseeds,,100% protein crop,"Oilseed, break or industrial crop; retained as a crop group.",true
+46,Beans - Spring,oilseeds_break,#BFA184,oilseeds,spring beans;beans;bean,Spring beans,"Oilseed, break or industrial crop; retained as a crop group.",true
+47,Beans - Winter,oilseeds_break,#C7A98C,oilseeds,winter beans;beans;bean,Winter beans,"Oilseed, break or industrial crop; retained as a crop group.",true
+48,Camelina,oilseeds_break,#C9B27A,oilseeds,,Camelina,"Oilseed, break or industrial crop; retained as a crop group.",true
+49,Flax,oilseeds_break,#C9B27A,oilseeds,,Flax,"Oilseed, break or industrial crop; retained as a crop group.",true
+50,Forage Rape,oilseeds_break,#D8C46A,oilseeds,,Forage Rape,"Oilseed, break or industrial crop; retained as a crop group.",true
+51,Hemp for Food Use,oilseeds_break,#9FAE86,oilseeds,,Hemp for Food Use,"Oilseed, break or industrial crop; retained as a crop group.",true
+52,Hemp for Industrial Use,oilseeds_break,#9FAE86,oilseeds,,Hemp for Industrial Use,"Oilseed, break or industrial crop; retained as a crop group.",true
+53,Linseed,oilseeds_break,#C9B27A,oilseeds,,Linseed,"Oilseed, break or industrial crop; retained as a crop group.",true
+54,Lupins,oilseeds_break,#B9B98F,oilseeds,,Lupins,"Oilseed, break or industrial crop; retained as a crop group.",true
+55,Millet,oilseeds_break,#CDBB7E,oilseeds,,Millet,"Oilseed, break or industrial crop; retained as a crop group.",true
+56,Miscanthus Sinensis,oilseeds_break,#B0B77A,oilseeds,,Miscanthus Sinensis,"Oilseed, break or industrial crop; retained as a crop group.",true
+57,Mustard,oilseeds_break,#D6C56A,oilseeds,,Mustard,"Oilseed, break or industrial crop; retained as a crop group.",true
+58,Oilseed Rape - Spring,oilseeds_break,#E8D77A,oilseeds,spring oilseed rape;osr;rape;canola;oilseed rape,Spring oilseed rape,"Oilseed, break or industrial crop; retained as a crop group.",true
+59,Oilseed Rape - Winter,oilseeds_break,#E1CB5F,oilseeds,winter oilseed rape;osr;rape;canola;oilseed rape,Winter oilseed rape,"Oilseed, break or industrial crop; retained as a crop group.",true
+60,Peas,oilseeds_break,#B7B58D,oilseeds,peas;pea,Peas,"Oilseed, break or industrial crop; retained as a crop group.",true
+61,Short Rotation Coppice,oilseeds_break,#A8B58A,oilseeds,,Short Rotation Coppice,"Oilseed, break or industrial crop; retained as a crop group.",true
+62,Sunflower,oilseeds_break,#D8B75F,oilseeds,,Sunflower,"Oilseed, break or industrial crop; retained as a crop group.",true
+63,Willow,oilseeds_break,#A8B58A,oilseeds,,Willow,"Oilseed, break or industrial crop; retained as a crop group.",true
+64,Beetroot,roots,#B06E6A,roots,,Beetroot,Root crop; retained as a crop group.,true
+65,Carrots,roots,#C98F6E,roots,,Carrots,Root crop; retained as a crop group.,true
+66,Fodder Beet,roots,#B07D63,roots,fodder beet;beet,Fodder Beet,Root crop; retained as a crop group.,true
+67,Parsnips,roots,#C9A27A,roots,,Parsnips,Root crop; retained as a crop group.,true
+68,Potatoes - Early,roots,#C4B08A,roots,early potatoes;potatoes;potato;spuds;spud,Early potatoes,Root crop; retained as a crop group.,true
+69,Potatoes - Maincrop,roots,#B9A07D,roots,maincrop potatoes;potatoes;potato;spuds;spud,Maincrop potatoes,Root crop; retained as a crop group.,true
+70,Potatoes - Seed,roots,#AE9674,roots,seed potatoes;potatoes;potato;spuds;spud,Seed potatoes,Root crop; retained as a crop group.,true
+71,Radish,roots,#C98F6E,roots,,Radish,Root crop; retained as a crop group.,true
+72,Sugar Beet,roots,#C08A72,roots,sugar beet;beet,Sugar Beet,Root crop; retained as a crop group.,true
+73,Swede,roots,#C4B08A,roots,,Swede,Root crop; retained as a crop group.,true
+74,Turnips,roots,#C4B08A,roots,,Turnips,Root crop; retained as a crop group.,true
+75,Artichoke,horticulture,#C48691,horticulture,,Artichoke,Field horticulture; retained as a crop group.,true
+76,Asparagus,horticulture,#C48691,horticulture,,Asparagus,Field horticulture; retained as a crop group.,true
+77,Baby Leaf Spinach,horticulture,#A8C08A,horticulture,,Baby leaf spinach,Field horticulture; retained as a crop group.,true
+78,Basil,horticulture,#A8B87E,horticulture,,Basil,Field horticulture; retained as a crop group.,true
+79,Broccoli - Spring,horticulture,#9DB58A,horticulture,,Spring broccoli,Field horticulture; retained as a crop group.,true
+80,Broccoli - Winter,horticulture,#9DB58A,horticulture,,Winter broccoli,Field horticulture; retained as a crop group.,true
+81,Brussel sprouts,horticulture,#9DB58A,horticulture,,Brussels sprouts,Field horticulture; retained as a crop group.,true
+82,Cabbage - Spring,horticulture,#9DB58A,horticulture,,Spring cabbage,Field horticulture; retained as a crop group.,true
+83,Cabbage - Winter,horticulture,#9DB58A,horticulture,,Winter cabbage,Field horticulture; retained as a crop group.,true
+84,Calabrese,horticulture,#9DB58A,horticulture,,Calabrese,Field horticulture; retained as a crop group.,true
+85,Cauliflowers - Spring,horticulture,#9DB58A,horticulture,,Spring cauliflowers,Field horticulture; retained as a crop group.,true
+86,Cauliflowers - Winter,horticulture,#9DB58A,horticulture,,Winter cauliflowers,Field horticulture; retained as a crop group.,true
+87,Celery - Spring,horticulture,#C48691,horticulture,,Spring celery,Field horticulture; retained as a crop group.,true
+88,Celery - Winter,horticulture,#C48691,horticulture,,Winter celery,Field horticulture; retained as a crop group.,true
+89,Christmas Trees,horticulture,#C48691,horticulture,,Christmas Trees,Field horticulture; retained as a crop group.,true
+90,Coriander,horticulture,#A8B87E,horticulture,,Coriander,Field horticulture; retained as a crop group.,true
+91,Courgettes,horticulture,#C48691,horticulture,,Courgettes,Field horticulture; retained as a crop group.,true
+92,Daffodils,horticulture,#D0A3B0,horticulture,,Daffodils,Field horticulture; retained as a crop group.,true
+93,Dill,horticulture,#A8B87E,horticulture,,Dill,Field horticulture; retained as a crop group.,true
+94,Fennel,horticulture,#A8B87E,horticulture,,Fennel,Field horticulture; retained as a crop group.,true
+95,Foliage,horticulture,#C48691,horticulture,,Foliage,Field horticulture; retained as a crop group.,true
+96,Garlic,horticulture,#C9B27A,horticulture,,Garlic,Field horticulture; retained as a crop group.,true
+97,Glasshouse,horticulture,#B98FA8,horticulture,,Glasshouse,Field horticulture; retained as a crop group.,true
+98,Kale,horticulture,#9DB58A,horticulture,,Kale,Field horticulture; retained as a crop group.,true
+99,Leeks - Spring,horticulture,#C9B27A,horticulture,,Spring leeks,Field horticulture; retained as a crop group.,true
+100,Leeks - Winter,horticulture,#C9B27A,horticulture,,Winter leeks,Field horticulture; retained as a crop group.,true
+101,Lettuce,horticulture,#A8C08A,horticulture,,Lettuce,Field horticulture; retained as a crop group.,true
+102,Mint,horticulture,#A8B87E,horticulture,,Mint,Field horticulture; retained as a crop group.,true
+103,Mixed Cropping,horticulture,#C48691,horticulture,,Mixed Cropping,Field horticulture; retained as a crop group.,true
+104,Mixed Cropping (Horticulture),horticulture,#C48691,horticulture,,Mixed horticulture,Field horticulture; retained as a crop group.,true
+105,Nursery,horticulture,#C48691,horticulture,,Nursery,Field horticulture; retained as a crop group.,true
+106,Onions,horticulture,#C9B27A,horticulture,,Onions,Field horticulture; retained as a crop group.,true
+107,Other cut flower / bulb crops,horticulture,#D0A3B0,horticulture,,Other cut flowers and bulbs,Field horticulture; retained as a crop group.,true
+108,Parsley,horticulture,#A8B87E,horticulture,,Parsley,Field horticulture; retained as a crop group.,true
+109,Peppers,horticulture,#C48691,horticulture,,Peppers,Field horticulture; retained as a crop group.,true
+110,Perpetual Spinach,horticulture,#A8C08A,horticulture,,Perpetual Spinach,Field horticulture; retained as a crop group.,true
+111,Pumpkins,horticulture,#C48691,horticulture,,Pumpkins,Field horticulture; retained as a crop group.,true
+112,Rhubarb,horticulture,#C48691,horticulture,,Rhubarb,Field horticulture; retained as a crop group.,true
+113,Rocket,horticulture,#A8C08A,horticulture,,Rocket,Field horticulture; retained as a crop group.,true
+114,Scallions,horticulture,#C9B27A,horticulture,,Scallions,Field horticulture; retained as a crop group.,true
+115,Squash,horticulture,#C48691,horticulture,,Squash,Field horticulture; retained as a crop group.,true
+116,Sweetcorn,horticulture,#C48691,horticulture,,Sweetcorn,Field horticulture; retained as a crop group.,true
+117,Thyme,horticulture,#A8B87E,horticulture,,Thyme,Field horticulture; retained as a crop group.,true
+118,Tomatoes,horticulture,#C48691,horticulture,,Tomatoes,Field horticulture; retained as a crop group.,true
+119,Tulips,horticulture,#D0A3B0,horticulture,,Tulips,Field horticulture; retained as a crop group.,true
+120,Apples,fruit,#9A7F9E,fruit,apples;apple;orchard,Apples,Fruit crop; retained as a crop group.,true
+121,Blackberries,fruit,#B07A9B,fruit,,Blackberries,Fruit crop; retained as a crop group.,true
+122,Blackcurrants,fruit,#B07A9B,fruit,blackcurrants;blackcurrant;berries,Blackcurrants,Fruit crop; retained as a crop group.,true
+123,Blueberries,fruit,#B07A9B,fruit,,Blueberries,Fruit crop; retained as a crop group.,true
+124,Cherries,fruit,#9A7F9E,fruit,,Cherries,Fruit crop; retained as a crop group.,true
+125,Gooseberries,fruit,#B07A9B,fruit,,Gooseberries,Fruit crop; retained as a crop group.,true
+126,Grapes,fruit,#9A7F9E,fruit,,Grapes,Fruit crop; retained as a crop group.,true
+127,Orchard,fruit,#9A7F9E,fruit,orchard;fruit,Orchard,Fruit crop; retained as a crop group.,true
+128,Pears,fruit,#9A7F9E,fruit,,Pears,Fruit crop; retained as a crop group.,true
+129,Plums,fruit,#9A7F9E,fruit,,Plums,Fruit crop; retained as a crop group.,true
+130,Raspberries,fruit,#B07A9B,fruit,raspberries;raspberry;berries,Raspberries,Fruit crop; retained as a crop group.,true
+131,Redcurrants,fruit,#B07A9B,fruit,,Redcurrants,Fruit crop; retained as a crop group.,true
+132,Strawberries,fruit,#B07A9B,fruit,strawberries;strawberry;berries,Strawberries,Fruit crop; retained as a crop group.,true
+133,Environmental Management Of Arable Fallow,fallow,#D4C8AE,fallow,,Environmental Management Of Arable Fallow,Fallow or environmental cover; retained as a crop group.,true
+134,Fallow,fallow,#D4C8AE,fallow,fallow,Fallow,Fallow or environmental cover; retained as a crop group.,true
+135,Management of Environmental Fallow (horticulture),fallow,#D4C8AE,fallow,,Management of Environmental Fallow (horticulture),Fallow or environmental cover; retained as a crop group.,true
+136,Wild Bird Cover,fallow,#B9C49A,fallow,wild bird cover;bird cover,Wild bird cover,Fallow or environmental cover; retained as a crop group.,true
+137,Winter Bird Food Plot,fallow,#B9C49A,fallow,winter bird food;bird food,Winter bird food plot,Fallow or environmental cover; retained as a crop group.,true
+138,Access Road / Roadways,non_farmland,#8E8B73,none,,Access Road / Roadways,Non-agricultural land use; filtered out of the v1 map.,false
+139,Agroforestry (<400 trees per hectare),non_farmland,#8E8B73,none,,Agroforestry (<400 trees per hectare),Agroforestry; excluded from the v1 map.,false
+140,Agroforestry (>400 trees per hectare),non_farmland,#8E8B73,none,,Agroforestry (>400 trees per hectare),Agroforestry; excluded from the v1 map.,false
+141,Arable Habitat,non_farmland,#8E8B73,none,,Arable Habitat,Arable habitat feature; excluded from the v1 map.,false
+142,Bog,non_farmland,#8E8B73,none,,Bog,Bog; not farmland.,false
+143,Building,non_farmland,#8E8B73,none,,Building,Building; not farmland.,false
+144,Copse,non_farmland,#8E8B73,none,,Copse,Copse; not farmland.,false
+145,Designated Habitat,non_farmland,#8E8B73,none,,Designated Habitat,Designated habitat; excluded from the v1 map.,false
+146,Farm Road,non_farmland,#8E8B73,none,,Farm Road,Non-agricultural land use; filtered out of the v1 map.,false
+147,Farmyard,non_farmland,#8E8B73,none,,Farmyard,Farmyard; not farmland.,false
+148,Forestry,non_farmland,#8E8B73,none,,Forestry,Non-agricultural land use; filtered out of the v1 map.,false
+149,Forestry 2023,non_farmland,#8E8B73,none,,Forestry 2023,Non-agricultural land use; filtered out of the v1 map.,false
+150,Forestry 2024,non_farmland,#8E8B73,none,,Forestry 2024,Non-agricultural land use; filtered out of the v1 map.,false
+151,Forestry 2025,non_farmland,#8E8B73,none,,Forestry 2025,Non-agricultural land use; filtered out of the v1 map.,false
+152,Forestry ESB Corridor,non_farmland,#8E8B73,none,,Forestry ESB Corridor,Non-agricultural land use; filtered out of the v1 map.,false
+153,Forestry ESB Corridor Eligible,non_farmland,#8E8B73,none,,Forestry ESB Corridor Eligible,Non-agricultural land use; filtered out of the v1 map.,false
+154,Forestry ESB Corridor Ineligible,non_farmland,#8E8B73,none,,Forestry ESB Corridor Ineligible,Non-agricultural land use; filtered out of the v1 map.,false
+155,Forestry Eligible,non_farmland,#8E8B73,none,,Forestry Eligible,Non-agricultural land use; filtered out of the v1 map.,false
+156,Forestry Ineligible,non_farmland,#8E8B73,none,,Forestry Ineligible,Non-agricultural land use; filtered out of the v1 map.,false
+157,Forestry Pre-2009,non_farmland,#8E8B73,none,,Forestry Pre-2009,Non-agricultural land use; filtered out of the v1 map.,false
+158,Forestry Setaside,non_farmland,#8E8B73,none,,Forestry Setaside,Non-agricultural land use; filtered out of the v1 map.,false
+159,Gardens,non_farmland,#8E8B73,none,,Gardens,Gardens; not farmland.,false
+160,Habitat,non_farmland,#8E8B73,none,,Habitat,Habitat feature; excluded from the v1 map.,false
+161,Inactive,non_farmland,#8E8B73,none,,Inactive,Inactive LPIS land; not a mapped crop.,false
+162,Invalid Crop,non_farmland,#8E8B73,none,,Invalid Crop,Source marks this value invalid; excluded from the v1 map.,false
+163,Lake / Waterway / Pond,non_farmland,#8E8B73,none,,Lake / Waterway / Pond,Inland water; not farmland.,false
+164,Linnet Habitat,non_farmland,#8E8B73,none,,Linnet Habitat,Linnet habitat; excluded from the v1 map.,false
+165,Native Tree Area,non_farmland,#8E8B73,none,,Native Tree Area,Native tree area; excluded from the v1 map.,false
+166,Planted Buffer Zone,non_farmland,#8E8B73,none,,Planted Buffer Zone,Buffer feature; excluded from the v1 map.,false
+167,Quarry,non_farmland,#8E8B73,none,,Quarry,Quarry; not farmland.,false
+168,Recreational Area,non_farmland,#8E8B73,none,,Recreational Area,Recreational area; not farmland.,false
+169,Riparian Buffer Zone - Arable,non_farmland,#8E8B73,none,,Riparian Buffer Zone - Arable,Riparian buffer; excluded from the v1 map.,false
+170,Riparian Buffer Zone - Grassland,non_farmland,#8E8B73,none,,Riparian Buffer Zone - Grassland,Riparian buffer; excluded from the v1 map.,false
+171,Riparian Zone,non_farmland,#8E8B73,none,,Riparian Zone,Riparian feature; excluded from the v1 map.,false
+172,Rocky Outcrop,non_farmland,#8E8B73,none,,Rocky Outcrop,Rocky outcrop; not farmland.,false
+173,Scrub,non_farmland,#8E8B73,none,,Scrub,Scrub; not farmland.,false
+174,Tree belts for ammonia capture from farmyards,non_farmland,#8E8B73,none,,Tree belts for ammonia capture from farmyards,Tree belt; excluded from the v1 map.,false
+175,Unknown,non_farmland,#8E8B73,none,,Unknown,Unresolved source value; excluded from the v1 map.,false
+176,Woodland,non_farmland,#8E8B73,none,,Woodland,Woodland; not farmland.,false
