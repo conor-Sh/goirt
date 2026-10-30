@@ -181,11 +181,12 @@ recreational area, buffer zones, designated habitat, agroforestry context and
 similar values. These are classified as `non_farmland` and filtered out of the
 v1 map; the basemap shows non-farmland context instead. The lookup is data-driven:
 `pipeline/03_lookup.py --check` fails if the lookup and the 2025 source disagree
-in either direction. The taxonomy seed lives in `pipeline/crop_taxonomy.py`.
+in either direction, or if any generated metadata column is stale. The taxonomy
+seed lives in `pipeline/crop_taxonomy.py`.
 
 `site/public/data/crops.json` is generated from the validated lookup by
-`pipeline/07_crops_json.py`. It is the client-side crop name/group reference, not
-a second hand-maintained source.
+`pipeline/07_crops_json.py`. It is the client-side crop name/group/colour
+reference, not a second hand-maintained source.
 
 ## 7. Public schema and privacy
 

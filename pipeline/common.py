@@ -19,7 +19,7 @@ from typing import Iterable, Iterator, Sequence
 
 import numpy as np
 import shapely
-from shapely.geometry import Point, shape
+from shapely.geometry import shape
 from shapely.geometry.base import BaseGeometry
 from shapely.ops import transform
 from shapely.prepared import prep

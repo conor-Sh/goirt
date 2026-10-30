@@ -13,7 +13,6 @@ import re
 import sqlite3
 import sys
 import time
-from collections import Counter
 from pathlib import Path
 
 import pyogrio
