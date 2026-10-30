@@ -77,11 +77,13 @@ The rule is:
 2. One feature per distinct `(par_lab, crop, geometry)` part. The geometry is the
    crop-bearing row's geometry.
 3. Repeated rows with the same parcel label, crop and geometry are folded into one
-   part. Non-commonage duplicate rows are identical claims, so their positive
-   `claim_area` values collapse to the maximum and are never added twice.
-   Commonage rows (`commonage_ind = 'Y'`) are separate claimants' shares of one
-   part, so those positive `claim_area` values are summed. `eh_area` is never
-   summed because it repeats on claimant rows.
+   part. Non-commonage rows with the same `claim_area` are identical duplicate
+   claims, so each distinct positive `claim_area` value is counted once and the
+   distinct values are summed; equal duplicates are never added twice and
+   distinct claims are never dropped. Commonage rows (`commonage_ind = 'Y'`) are
+   separate claimants' shares of one part, so all their positive `claim_area`
+   values are summed. `eh_area` is never summed because it repeats on claimant
+   rows.
 4. Different crops on the same parcel label are never merged. They remain separate
    features.
 5. Crop values with no lookup entry fail the pipeline loudly and name the value.
@@ -103,10 +105,12 @@ parts, not by a single parcel polygon. That is the unit the map shows.
 
 - Sum the positive, finite `claim_area` values of the commonage rows
   (`commonage_ind = 'Y'`); each row is a distinct claimant's share.
-- Take the maximum positive, finite `claim_area` value of the non-commonage rows.
-  Duplicate non-commonage claims that share a parcel, crop and geometry do not
-  inflate the displayed area. A part's claimed area is the commonage sum plus the
-  non-commonage maximum.
+- Deduplicate identical non-commonage claims: each distinct positive, finite
+  `claim_area` value among the non-commonage rows is counted once, and those
+  distinct values are summed. Equal non-commonage claims that share a parcel,
+  crop and geometry do not inflate the displayed area, while distinct claims are
+  not dropped. A part's claimed area is the commonage sum plus the sum of the
+  distinct non-commonage values.
 - Round the value to 0.1 ha with decimal half-up rounding (`1.25 → 1.3`), not
   binary float banker's rounding.
 - If the claimed total is null or zero, use the maximum positive `eh_area` as an
@@ -236,6 +240,11 @@ Retained groups:
 | Horticulture | 139 | 384.8 |
 | Fruit | 131 | 87.2 |
 | Fallow & environment | 1,016 | 1,443.5 |
+
+The totals above and `site/public/fixtures/wexford-sample.geojson` were generated
+under the earlier non-commonage maximum rule. The 2025 source was not available
+for this change, so rerun `pipeline/build.sh` to regenerate both under the
+distinct-value rule before publishing new figures.
 
 Permanent Pasture alone is 30,744 features and 103,669.8 ha, which is why
 grassland is the calm base and the tillage groups carry the patterns. The largest

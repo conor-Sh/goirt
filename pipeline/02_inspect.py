@@ -292,8 +292,9 @@ def main() -> int:
             "crop_less_rows": "discarded for v1",
             "different_crops": "never merged",
             "same_crop_same_geometry": (
-                "folded into one part; non-commonage duplicate claim_area max, "
-                "commonage claim_area shares summed, eh_area max"
+                "folded into one part; non-commonage identical claim_area duplicates "
+                "counted once and distinct values summed, commonage claim_area shares "
+                "summed, eh_area max"
             ),
         },
     }

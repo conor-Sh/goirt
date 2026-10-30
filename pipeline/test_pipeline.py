@@ -44,19 +44,35 @@ class AreaRuleTests(unittest.TestCase):
         self.assertEqual(common.round_hectares(1.24), 1.2)
         self.assertEqual(common.round_hectares(0.05), 0.1)
 
-    def test_claims_use_max_not_sum(self) -> None:
+    def test_distinct_non_commonage_claims_are_summed(self) -> None:
         hectares, basis = common.area_hectares([4.0, 3.2, None], [9.0])
-        self.assertEqual((hectares, basis), (4.0, "claimed"))
+        self.assertEqual((hectares, basis), (7.2, "claimed"))
+
+    def test_distinct_non_commonage_claims_sum_before_rounding(self) -> None:
+        hectares, basis = common.area_hectares([4.19, 4.8], [20.0])
+        self.assertEqual((hectares, basis), (9.0, "claimed"))
 
     def test_duplicate_claims_do_not_inflate_area(self) -> None:
-        hectares, basis = common.area_hectares([4.0, 4.0, 4.0], [9.0])
-        self.assertEqual((hectares, basis), (4.0, "claimed"))
+        hectares, basis = common.area_hectares([5.0, 5.0, 5.0], [9.0])
+        self.assertEqual((hectares, basis), (5.0, "claimed"))
 
     def test_commonage_shares_are_summed(self) -> None:
         hectares, basis = common.area_hectares(
             [5.0, 5.0, 3.0], [20.0], [True, True, True]
         )
         self.assertEqual((hectares, basis), (13.0, "claimed"))
+
+    def test_identical_commonage_shares_are_summed(self) -> None:
+        hectares, basis = common.area_hectares(
+            [5.0, 5.0, 5.0], [20.0], [True, True, True]
+        )
+        self.assertEqual((hectares, basis), (15.0, "claimed"))
+
+    def test_distinct_commonage_shares_are_summed(self) -> None:
+        hectares, basis = common.area_hectares(
+            [4.19, 4.8], [20.0], [True, True]
+        )
+        self.assertEqual((hectares, basis), (9.0, "claimed"))
 
     def test_commonage_shares_are_summed_with_duplicate_non_commonage_claims(self) -> None:
         hectares, basis = common.area_hectares(

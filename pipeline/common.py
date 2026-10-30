@@ -240,13 +240,13 @@ def area_hectares(
 ) -> tuple[float | None, str]:
     """Return (hectares, basis) for one folded parcel-crop part.
 
-    `claim_area` is the displayed area. Distinct commonage rows are separate
-    claimants' shares, so they are summed. Repeated non-commonage rows sharing
-    one geometry are identical duplicate claims and collapse to the maximum, so
-    they are never counted more than once. If no claim is usable, the maximum
-    eligible area is used as an explicit fallback; it is never summed because it
-    repeats on every claimant row. If neither is usable the part is dropped
-    (None).
+    `claim_area` is the displayed area. Commonage rows (`commonage_ind = 'Y'`)
+    are separate claimants' shares, so they are all summed. Non-commonage rows
+    sharing one geometry with the same `claim_area` are identical duplicate
+    claims, so each distinct positive `claim_area` value is counted once and the
+    distinct values are summed. If no claim is usable, the maximum eligible area
+    is used as an explicit fallback; it is never summed because it repeats on
+    every claimant row. If neither is usable the part is dropped (None).
     """
     claims = list(claim_areas)
     flags = (
@@ -255,7 +255,7 @@ def area_hectares(
     if len(flags) != len(claims):
         raise PipelineError("commonage flags must match claim areas")
     commonage_total = 0.0
-    duplicate_max = 0.0
+    non_commonage_values: set[float] = set()
     for value, is_commonage in zip(claims, flags):
         if value is None:
             continue
@@ -264,9 +264,9 @@ def area_hectares(
             continue
         if is_commonage:
             commonage_total += number
-        elif number > duplicate_max:
-            duplicate_max = number
-    claim_total = commonage_total + duplicate_max
+        else:
+            non_commonage_values.add(number)
+    claim_total = commonage_total + sum(non_commonage_values)
     if claim_total > 0:
         return round_hectares(claim_total), "claimed"
 

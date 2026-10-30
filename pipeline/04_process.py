@@ -5,8 +5,8 @@ Row-to-parcel rule (documented in docs/DATA.md):
   * keep crop-bearing rows only;
   * one feature per distinct (par_lab, crop, geometry) part;
   * repeated non-commonage rows sharing the same geometry and crop are folded,
-    claim_area collapses to its maximum so duplicate claims are not double
-    counted; distinct commonage shares are summed; eh_area is never summed;
+    identical claim_area duplicates counted once and distinct claim_area values
+    summed; distinct commonage shares are summed; eh_area is never summed;
   * different crops on one parcel label stay separate features.
 
 County rule: representative point, then largest overlap, then "Ireland".
@@ -355,13 +355,15 @@ def main() -> int:
         "county_rule": "representative point, then largest overlap, then Ireland",
         "row_to_parcel_rule": (
             "one feature per distinct (par_lab, crop, geometry) part; crop-less rows "
-            "discarded; non-commonage duplicate claim_area max; commonage claim_area "
-            "shares summed; eh_area max fallback"
+            "discarded; non-commonage identical claim_area duplicates counted once and "
+            "distinct values summed; commonage claim_area shares summed; eh_area max "
+            "fallback"
         ),
         "area_rule": (
-            "commonage claim_area shares summed plus max non-commonage claim_area, "
-            "rounded half-up to 0.1 ha recorded as claimed; else max eh_area recorded "
-            "as eligible; otherwise dropped"
+            "commonage claim_area shares summed plus distinct non-commonage claim_area "
+            "values (identical duplicate rows counted once), rounded half-up to 0.1 ha "
+            "recorded as claimed; else max eh_area recorded as eligible; otherwise "
+            "dropped"
         ),
         "archive": {
             "path": str(archive),
