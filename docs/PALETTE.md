@@ -92,7 +92,23 @@ with opacity 0.55 over the group fill.
 The tile build renders fields at z 10–14. The field fill is slightly transparent
 at z 10 and reaches full opacity by z 12; the outline is present from z 10.
 
-## 5. Selection
+## 5. Low-zoom overview dots
+
+The overview layer reuses the eight crop-group fills, not a second palette. Each
+dot is coloured by `crop_group` from `crops.json` and then given a **+25% HSL
+saturation boost** (`saturateHex` in `site/src/palette.ts`). The pastel fills are
+tuned for adjacent polygons at z10+; from z5–z10 they would wash into the cream
+land, so the richer version keeps the crop quilt visible while preserving the
+same hue family.
+
+- Fallback colour for an unknown group: `#D4C8AE` (Fallow & environment fill).
+- Circle radius grows from 2 px at z5 to 4.5 px at z10.5; blur is 0.4.
+- Dot opacity is 0.7 from z5 to z9, then fades to 0 by z10.5, handing over to the
+  field fills.
+- Dots are a low-zoom density cue, not a new crop identity channel. They never
+  replace the group fill, outline or the z ≥ 12.5 patterns.
+
+## 6. Selection
 
 Selection highlights rather than hides:
 
@@ -103,7 +119,7 @@ Selection highlights rather than hides:
 - A small non-blocking label may show the crop name, group, hectares and county.
   There is no popup card in this version.
 
-## 6. Contrast
+## 7. Contrast
 
 Computed WCAG sRGB ratios. Text needs 4.5:1 (normal) or 3:1 (large); non-text
 graphics need 3:1.
@@ -142,21 +158,22 @@ accessibility position for v1 is:
 There is no high-contrast toggle in v1. That is a deliberate scope decision, not a
 claim that the pastel map meets strict compliance by itself.
 
-## 7. Basemap layer order
+## 8. Basemap layer order
 
-Keep the Protomaps order and insert fields before
+Keep the Protomaps order and insert the overview dots and fields before
 `roads_tunnels_other_casing`:
 
 1. background and landcover;
 2. water;
-3. LPIS fields (fills, patterns, outlines, selection);
-4. roads, buildings, boundaries and labels;
-5. controls and attribution.
+3. overview dots (z5–10.5);
+4. LPIS fields (fills, patterns, outlines, selection);
+5. roads, buildings, boundaries and labels;
+6. controls and attribution.
 
 No terrain, water-agency layers or region markers. The county line is auxiliary,
 dashed and low-opacity; it is not a substitute for a labelled boundary.
 
-## 8. Change rule
+## 9. Change rule
 
 Any change to fills, outlines, pattern thresholds or the no-high-contrast
 position should update this document, `pipeline/crop_taxonomy.py`, the basemap

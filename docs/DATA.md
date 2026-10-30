@@ -233,21 +233,73 @@ Retained groups:
 
 | Group | Features | Hectares |
 |---|---:|---:|
-| Grassland | 36,549 | 119,924.2 |
+| Grassland | 36,549 | 119,991.1 |
 | Cereals | 11,102 | 45,791.3 |
 | Maize | 707 | 2,603.2 |
 | Oilseeds & break | 1,110 | 4,732.0 |
-| Roots | 923 | 3,110.9 |
-| Horticulture | 139 | 384.8 |
+| Roots | 923 | 3,112.4 |
+| Horticulture | 139 | 386.6 |
 | Fruit | 131 | 87.5 |
 | Fallow & environment | 1,016 | 1,443.5 |
 
-Permanent Pasture alone is 30,744 features and 103,762.4 ha, which is why
+Permanent Pasture alone is 30,744 features and 103,825.6 ha, which is why
 grassland is the calm base and the tillage groups carry the patterns. The largest
 tillage counts are Spring Barley 7,789, Winter Wheat 827, Spring Oats 921, Winter
 Oats 405, Maize 707 and Winter Oilseed Rape 201.
 
-## 9. Outputs
+## 9. Low-zoom overview dots
+
+The field polygons start at z10, so a second representation carries the map at
+lower zooms. `pipeline/08_overview.py` reads the processed Wexford
+`fields.fgb` (never the raw 5 GB source) and samples points inside every field.
+
+The sampling rule is:
+
+- One dot per `area_per_dot` hectares, with stochastic rounding: a field's
+  expected count is `hectares / area_per_dot`; the whole part is kept and the
+  fractional part becomes a seeded coin flip. Small fields therefore contribute
+  proportionally instead of disappearing.
+- `area_per_dot` starts at 20 ha. If `total_hectares / 20` would exceed the dot
+  cap, it is raised automatically to `total_hectares / cap`, so the cap is never
+  breached by definition. The Wexford cap is 10,000 dots; the national setting is
+  250,000.
+- The seed is fixed (`20261030`), so a rebuild produces identical dots.
+- Points are rejected until they fall inside the field polygon, then any dot
+  outside the 2019 Wexford county polygon is dropped.
+- Wexford result: 178,147.6 ha, 20 ha/dot, 8,846 sampled, 4 outside the county
+  dropped, 8,842 published dots.
+
+Each dot carries only `crop_group` (see [PRIVACY.md](PRIVACY.md)). No hectares,
+county, `crop_id`, parcel id or source id is attached.
+
+### Density and zoom
+
+A density window decides when each dot appears. Dots are counted on a 0.005°
+grid (about 350 m east-west and 550 m north-south at Wexford's latitude) over an
+11-by-11-cell window, roughly a 3.5 km box. For Irish field sizes the tuned
+thresholds are:
+
+| Dots in the window | Minimum zoom | Meaning |
+|---|---:|---|
+| ≥ 88 | z5 | Dense farmland, visible at the lowest zoom |
+| 57–87 | z7 | Moderate farmland, appears closer in |
+| < 57 | z8 | Sparse or isolated farmland, only once zoomed in |
+
+Within those floors each dot also gets a seeded geometric `tippecanoe.minzoom`
+draw between z5 and z8 (ratio 1.6), so density falls away smoothly instead of in
+hard rings. Dense tillage areas therefore appear first; sparse farmland appears
+closer in.
+
+The full build tiles the dot GeoJSON to
+`site/public/data/overview.pmtiles` with tippecanoe v2.82.0 and
+`-Z5 -z9 -r1 -D10 --drop-densest-as-needed -l overview`. The PMTiles is local
+and gitignored.
+
+The committed CI sample `site/public/data/overview-sample.geojson` is sampled
+from `site/public/fixtures/wexford-sample.geojson` with the same rules (17 dots
+at 20 ha/dot). CI never needs the source archive or tippecanoe.
+
+## 10. Outputs
 
 | Artifact | Path | Committed |
 |---|---|---|
@@ -256,6 +308,9 @@ Oats 405, Maize 707 and Winter Oilseed Rape 201.
 | Wexford manifest | `$GOIRT_WORK_DIR/wexford/manifest.json` | no |
 | Tiny CI sample | `site/public/fixtures/wexford-sample.geojson` | yes |
 | Full field PMTiles | `site/public/fixtures/wexford-fields.pmtiles` | no |
+| Overview dot source | `$GOIRT_WORK_DIR/wexford/overview.geojson` | no |
+| Full overview PMTiles | `site/public/data/overview.pmtiles` | no |
+| Overview CI sample | `site/public/data/overview-sample.geojson` | yes |
 | Basemap extract | `site/public/basemap/wexford.pmtiles` | no |
 | Crop reference JSON | `site/public/data/crops.json` | yes |
 
@@ -271,12 +326,12 @@ PMTiles is 15 MB. The basemap is a 27 MB Protomaps extract from build
 `20261029` for bbox `-7.10,52.10,-6.05,52.85`, max zoom 15. Both are local,
 gitignored artifacts.
 
-## 10. Reproduce
+## 11. Reproduce
 
 ```bash
 export GOIRT_WORK_DIR=/path/to/large/work
 bash pipeline/01_fetch.sh   # once: download, verify, extract
-bash pipeline/build.sh      # inspect → lookup → process → JSON → tiles → basemap → scan
+bash pipeline/build.sh      # inspect → lookup → process → JSON → overview → tiles → basemap → scan
 ```
 
 Full audit takes about 70 seconds for all 4.9M rows; processing the Wexford bbox
@@ -285,7 +340,7 @@ committed sample and the paper basemap still run; the full PMTiles fixture stays
 local build step. Do not commit the archive, the GeoPackage, full fixtures,
 basemap extracts or build output.
 
-## 11. Caveats carried forward
+## 12. Caveats carried forward
 
 - The data is anonymised by DAFM but a polygon plus crop, area and county can still
   be re-identifying in a small area. Data minimisation is the mitigation; see

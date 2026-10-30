@@ -1,0 +1,298 @@
+{
+  "description": "Tiny committed Wexford overview sample for CI. Properties carry crop_group only.",
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -6.278627,
+          52.615557
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "grassland"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.28911,
+          52.614401
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "grassland"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.55092,
+          52.185555
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "grassland"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.748107,
+          52.335954
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "cereals"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.751118,
+          52.333075
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "cereals"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.255351,
+          52.644227
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "cereals"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.546452,
+          52.462947
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "maize"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.662386,
+          52.302009
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "maize"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.501011,
+          52.205282
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "oilseeds_break"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.637585,
+          52.557378
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "oilseeds_break"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.428108,
+          52.411729
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "roots"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.563088,
+          52.411251
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "roots"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.394749,
+          52.537011
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "horticulture"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.208028,
+          52.774283
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "horticulture"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.764259,
+          52.478905
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "fruit"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.365753,
+          52.552625
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "fallow"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -6.511849,
+          52.412768
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "crop_group": "fallow"
+      },
+      "tippecanoe": {
+        "maxzoom": 10,
+        "minzoom": 8
+      },
+      "type": "Feature"
+    }
+  ],
+  "license": "DAFM LPIS CC BY 4.0; see docs/ATTRIBUTION.md",
+  "name": "Goirt overview dots",
+  "source": "https://opendata.agriculture.gov.ie/dataset/anonymous-lpis-data-for-2025",
+  "type": "FeatureCollection"
+}

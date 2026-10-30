@@ -35,6 +35,8 @@ The public artifacts do not contain:
   rounded public `hectares`;
 - the raw source crop string in each feature (features carry `crop_id`; the public
   lookup maps it to a crop name);
+- any attribute on the low-zoom overview dots other than `crop_group`; the dots
+  carry no hectares, county, crop id, parcel id or source id;
 - per-farmer, per-holding or per-parcel-label rankings, totals or analyses.
 
 The 2025 crop lookup does contain crop names and descriptions, but no source
@@ -42,7 +44,7 @@ identifiers.
 
 ## 3. Public schema
 
-The allowlist is exactly:
+The field allowlist is exactly:
 
 ```text
 crop_id, crop_group, hectares, area_basis, county
@@ -51,6 +53,17 @@ crop_id, crop_group, hectares, area_basis, county
 `pipeline/common.py` builds every feature through `safe_properties`, which calls
 `assert_safe_properties` and refuses any extra or missing key. The processing step
 cannot add a field without failing.
+
+The low-zoom overview dots have their own, smaller allowlist:
+
+```text
+crop_group
+```
+
+`pipeline/overview.py` writes that property only. The dot's `tippecanoe.minzoom`
+is a build hint in the feature wrapper, not a published property. Overview
+GeoJSON and PMTiles artifacts are scanned against the one-field allowlist, so an
+accidental hectares, county or identifier field fails the build.
 
 PMTiles carries one technical addition, `mvt_id`. Tippecanoe generates it as an
 internal vector-tile feature id so MapLibre feature state and selection work. It
@@ -66,10 +79,12 @@ Two independent checks:
 2. **On the real artifacts:** `pipeline/privacy_scan.py` opens the generated
    GeoJSON, FlatGeobuf and PMTiles through GDAL/pyogrio and reads the actual
    property names. It fails if a forbidden name appears or if any property is
-   outside the allowlist. `pipeline/build.sh` runs it after the tile build.
-3. **In tests:** `pipeline/test_pipeline.py` asserts the committed sample and any
-   local full build pass the scan, and that a deliberately leaky GeoJSON with
-   `par_lab` fails.
+   outside the artifact's allowlist. Overview artifacts use the `crop_group`
+   allowlist; field artifacts use the five-field allowlist. `pipeline/build.sh`
+   runs the scan after the tile build.
+3. **In tests:** `pipeline/test_pipeline.py` asserts the committed field and
+   overview samples and any local full build pass the scan, and that a
+   deliberately leaky GeoJSON with `par_lab` fails.
 
 The Playwright smoke test exercises the committed sample only. CI never needs the
 source archive.
@@ -97,13 +112,16 @@ The scan reports the driver, feature count and field names for each artifact.
 
 ## 6. Data handling
 
-- The archive, extracted GeoPackage, full fixture, basemap extract and build output
-  stay out of git. They live under `$GOIRT_WORK_DIR` or the gitignored
-  `site/public/` paths.
-- The committed sample is 16 real parcels with the public schema only, clearly
-  labelled as fixture data, and is the only field data in the repository.
+- The archive, extracted GeoPackage, full fixture, overview dots, overview
+  PMTiles, basemap extract and build output stay out of git. They live under
+  `$GOIRT_WORK_DIR` or the gitignored `site/public/` paths.
+- The committed field sample is 16 real parcels with the public schema only,
+  clearly labelled as fixture data. The committed overview sample is 17 points
+  carrying only `crop_group`. These are the only field-derived data in the
+  repository.
 - No source archive is served from the site. The browser loads only the field
-  PMTiles/GeoJSON, the basemap extract and `crops.json`.
+  PMTiles/GeoJSON, the overview PMTiles/GeoJSON, the basemap extract and
+  `crops.json`.
 
 ## 7. Residual risk
 

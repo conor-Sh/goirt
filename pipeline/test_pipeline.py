@@ -13,12 +13,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
 from shapely.geometry import MultiPolygon, box
 from shapely.prepared import prep
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import common
+import overview
 import privacy_scan
 
 
@@ -218,12 +220,109 @@ class PrivacyTests(unittest.TestCase):
     def test_generated_artifacts_pass_the_privacy_scan(self) -> None:
         artifacts = privacy_scan.default_artifacts()
         self.assertIn(common.SITE_FIXTURES / "wexford-sample.geojson", artifacts)
+        self.assertIn(common.SITE_DATA / "overview-sample.geojson", artifacts)
         for path in artifacts:
             result = privacy_scan.scan_artifact(path)
             self.assertLessEqual(set(result["fields"]), privacy_scan.allowed_fields(path))
             self.assertEqual(
                 set(result["fields"]) & common.FORBIDDEN_PROPERTY_NAMES, set()
             )
+
+    def test_overview_sample_carries_only_crop_group(self) -> None:
+        path = common.SITE_DATA / "overview-sample.geojson"
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(payload["type"], "FeatureCollection")
+        self.assertGreater(len(payload["features"]), 0)
+        for feature in payload["features"]:
+            self.assertEqual(set(feature["properties"]), {"crop_group"})
+            self.assertIn(feature["properties"]["crop_group"], common.CROP_GROUPS)
+            self.assertEqual(feature["geometry"]["type"], "Point")
+
+    def test_overview_scan_uses_the_crop_group_allowlist(self) -> None:
+        path = common.SITE_DATA / "overview-sample.geojson"
+        self.assertEqual(privacy_scan.allowed_fields(path), {"crop_group"})
+        result = privacy_scan.scan_artifact(path)
+        self.assertEqual(result["fields"], ["crop_group"])
+
+
+class OverviewSamplingTests(unittest.TestCase):
+    def fields(self, boxes: list[tuple[tuple[float, float, float, float], str, float]]):
+        geometries = [box(*bounds) for bounds, _group, _ha in boxes]
+        groups = [group for _bounds, group, _ha in boxes]
+        hectares = [ha for _bounds, _group, ha in boxes]
+        return (
+            np.array(geometries, dtype=object),
+            np.array(groups, dtype=object),
+            np.array(hectares, dtype=float),
+        )
+
+    def test_sampling_is_deterministic(self) -> None:
+        geometries, groups, hectares = self.fields(
+            [
+                ((0.0, 0.0, 1.0, 1.0), "grassland", 40.0),
+                ((2.0, 2.0, 3.0, 3.0), "cereals", 35.0),
+            ]
+        )
+        clip = box(-1, -1, 4, 4)
+        first, first_stats = overview.build_features(
+            geometries, groups, hectares, clip, max_dots=1000, seed=7
+        )
+        second, second_stats = overview.build_features(
+            geometries, groups, hectares, clip, max_dots=1000, seed=7
+        )
+        self.assertEqual(first, second)
+        self.assertEqual(first_stats, second_stats)
+        self.assertGreater(len(first), 0)
+
+    def test_dots_carry_only_crop_group(self) -> None:
+        geometries, groups, hectares = self.fields(
+            [((0.0, 0.0, 0.1, 0.1), "roots", 100.0)]
+        )
+        features, _stats = overview.build_features(
+            geometries, groups, hectares, box(-1, -1, 1, 1), max_dots=1000
+        )
+        self.assertGreater(len(features), 0)
+        for feature in features:
+            self.assertEqual(set(feature["properties"]), {"crop_group"})
+            self.assertEqual(feature["properties"]["crop_group"], "roots")
+            self.assertEqual(feature["geometry"]["type"], "Point")
+
+    def test_dot_cap_is_enforced(self) -> None:
+        boxes = [
+            ((x, y, x + 0.01, y + 0.01), "grassland", 1.0)
+            for x in range(20)
+            for y in range(15)
+        ]
+        geometries, groups, hectares = self.fields(boxes)
+        features, _stats = overview.build_features(
+            geometries,
+            groups,
+            hectares,
+            box(-1, -1, 30, 30),
+            max_dots=25,
+            start_ha_per_dot=0.001,
+        )
+        self.assertLessEqual(len(features), 25)
+
+    def test_points_outside_the_county_polygon_are_dropped(self) -> None:
+        geometries, groups, hectares = self.fields(
+            [
+                ((0.0, 0.0, 0.1, 0.1), "grassland", 100.0),
+                ((5.0, 5.0, 5.1, 5.1), "cereals", 100.0),
+            ]
+        )
+        features, stats = overview.build_features(
+            geometries, groups, hectares, box(-0.1, -0.1, 0.2, 0.2), max_dots=1000
+        )
+        self.assertGreater(stats["outside_county_dropped"], 0)
+        self.assertGreater(len(features), 0)
+        for feature in features:
+            x, y = feature["geometry"]["coordinates"]
+            self.assertGreaterEqual(x, -0.1)
+            self.assertLessEqual(x, 0.2)
+            self.assertGreaterEqual(y, -0.1)
+            self.assertLessEqual(y, 0.2)
+            self.assertEqual(feature["properties"]["crop_group"], "grassland")
 
 
 class SiteDataTests(unittest.TestCase):
