@@ -77,9 +77,10 @@ The rule is:
 2. One feature per distinct `(par_lab, crop, geometry)` part. The geometry is the
    crop-bearing row's geometry.
 3. Repeated rows with the same parcel label, crop and geometry are folded into one
-   part. The part's claimed area is the maximum positive `claim_area` across the
-   folded rows, so identical duplicate claims (including non-commonage repeats)
-   and shared commonage rows are never added twice. `eh_area` is also never
+   part. Non-commonage duplicate rows are identical claims, so their positive
+   `claim_area` values collapse to the maximum and are never added twice.
+   Commonage rows (`commonage_ind = 'Y'`) are separate claimants' shares of one
+   part, so those positive `claim_area` values are summed. `eh_area` is never
    summed because it repeats on claimant rows.
 4. Different crops on the same parcel label are never merged. They remain separate
    features.
@@ -100,11 +101,15 @@ parts, not by a single parcel polygon. That is the unit the map shows.
 
 `claim_area` is the displayed area. For each folded part:
 
-- Take the maximum positive, finite `claim_area` value. Duplicate claims that
-  share a parcel, crop and geometry do not inflate the displayed area.
+- Sum the positive, finite `claim_area` values of the commonage rows
+  (`commonage_ind = 'Y'`); each row is a distinct claimant's share.
+- Take the maximum positive, finite `claim_area` value of the non-commonage rows.
+  Duplicate non-commonage claims that share a parcel, crop and geometry do not
+  inflate the displayed area. A part's claimed area is the commonage sum plus the
+  non-commonage maximum.
 - Round the value to 0.1 ha with decimal half-up rounding (`1.25 → 1.3`), not
   binary float banker's rounding.
-- If the claim maximum is null or zero, use the maximum positive `eh_area` as an
+- If the claimed total is null or zero, use the maximum positive `eh_area` as an
   explicit eligible-area fallback. `eh_area` is not summed.
 - If neither is usable, drop the feature and count it. The public schema has no
   sentinel or null area.
@@ -223,7 +228,7 @@ Retained groups:
 
 | Group | Features | Hectares |
 |---|---:|---:|
-| Grassland | 36,549 | 118,120.9 |
+| Grassland | 36,549 | 119,811.0 |
 | Cereals | 11,102 | 45,703.7 |
 | Maize | 707 | 2,598.6 |
 | Oilseeds & break | 1,110 | 4,732.0 |
@@ -232,7 +237,7 @@ Retained groups:
 | Fruit | 131 | 87.2 |
 | Fallow & environment | 1,016 | 1,443.5 |
 
-Permanent Pasture alone is 30,744 features and 101,979.7 ha, which is why
+Permanent Pasture alone is 30,744 features and 103,669.8 ha, which is why
 grassland is the calm base and the tillage groups carry the patterns. The largest
 tillage counts are Spring Barley 7,789, Winter Wheat 827, Spring Oats 921, Winter
 Oats 405, Maize 707 and Winter Oilseed Rape 201.

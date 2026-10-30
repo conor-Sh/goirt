@@ -234,26 +234,41 @@ def round_hectares(value: float) -> float:
 
 
 def area_hectares(
-    claim_areas: Iterable[float | None], eh_areas: Iterable[float | None]
+    claim_areas: Iterable[float | None],
+    eh_areas: Iterable[float | None],
+    commonage_flags: Iterable[bool | None] | None = None,
 ) -> tuple[float | None, str]:
     """Return (hectares, basis) for one folded parcel-crop part.
 
-    `claim_area` is the displayed area. Repeated rows sharing one geometry
-    (commonage shares and repeated claims) collapse to the maximum positive
-    claim, so identical duplicate claims are never counted more than once. If
-    no claim is usable, the maximum eligible area is used as an explicit
-    fallback; it is never summed because it repeats on every claimant row. If
-    neither is usable the part is dropped (None).
+    `claim_area` is the displayed area. Distinct commonage rows are separate
+    claimants' shares, so they are summed. Repeated non-commonage rows sharing
+    one geometry are identical duplicate claims and collapse to the maximum, so
+    they are never counted more than once. If no claim is usable, the maximum
+    eligible area is used as an explicit fallback; it is never summed because it
+    repeats on every claimant row. If neither is usable the part is dropped
+    (None).
     """
-    claim_max = 0.0
-    for value in claim_areas:
+    claims = list(claim_areas)
+    flags = (
+        list(commonage_flags) if commonage_flags is not None else [False] * len(claims)
+    )
+    if len(flags) != len(claims):
+        raise PipelineError("commonage flags must match claim areas")
+    commonage_total = 0.0
+    duplicate_max = 0.0
+    for value, is_commonage in zip(claims, flags):
         if value is None:
             continue
         number = float(value)
-        if math.isfinite(number) and number > claim_max:
-            claim_max = number
-    if claim_max > 0:
-        return round_hectares(claim_max), "claimed"
+        if not (math.isfinite(number) and number > 0):
+            continue
+        if is_commonage:
+            commonage_total += number
+        elif number > duplicate_max:
+            duplicate_max = number
+    claim_total = commonage_total + duplicate_max
+    if claim_total > 0:
+        return round_hectares(claim_total), "claimed"
 
     eligible = 0.0
     for value in eh_areas:

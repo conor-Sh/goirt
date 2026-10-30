@@ -4,9 +4,9 @@
 Row-to-parcel rule (documented in docs/DATA.md):
   * keep crop-bearing rows only;
   * one feature per distinct (par_lab, crop, geometry) part;
-  * repeated rows sharing the same geometry and crop are folded, claim_area
-    collapses to its maximum so repeated claims are not double counted, eh_area
-    is never summed;
+  * repeated non-commonage rows sharing the same geometry and crop are folded,
+    claim_area collapses to its maximum so duplicate claims are not double
+    counted; distinct commonage shares are summed; eh_area is never summed;
   * different crops on one parcel label stay separate features.
 
 County rule: representative point, then largest overlap, then "Ireland".
@@ -59,7 +59,7 @@ def read_candidates(gpkg: Path, bbox: tuple[float, float, float, float]):
     meta, _fids, wkb, fields = pyogrio.raw.read(
         gpkg,
         layer=common.LAYER_NAME,
-        columns=["crop", "claim_area", "eh_area", "par_lab"],
+        columns=["crop", "claim_area", "eh_area", "par_lab", "commonage_ind"],
         bbox=bbox,
         where="crop IS NOT NULL",
         force_2d=True,
@@ -95,11 +95,15 @@ def fold_parts(wkb, by_name, crops: dict[str, common.CropRow]):
                 "crop": crop,
                 "wkb": bytes(raw_geom),
                 "claims": [by_name["claim_area"][index]],
+                "commonage": [str(by_name["commonage_ind"][index]) == "Y"],
                 "eh": [by_name["eh_area"][index]],
                 "rows": 1,
             }
         else:
             group["claims"].append(by_name["claim_area"][index])  # type: ignore[union-attr]
+            group["commonage"].append(  # type: ignore[union-attr]
+                str(by_name["commonage_ind"][index]) == "Y"
+            )
             group["eh"].append(by_name["eh_area"][index])  # type: ignore[union-attr]
             group["rows"] = int(group["rows"]) + 1  # type: ignore[arg-type]
     if unknown:
@@ -146,7 +150,9 @@ def build_features(groups, crops, counties, wexford_name: str, to_wgs84: Transfo
             excluded += 1
             continue
 
-        hectares, basis = common.area_hectares(group["claims"], group["eh"])  # type: ignore[arg-type]
+        hectares, basis = common.area_hectares(  # type: ignore[arg-type]
+            group["claims"], group["eh"], group["commonage"]
+        )
         if hectares is None:
             both_zero += 1
             dropped_no_area += 1
@@ -349,11 +355,13 @@ def main() -> int:
         "county_rule": "representative point, then largest overlap, then Ireland",
         "row_to_parcel_rule": (
             "one feature per distinct (par_lab, crop, geometry) part; crop-less rows "
-            "discarded; claim_area max across folded rows; eh_area max fallback"
+            "discarded; non-commonage duplicate claim_area max; commonage claim_area "
+            "shares summed; eh_area max fallback"
         ),
         "area_rule": (
-            "max claim_area rounded half-up to 0.1 ha recorded as claimed; else max "
-            "eh_area recorded as eligible; otherwise dropped"
+            "commonage claim_area shares summed plus max non-commonage claim_area, "
+            "rounded half-up to 0.1 ha recorded as claimed; else max eh_area recorded "
+            "as eligible; otherwise dropped"
         ),
         "archive": {
             "path": str(archive),
