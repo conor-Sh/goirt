@@ -3,7 +3,9 @@
 Goirt is a local County Wexford crop map built from real 2025 DAFM LPIS field
 geometry. The first version is a walking skeleton: a repeatable data pipeline, a
 small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
-layer grouped by crop. Popup and crop search are the next piece, not this one.
+layer grouped by crop. A density-sampled overview dot layer keeps the map
+coloured from about z5 until the field polygons take over at z10. Popup and crop
+search are the next piece, not this one.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
@@ -65,7 +67,8 @@ export GOIRT_WORK_DIR=/home/voy/projects/firstmate/data/goirt-build-v1/work
 bash pipeline/01_fetch.sh
 
 # Everything after that: inspect, validate lookup, process, write crops.json,
-# tile fields, extract basemap, scan the artifacts for forbidden properties.
+# build overview dots, tile fields, extract basemap, scan the artifacts for
+# forbidden properties.
 bash pipeline/build.sh
 ```
 
@@ -77,6 +80,7 @@ bash pipeline/build.sh
 | Lookup check | `uv run python pipeline/03_lookup.py --check` | fails on an unknown 2025 crop or stale lookup metadata |
 | Process | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
 | Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` |
+| Overview | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
 | Field tiles | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
 | Basemap | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
 | Privacy scan | `uv run python pipeline/privacy_scan.py` | fails on any forbidden property |
@@ -100,10 +104,25 @@ The basemap step uses the pinned Protomaps daily build `PROTOMAPS_BUILD`
 or extract is unavailable, the app still runs from the committed sample on the
 paper background; PMTiles remains a local build artifact, not a CI dependency.
 
+## Zoom behaviour
+
+The map now opens at z10.2 and can zoom out to z5. Field polygons still start at
+z10. Between z5 and z10 the overview layer draws one soft dot per 20 ha of field,
+coloured by `crop_group` with a saturation boost, so a zoomed-out Wexford keeps
+its crop colours instead of going blank. Dense farmland dots appear first; sparse
+dots fade in by z7 or z8. The dots fade out by z10.5 as the field polygons take
+over.
+
+`site/.env.example` points `VITE_OVERVIEW_URL` at the committed
+`/data/overview-sample.geojson`. The full example points at the local
+`/data/overview.pmtiles`. Both GeoJSON and PMTiles overview sources are supported.
+A missing overview is logged and leaves the field map working.
+
 ## Tests
 
 ```bash
-# Python: crop lookup, area rule, county join, safe schema, privacy scan.
+# Python: crop lookup, area rule, county join, overview sampling, safe schema,
+# privacy scan.
 uv sync --frozen
 uv run python -m unittest discover -s pipeline -p 'test_*.py' -v
 uv run python pipeline/privacy_scan.py
@@ -117,9 +136,10 @@ pnpm --dir site test:e2e
 ```
 
 The fixture smoke loads the committed Wexford sample, waits for the field layer,
-checks the attribution and opens the data/licences dialog. It never needs the
-5 GB source archive. CI runs these commands in
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+checks the attribution and opens the data/licences dialog. A second smoke zooms
+out to z6 and checks that the committed overview source and circle layer are
+present and loaded. Neither test needs the 5 GB source archive or tippecanoe; CI
+runs these commands in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Repository layout
 
@@ -131,15 +151,18 @@ docs/               data, privacy, palette and attribution decisions
 pipeline/           fetch, inspect, lookup, process, tile, basemap, privacy scan
 site/               Vite/TypeScript/MapLibre app and tests
 site/public/fixtures/wexford-sample.geojson  committed CI fixture
+site/public/data/overview-sample.geojson     committed overview CI sample
+site/public/data/crops.json                  generated crop reference
 site/public/fixtures/*.pmtiles               local full build (gitignored)
+site/public/data/*.pmtiles                   local overview build (gitignored)
 site/public/basemap/*.pmtiles                local basemap (gitignored)
 ```
 
 ## Scope
 
 In v1: County Wexford, 2025 LPIS agricultural parcels, group fills, outlines,
-selected outline, group patterns at z ≥ 12.5, attribution and the data/licences
-dialog.
+selected outline, group patterns at z ≥ 12.5, the low-zoom overview dots from
+z5, attribution and the data/licences dialog.
 
 Out of scope: popup card, crop search, statewide build, deployment,
 high-contrast mode, county/region markers, harvest dates, other years, a Cork

@@ -2,11 +2,18 @@ import { expect, test } from "@playwright/test";
 
 interface GoirtProbe {
   map: {
-    getStyle(): { layers?: Array<{ id: string; minzoom?: number; type: string }> };
+    getStyle(): {
+      layers?: Array<{ id: string; minzoom?: number; maxzoom?: number; type: string }>;
+    };
     getSource(id: string): unknown;
+    getZoom(): number;
+    isSourceLoaded(id: string): boolean;
+    jumpTo(options: { center: [number, number]; zoom: number }): void;
   };
   fieldsReady: boolean;
   fieldsCount: number;
+  overviewReady: boolean;
+  overviewCount: number;
 }
 
 test("loads the Wexford sample fields and the required attribution", async ({
@@ -66,6 +73,48 @@ test("loads the Wexford sample fields and the required attribution", async ({
   );
   expect(patternLayer?.minzoom).toBe(12.5);
 
+  await expect(page.locator("#map-error")).toBeHidden();
+  expect(consoleErrors).toEqual([]);
+});
+
+test("loads the overview dots at low zoom", async ({ page }) => {
+  const consoleErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  });
+
+  await page.goto("/");
+
+  await page.waitForFunction(
+    () =>
+      Boolean(
+        (window as unknown as { __goirt?: GoirtProbe }).__goirt?.overviewReady,
+      ),
+    undefined,
+    { timeout: 20_000 },
+  );
+
+  const probe = await page.evaluate(() => {
+    const goirt = (window as unknown as { __goirt?: GoirtProbe }).__goirt;
+    if (!goirt) throw new Error("map probe missing");
+    goirt.map.jumpTo({ center: [-6.58, 52.45], zoom: 6 });
+    const layer = (goirt.map.getStyle().layers ?? []).find(
+      (item) => item.id === "overview-dots",
+    );
+    return {
+      zoom: goirt.map.getZoom(),
+      hasSource: Boolean(goirt.map.getSource("overview")),
+      sourceLoaded: goirt.map.isSourceLoaded("overview"),
+      overviewCount: goirt.overviewCount,
+      layer: layer ? { type: layer.type, maxzoom: layer.maxzoom } : null,
+    };
+  });
+
+  expect(probe.zoom).toBeCloseTo(6, 1);
+  expect(probe.hasSource).toBe(true);
+  expect(probe.sourceLoaded).toBe(true);
+  expect(probe.overviewCount).toBeGreaterThan(0);
+  expect(probe.layer).toEqual({ type: "circle", maxzoom: 10.5 });
   await expect(page.locator("#map-error")).toBeHidden();
   expect(consoleErrors).toEqual([]);
 });

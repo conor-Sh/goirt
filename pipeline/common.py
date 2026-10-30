@@ -31,6 +31,7 @@ COUNTIES_GEOJSON = LOOKUP_DIR / "counties.geojson"
 WORK_DIR = Path(os.environ.get("GOIRT_WORK_DIR", REPO_ROOT / "data" / "work"))
 RAW_DIR = Path(os.environ.get("GOIRT_RAW_DIR", REPO_ROOT / "data" / "raw"))
 SITE_FIXTURES = REPO_ROOT / "site" / "public" / "fixtures"
+SITE_DATA = REPO_ROOT / "site" / "public" / "data"
 
 LAYER_NAME = "GEO_860_PARCELS_ANON"
 SOURCE_CRS = "EPSG:2157"
@@ -39,6 +40,7 @@ WEXFORD = "Wexford"
 IRELAND = "Ireland"
 
 SAFE_FIELDS = ("crop_id", "crop_group", "hectares", "area_basis", "county")
+OVERVIEW_FIELDS = ("crop_group",)
 SAFE_FIELD_TYPES = {
     "crop_id": "int32",
     "crop_group": "string",

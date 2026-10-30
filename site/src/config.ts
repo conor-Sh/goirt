@@ -5,13 +5,14 @@ function value(raw: string | undefined, fallback: string): string {
 }
 
 export const fieldsUrl = value(env.VITE_FIELDS_URL, "/fixtures/wexford-sample.geojson");
+export const overviewUrl = value(env.VITE_OVERVIEW_URL, "/data/overview-sample.geojson");
 export const basemapUrl = value(env.VITE_BASEMAP_URL, "");
 export const cropsUrl = value(env.VITE_CROPS_URL, "/data/crops.json");
 
-export const useVectorFields = fieldsUrl.endsWith(".pmtiles");
-export const fieldsSourceLayer = value(env.VITE_FIELDS_SOURCE_LAYER, "fields");
-
 export const isPmtiles = (url: string): boolean => url.endsWith(".pmtiles");
+export const useVectorFields = isPmtiles(fieldsUrl);
+export const useVectorOverview = isPmtiles(overviewUrl);
+export const fieldsSourceLayer = value(env.VITE_FIELDS_SOURCE_LAYER, "fields");
 
 export const dataLicences = {
   lpis:

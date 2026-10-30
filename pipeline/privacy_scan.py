@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Fail if a generated field artifact carries anything outside the public schema.
+"""Fail if a generated artifact carries anything outside its public schema.
 
+Field features use the five-field allowlist; overview dots use `crop_group` only.
 The processing step builds features from an explicit allowlist, but a tile build
 or a hand-edited fixture could still add a property. This scan reads the actual
 artifact through GDAL/pyogrio (GeoJSON, FlatGeobuf and PMTiles are supported) and
@@ -34,8 +35,12 @@ class PrivacyScanError(common.PipelineError):
     pass
 
 
+def is_overview(path: Path) -> bool:
+    return "overview" in path.name.lower()
+
+
 def allowed_fields(path: Path) -> set[str]:
-    fields = set(common.SAFE_FIELDS)
+    fields = set(common.OVERVIEW_FIELDS if is_overview(path) else common.SAFE_FIELDS)
     if path.suffix.lower() == ".pmtiles":
         fields |= TECHNICAL_FIELDS
     return fields
@@ -72,7 +77,10 @@ def default_artifacts() -> list[Path]:
     candidates = [
         common.SITE_FIXTURES / "wexford-sample.geojson",
         common.SITE_FIXTURES / "wexford-fields.pmtiles",
+        common.SITE_DATA / "overview-sample.geojson",
+        common.SITE_DATA / "overview.pmtiles",
         common.WORK_DIR / "wexford" / "fields.fgb",
+        common.WORK_DIR / "wexford" / "overview.geojson",
     ]
     return [path for path in candidates if path.exists()]
 

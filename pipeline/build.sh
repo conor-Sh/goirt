@@ -17,6 +17,7 @@ uv run python pipeline/02_inspect.py
 uv run python pipeline/03_lookup.py --check
 uv run python pipeline/04_process.py
 uv run python pipeline/07_crops_json.py
+uv run python pipeline/08_overview.py
 bash pipeline/05_tiles.sh
 bash pipeline/06_basemap.sh
 uv run python pipeline/privacy_scan.py

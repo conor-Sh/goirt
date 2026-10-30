@@ -1,8 +1,9 @@
 import maplibregl, { type Map as MapLibreMap, type StyleSpecification } from "maplibre-gl";
 import { Protocol, PMTiles } from "pmtiles";
-import { basemapUrl, fieldsUrl, isPmtiles } from "./config";
+import { basemapUrl, fieldsUrl, isPmtiles, overviewUrl } from "./config";
 import { loadCrops, type CropsFile } from "./data/crops";
 import { addFieldLayers, addFieldSource, fieldsReady, FIELDS_SOURCE } from "./layers/fields";
+import { addOverviewLayer, addOverviewSource, overviewReady } from "./layers/overview";
 import { groupLookup, palette } from "./palette";
 import {
   GLYPHS_URL,
@@ -18,6 +19,8 @@ declare global {
       map: MapLibreMap;
       fieldsReady: boolean;
       fieldsCount: number;
+      overviewReady: boolean;
+      overviewCount: number;
     };
   }
 }
@@ -30,6 +33,9 @@ function registerProtocol(): void {
   protocol.add(new PMTiles(new URL(basemapUrl || "/basemap/wexford.pmtiles", window.location.href).href));
   if (isPmtiles(fieldsUrl)) {
     protocol.add(new PMTiles(new URL(fieldsUrl, window.location.href).href));
+  }
+  if (isPmtiles(overviewUrl)) {
+    protocol.add(new PMTiles(new URL(overviewUrl, window.location.href).href));
   }
   maplibregl.addProtocol("pmtiles", protocol.tile);
   protocolRegistered = true;
@@ -86,7 +92,7 @@ export function createMap(
     style,
     center: [-6.58, 52.45],
     zoom: 10.2,
-    minZoom: 8,
+    minZoom: 5,
     maxZoom: 15,
     attributionControl: false,
     hash: false,
@@ -103,11 +109,32 @@ export function createMap(
           "The crop lookup did not load, so fields cannot be coloured by crop group.",
         );
       }
-      addFieldSource(map);
       const layers = map.getStyle().layers ?? [];
       const anchor = layers[fieldsInsertIndex(layers)]?.id;
+      const beforeId = anchor && map.getLayer(anchor) ? anchor : undefined;
       const lookup = groupLookup(crops?.groups ?? []);
-      addFieldLayers(map, anchor && map.getLayer(anchor) ? anchor : undefined, lookup);
+
+      try {
+        addOverviewSource(map);
+        addOverviewLayer(map, beforeId, lookup);
+        overviewReady(map)
+          .then((count) => {
+            if (window.__goirt) {
+              window.__goirt.overviewReady = true;
+              window.__goirt.overviewCount = count;
+            }
+          })
+          .catch((error: unknown) => {
+            const message = error instanceof Error ? error.message : String(error);
+            console.warn(`overview layer unavailable: ${message}`);
+          });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.warn(`overview layer unavailable: ${message}`);
+      }
+
+      addFieldSource(map);
+      addFieldLayers(map, beforeId, lookup);
       attachSelection(map, loadedCrops);
 
       fieldsReady(map)
@@ -127,12 +154,18 @@ export function createMap(
 
   map.on("error", (event) => {
     const error = event.error;
-    if (error && /fields|pmtiles/i.test(error.message)) {
+    if (error && /fields|overview|pmtiles/i.test(error.message)) {
       console.warn("map error", error.message);
     }
   });
 
-  window.__goirt = { map, fieldsReady: false, fieldsCount: 0 };
+  window.__goirt = {
+    map,
+    fieldsReady: false,
+    fieldsCount: 0,
+    overviewReady: false,
+    overviewCount: 0,
+  };
   return map;
 }
 
