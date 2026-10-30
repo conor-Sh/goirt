@@ -10,8 +10,8 @@ search are the next piece, not this one.
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
   0.1 ha, 2019 statutory counties, Wexford first.
-- Privacy: public features carry only `crop_id`, `crop_group`, `hectares`,
-  `area_basis` and `county`.
+- Privacy: field features carry only `crop_id`, `crop_group`, `hectares`,
+  `area_basis` and `county`; overview dots carry only `crop_group`.
 - Evidence: the two research reports and the 2025 crop tally are copied verbatim
   into [`docs/research/`](docs/research/).
 
@@ -24,7 +24,7 @@ Palette, data, privacy and attribution decisions are documented in
 
 - Node 26 and pnpm 10+.
 - Python 3.12+ managed with [`uv`](https://docs.astral.sh/uv/).
-- `tippecanoe` for the full PMTiles field build, built from source.
+- `tippecanoe` for the full PMTiles field and overview builds, built from source.
 - `go-pmtiles` for the Wexford basemap extract.
 - About 10 GB free for the source archive plus extracted GeoPackage. Do not use
   `/tmp` for this data; point `GOIRT_WORK_DIR` at a larger disk.
@@ -148,7 +148,7 @@ data/lookup/        crops.csv and cached 2019 counties (committed)
 data/work/          downloaded/derived data (gitignored; or GOIRT_WORK_DIR)
 docs/research/      verbatim source reports and 2025 crop tally
 docs/               data, privacy, palette and attribution decisions
-pipeline/           fetch, inspect, lookup, process, tile, basemap, privacy scan
+pipeline/           fetch, inspect, lookup, process, overview, tile, basemap, privacy scan
 site/               Vite/TypeScript/MapLibre app and tests
 site/public/fixtures/wexford-sample.geojson  committed CI fixture
 site/public/data/overview-sample.geojson     committed overview CI sample

@@ -26,7 +26,8 @@ fills and patterns by `group`, not by per-crop `color`.
 ## `counties.geojson`
 
 Cached Tailte Éireann, *Counties — National Statutory Boundaries — 2019* (26
-features, CC BY 4.0). Used only for the county join; the source CRS is EPSG:4326
+features, CC BY 4.0). Used for the county join and to drop overview dots outside
+Wexford; the source CRS is EPSG:4326
 and the pipeline reprojects it to EPSG:2157 before joining. The boundaries are
 generalised and reference-only, not a statutory survey. See
 `docs/ATTRIBUTION.md` and `docs/DATA.md`.

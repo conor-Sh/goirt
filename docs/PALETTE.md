@@ -160,7 +160,7 @@ claim that the pastel map meets strict compliance by itself.
 
 ## 8. Basemap layer order
 
-Keep the Protomaps order and insert fields before
+Keep the Protomaps order and insert the overview dots and fields before
 `roads_tunnels_other_casing`:
 
 1. background and landcover;
