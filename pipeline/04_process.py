@@ -36,18 +36,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import common
 
-GROUP_LABELS = {
-    "grassland": "Grassland",
-    "cereals": "Cereals",
-    "maize": "Maize",
-    "oilseeds_break": "Oilseeds & break",
-    "roots": "Roots",
-    "horticulture": "Horticulture",
-    "fruit": "Fruit",
-    "fallow": "Fallow & environment",
-    "non_farmland": "Non-farmland",
-}
-
 
 def as_multipolygon(geom):
     if geom.geom_type == "Polygon":
