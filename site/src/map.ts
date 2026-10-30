@@ -98,6 +98,11 @@ export function createMap(
   map.on("load", () => {
     void cropsReady.then((loaded) => {
       crops = loaded;
+      if (!loaded) {
+        showError(
+          "The crop lookup did not load, so fields cannot be coloured by crop group.",
+        );
+      }
       addFieldSource(map);
       const layers = map.getStyle().layers ?? [];
       const anchor = layers[fieldsInsertIndex(layers)]?.id;

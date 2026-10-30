@@ -70,6 +70,21 @@ test("loads the Wexford sample fields and the required attribution", async ({
   expect(consoleErrors).toEqual([]);
 });
 
+test("shows an error when the crop lookup cannot load", async ({ page }) => {
+  await page.route("**/data/crops.json", (route) =>
+    route.fulfill({
+      status: 500,
+      contentType: "application/json",
+      body: JSON.stringify({ error: "unavailable" }),
+    }),
+  );
+
+  await page.goto("/");
+
+  await expect(page.locator("#map-error")).toBeVisible();
+  await expect(page.locator("#map-error")).toContainText(/crop lookup/i);
+});
+
 test("opens the data and licences dialog", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Data & licences" }).click();
