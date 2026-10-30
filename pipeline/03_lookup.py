@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import dataclasses
 import json
 import sys
 from pathlib import Path
@@ -45,19 +46,36 @@ def build_rows(observed: set[str]) -> list[dict[str, object]]:
     return rows
 
 
+LOOKUP_COLUMNS = [
+    "crop_id",
+    "crop",
+    "group",
+    "color",
+    "pattern",
+    "aliases",
+    "display_name",
+    "notes",
+    "include",
+]
+
+
+def normalize_row(row: dict[str, object]) -> dict[str, object]:
+    return {
+        "crop_id": int(str(row["crop_id"])),
+        "crop": str(row["crop"]),
+        "group": str(row["group"]),
+        "color": str(row["color"]),
+        "pattern": str(row["pattern"]),
+        "aliases": str(row["aliases"]),
+        "display_name": str(row["display_name"]),
+        "notes": str(row["notes"]),
+        "include": str(row["include"]).strip().lower() in {"true", "1", "yes"},
+    }
+
+
 def write_rows(rows: list[dict[str, object]], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    columns = [
-        "crop_id",
-        "crop",
-        "group",
-        "color",
-        "pattern",
-        "aliases",
-        "display_name",
-        "notes",
-        "include",
-    ]
+    columns = LOOKUP_COLUMNS
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
@@ -93,20 +111,30 @@ def main() -> int:
         print(f"wrote {len(rows)} crop rows to {args.crops}")
     else:
         existing = common.load_crops(args.crops)
-        names = {row.crop for row in existing}
+        expected = {str(row["crop"]): normalize_row(row) for row in rows}
+        actual = {
+            row.crop: normalize_row(dataclasses.asdict(row)) for row in existing
+        }
         problems = []
-        if names - observed:
-            problems.append(
-                "lookup contains crops not observed in 2025: "
-                + ", ".join(sorted(repr(v) for v in names - observed))
-            )
-        if observed - names:
-            problems.append(
-                "2025 crops missing from lookup: "
-                + ", ".join(sorted(repr(v) for v in observed - names))
-            )
+        for crop in sorted(set(expected) | set(actual)):
+            if crop not in expected:
+                problems.append(f"{crop!r} is not in the 2025 taxonomy")
+            elif crop not in actual:
+                problems.append(f"{crop!r} is missing from {args.crops}")
+            else:
+                stale = [
+                    column
+                    for column in LOOKUP_COLUMNS
+                    if expected[crop][column] != actual[crop][column]
+                ]
+                if stale:
+                    problems.append(
+                        f"{crop!r} metadata differs in {', '.join(stale)}"
+                    )
         if problems:
-            raise SystemExit("; ".join(problems))
+            raise SystemExit(
+                f"crop lookup is stale; run --write: {'; '.join(problems)}"
+            )
         print(f"crop lookup matches {len(observed)} observed 2025 values")
 
     by_group: dict[str, int] = {}

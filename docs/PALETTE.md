@@ -5,7 +5,9 @@ and grey-olive non-farmland, a restrained grassland green, warm low-chroma
 tillage, blue water, warm grey roads and dark green ink. It was reviewed as a
 swatch before being applied to the map and is now the approved v1 palette.
 
-- Implementation: `site/src/palette.ts` and `site/src/style/basemap.ts`.
+- Implementation: crop-group fills are defined in `pipeline/crop_taxonomy.py`
+  (`GROUP_COLORS`), emitted to `site/public/data/crops.json`, and read by
+  `site/src/palette.ts`; basemap styling lives in `site/src/style/basemap.ts`.
 - Review surface: `/home/voy/projects/firstmate/data/goirt-build-v1/palette.html`
   (outside the repository, kept as the approval record).
 - Rule: crop identity is carried by **name + group + outline + pattern**, never by
@@ -157,6 +159,6 @@ dashed and low-opacity; it is not a substitute for a labelled boundary.
 ## 8. Change rule
 
 Any change to fills, outlines, pattern thresholds or the no-high-contrast
-position should update this document, `site/src/palette.ts`, the basemap flavour,
-and the palette swatch together. The palette is not final until the swatch
-checkpoint is approved again.
+position should update this document, `pipeline/crop_taxonomy.py`, the basemap
+flavour, and the palette swatch together, then regenerate `crops.json`. The
+palette is not final until the swatch checkpoint is approved again.

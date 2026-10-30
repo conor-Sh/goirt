@@ -1,6 +1,7 @@
 import type { Map as MapLibreMap, MapMouseEvent } from "maplibre-gl";
 import type { CropsFile } from "../data/crops";
 import { cropById } from "../data/crops";
+import { fieldsSourceLayer, useVectorFields } from "../config";
 import { groupLookup } from "../palette";
 import { FIELDS_SOURCE, fillLayerIds } from "../layers/fields";
 
@@ -16,6 +17,7 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
   const label = document.querySelector<HTMLDivElement>("#field-label");
   if (!label) return;
   let selectedId: string | number | undefined;
+  const sourceState = useVectorFields ? { sourceLayer: fieldsSourceLayer } : {};
 
   const hide = (): void => {
     label.hidden = true;
@@ -24,7 +26,10 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
 
   const clear = (): void => {
     if (selectedId === undefined) return;
-    map.setFeatureState({ source: FIELDS_SOURCE, id: selectedId }, { selected: false });
+    map.setFeatureState(
+      { source: FIELDS_SOURCE, ...sourceState, id: selectedId },
+      { selected: false },
+    );
     selectedId = undefined;
   };
 
@@ -46,7 +51,7 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
 
     clear();
     selectedId = id;
-    map.setFeatureState({ source: feature.source, id }, { selected: true });
+    map.setFeatureState({ source: feature.source, ...sourceState, id }, { selected: true });
 
     const crop = cropById(crops(), Number(properties.crop_id));
     const group = properties.crop_group ? lookup.labels[properties.crop_group] : undefined;
