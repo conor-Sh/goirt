@@ -233,16 +233,16 @@ Retained groups:
 
 | Group | Features | Hectares |
 |---|---:|---:|
-| Grassland | 36,549 | 119,924.2 |
+| Grassland | 36,549 | 119,991.1 |
 | Cereals | 11,102 | 45,791.3 |
 | Maize | 707 | 2,603.2 |
 | Oilseeds & break | 1,110 | 4,732.0 |
-| Roots | 923 | 3,110.9 |
-| Horticulture | 139 | 384.8 |
+| Roots | 923 | 3,112.4 |
+| Horticulture | 139 | 386.6 |
 | Fruit | 131 | 87.5 |
 | Fallow & environment | 1,016 | 1,443.5 |
 
-Permanent Pasture alone is 30,744 features and 103,762.4 ha, which is why
+Permanent Pasture alone is 30,744 features and 103,825.6 ha, which is why
 grassland is the calm base and the tillage groups carry the patterns. The largest
 tillage counts are Spring Barley 7,789, Winter Wheat 827, Spring Oats 921, Winter
 Oats 405, Maize 707 and Winter Oilseed Rape 201.

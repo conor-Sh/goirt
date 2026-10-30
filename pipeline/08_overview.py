@@ -27,6 +27,17 @@ import common
 import overview
 
 
+def manifest_group_total(fields: Path) -> float | None:
+    manifest = fields.parent / "manifest.json"
+    if not manifest.exists():
+        return None
+    counts = json.loads(manifest.read_text(encoding="utf-8")).get("counts", {})
+    groups = counts.get("group_hectares")
+    if not groups:
+        return None
+    return sum(float(value) for value in groups.values())
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -78,6 +89,15 @@ def main() -> int:
         start_ha_per_dot=args.start_ha_per_dot,
         seed=args.seed,
     )
+    manifest_total = manifest_group_total(args.fields)
+    if manifest_total is not None and abs(
+        float(stats["total_hectares"]) - manifest_total
+    ) > 0.1:
+        raise SystemExit(
+            f"overview total {stats['total_hectares']} ha does not reconcile with "
+            f"the sibling manifest group total {manifest_total:.1f} ha; rerun "
+            "pipeline/build.sh so both derive from the same fields"
+        )
     overview.write_features(
         args.dots,
         features,
