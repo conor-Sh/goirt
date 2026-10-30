@@ -1,5 +1,5 @@
 import type { Map as MapLibreMap } from "maplibre-gl";
-import { patternGroups, patternStroke } from "../palette";
+import { patternStroke } from "../palette";
 
 const SIZE = 32;
 
@@ -75,14 +75,22 @@ const drawings: Record<string, Draw> = {
   fallow: (ctx) => dots(ctx, 14, 0.9, 1),
 };
 
-function patternCanvas(group: string): ImageData | null {
+export function missingPatternDrawings(groups: readonly string[]): string[] {
+  return groups.filter((group) => !drawings[group]);
+}
+
+function patternCanvas(group: string): ImageData {
   const draw = drawings[group];
-  if (!draw) return null;
+  if (!draw) {
+    throw new Error(`no field pattern drawing registered for group ${group}`);
+  }
   const canvas = document.createElement("canvas");
   canvas.width = SIZE;
   canvas.height = SIZE;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return null;
+  if (!ctx) {
+    throw new Error("2D canvas context unavailable for field patterns");
+  }
   ctx.strokeStyle = patternStroke;
   ctx.fillStyle = patternStroke;
   draw(ctx);
@@ -90,12 +98,15 @@ function patternCanvas(group: string): ImageData | null {
 }
 
 /** Register the seven group patterns on the map once. */
-export function addFieldPatterns(map: MapLibreMap): void {
-  for (const group of patternGroups) {
+export function addFieldPatterns(map: MapLibreMap, groups: readonly string[]): void {
+  const missing = missingPatternDrawings(groups);
+  if (missing.length > 0) {
+    throw new Error(`no field pattern drawing registered for group(s) ${missing.join(", ")}`);
+  }
+  for (const group of groups) {
     const name = `field-pattern-${group}`;
     if (map.hasImage(name)) continue;
-    const image = patternCanvas(group);
-    if (image) map.addImage(name, image, { pixelRatio: 1 });
+    map.addImage(name, patternCanvas(group), { pixelRatio: 1 });
   }
 }
 

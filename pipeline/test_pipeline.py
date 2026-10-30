@@ -44,9 +44,13 @@ class AreaRuleTests(unittest.TestCase):
         self.assertEqual(common.round_hectares(1.24), 1.2)
         self.assertEqual(common.round_hectares(0.05), 0.1)
 
-    def test_claims_sum(self) -> None:
+    def test_claims_use_max_not_sum(self) -> None:
         hectares, basis = common.area_hectares([4.0, 3.2, None], [9.0])
-        self.assertEqual((hectares, basis), (7.2, "claimed"))
+        self.assertEqual((hectares, basis), (4.0, "claimed"))
+
+    def test_duplicate_claims_do_not_inflate_area(self) -> None:
+        hectares, basis = common.area_hectares([4.0, 4.0, 4.0], [9.0])
+        self.assertEqual((hectares, basis), (4.0, "claimed"))
 
     def test_eligible_area_is_max_not_sum(self) -> None:
         hectares, basis = common.area_hectares([0.0, None], [8.0, 5.0])

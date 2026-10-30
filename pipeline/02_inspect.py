@@ -291,7 +291,7 @@ def main() -> int:
             "one_feature_per": "distinct (par_lab, crop, geometry) part",
             "crop_less_rows": "discarded for v1",
             "different_crops": "never merged",
-            "same_crop_same_geometry": "folded into one part; claim_area summed, eh_area max",
+            "same_crop_same_geometry": "folded into one part; claim_area max, eh_area max",
         },
     }
     if not args.skip_geometry:

@@ -238,21 +238,22 @@ def area_hectares(
 ) -> tuple[float | None, str]:
     """Return (hectares, basis) for one folded parcel-crop part.
 
-    `claim_area` is the displayed area. Repeated claim rows sharing one geometry
-    (commonage shares and repeated claims) are summed. If the claim sum is zero
-    or null, the eligible area is used as an explicit fallback; it is never
-    summed because it repeats on every claimant row. If neither is usable the
-    part is dropped (None).
+    `claim_area` is the displayed area. Repeated rows sharing one geometry
+    (commonage shares and repeated claims) collapse to the maximum positive
+    claim, so identical duplicate claims are never counted more than once. If
+    no claim is usable, the maximum eligible area is used as an explicit
+    fallback; it is never summed because it repeats on every claimant row. If
+    neither is usable the part is dropped (None).
     """
-    claim_total = 0.0
+    claim_max = 0.0
     for value in claim_areas:
         if value is None:
             continue
         number = float(value)
-        if math.isfinite(number) and number > 0:
-            claim_total += number
-    if claim_total > 0:
-        return round_hectares(claim_total), "claimed"
+        if math.isfinite(number) and number > claim_max:
+            claim_max = number
+    if claim_max > 0:
+        return round_hectares(claim_max), "claimed"
 
     eligible = 0.0
     for value in eh_areas:

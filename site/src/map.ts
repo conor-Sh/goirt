@@ -3,7 +3,7 @@ import { Protocol, PMTiles } from "pmtiles";
 import { basemapUrl, fieldsUrl, isPmtiles } from "./config";
 import { loadCrops, type CropsFile } from "./data/crops";
 import { addFieldLayers, addFieldSource, fieldsReady, FIELDS_SOURCE } from "./layers/fields";
-import { palette } from "./palette";
+import { groupLookup, palette } from "./palette";
 import {
   GLYPHS_URL,
   SPRITE_URL,
@@ -73,9 +73,14 @@ function showError(message: string): void {
   box.hidden = false;
 }
 
-export function createMap(container: string, crops: () => CropsFile | null): MapLibreMap {
+export function createMap(
+  container: string,
+  cropsReady: Promise<CropsFile | null>,
+): MapLibreMap {
   registerProtocol();
   const style = styleForBasemap();
+  let crops: CropsFile | null = null;
+  const loadedCrops = (): CropsFile | null => crops;
   const map = new maplibregl.Map({
     container,
     style,
@@ -91,24 +96,28 @@ export function createMap(container: string, crops: () => CropsFile | null): Map
   map.addControl(new maplibregl.ScaleControl({ unit: "metric", maxWidth: 120 }), "bottom-left");
 
   map.on("load", () => {
-    addFieldSource(map);
-    const layers = map.getStyle().layers ?? [];
-    const anchor = layers[fieldsInsertIndex(layers)]?.id;
-    addFieldLayers(map, anchor && map.getLayer(anchor) ? anchor : undefined);
-    attachSelection(map, crops);
+    void cropsReady.then((loaded) => {
+      crops = loaded;
+      addFieldSource(map);
+      const layers = map.getStyle().layers ?? [];
+      const anchor = layers[fieldsInsertIndex(layers)]?.id;
+      const lookup = groupLookup(crops?.groups ?? []);
+      addFieldLayers(map, anchor && map.getLayer(anchor) ? anchor : undefined, lookup);
+      attachSelection(map, loadedCrops);
 
-    fieldsReady(map)
-      .then((count) => {
-        if (window.__goirt) {
-          window.__goirt.fieldsReady = true;
-          window.__goirt.fieldsCount = count;
-        }
-        map.resize();
-      })
-      .catch((error: unknown) => {
-        const message = error instanceof Error ? error.message : String(error);
-        showError(`The Wexford field layer did not load. ${message}`);
-      });
+      fieldsReady(map)
+        .then((count) => {
+          if (window.__goirt) {
+            window.__goirt.fieldsReady = true;
+            window.__goirt.fieldsCount = count;
+          }
+          map.resize();
+        })
+        .catch((error: unknown) => {
+          const message = error instanceof Error ? error.message : String(error);
+          showError(`The Wexford field layer did not load. ${message}`);
+        });
+    });
   });
 
   map.on("error", (event) => {

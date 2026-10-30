@@ -77,9 +77,10 @@ The rule is:
 2. One feature per distinct `(par_lab, crop, geometry)` part. The geometry is the
    crop-bearing row's geometry.
 3. Repeated rows with the same parcel label, crop and geometry are folded into one
-   part. `claim_area` is summed across the folded rows (commonage shares and
-   repeated claims); `eh_area` is never summed because it repeats on claimant
-   rows.
+   part. The part's claimed area is the maximum positive `claim_area` across the
+   folded rows, so identical duplicate claims (including non-commonage repeats)
+   and shared commonage rows are never added twice. `eh_area` is also never
+   summed because it repeats on claimant rows.
 4. Different crops on the same parcel label are never merged. They remain separate
    features.
 5. Crop values with no lookup entry fail the pipeline loudly and name the value.
@@ -99,10 +100,11 @@ parts, not by a single parcel polygon. That is the unit the map shows.
 
 `claim_area` is the displayed area. For each folded part:
 
-- Sum positive, finite `claim_area` values.
-- Round the sum to 0.1 ha with decimal half-up rounding (`1.25 → 1.3`), not binary
-  float banker's rounding.
-- If the claim sum is null or zero, use the maximum positive `eh_area` as an
+- Take the maximum positive, finite `claim_area` value. Duplicate claims that
+  share a parcel, crop and geometry do not inflate the displayed area.
+- Round the value to 0.1 ha with decimal half-up rounding (`1.25 → 1.3`), not
+  binary float banker's rounding.
+- If the claim maximum is null or zero, use the maximum positive `eh_area` as an
   explicit eligible-area fallback. `eh_area` is not summed.
 - If neither is usable, drop the feature and count it. The public schema has no
   sentinel or null area.

@@ -1,7 +1,7 @@
 import type { Map as MapLibreMap, MapMouseEvent } from "maplibre-gl";
 import type { CropsFile } from "../data/crops";
 import { cropById } from "../data/crops";
-import { groupLabels } from "../palette";
+import { groupLookup } from "../palette";
 import { FIELDS_SOURCE, fillLayerIds } from "../layers/fields";
 
 interface FieldProperties {
@@ -29,7 +29,10 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
   };
 
   map.on("click", (event: MapMouseEvent) => {
-    const features = map.queryRenderedFeatures(event.point, { layers: fillLayerIds });
+    const lookup = groupLookup(crops()?.groups ?? []);
+    const features = map.queryRenderedFeatures(event.point, {
+      layers: fillLayerIds(lookup),
+    });
     if (features.length === 0) {
       clear();
       hide();
@@ -46,7 +49,7 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
     map.setFeatureState({ source: feature.source, id }, { selected: true });
 
     const crop = cropById(crops(), Number(properties.crop_id));
-    const group = properties.crop_group ? groupLabels[properties.crop_group] : undefined;
+    const group = properties.crop_group ? lookup.labels[properties.crop_group] : undefined;
     const hectares = Number(properties.hectares);
     const basis = properties.area_basis === "eligible" ? "Eligible area" : "Claimed area";
     const area = Number.isFinite(hectares)

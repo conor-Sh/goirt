@@ -1,3 +1,5 @@
+import type { CropGroup } from "./data/crops";
+
 /**
  * v1 palette. Mirrors docs/PALETTE.md and the reviewed swatch.
  * Group fills carry the colour; the seven pattern treatments carry the
@@ -24,42 +26,33 @@ export const palette = {
   county: "#A99A7A",
 } as const;
 
-export const groupFills: Record<string, string> = {
-  grassland: "#9DBE8D",
-  cereals: "#C69A55",
-  maize: "#A9B65F",
-  oilseeds_break: "#E1CB5F",
-  roots: "#B07D63",
-  horticulture: "#C48691",
-  fruit: "#9A7F9E",
-  fallow: "#D4C8AE",
-  non_farmland: "#8E8B73",
-};
+export interface GroupLookup {
+  fills: Record<string, string>;
+  labels: Record<string, string>;
+  mappedGroups: string[];
+  patternGroups: string[];
+}
 
-export const groupLabels: Record<string, string> = {
-  grassland: "Grassland",
-  cereals: "Cereals",
-  maize: "Maize",
-  oilseeds_break: "Oilseeds & break",
-  roots: "Roots",
-  horticulture: "Horticulture",
-  fruit: "Fruit",
-  fallow: "Fallow & environment",
-  non_farmland: "Non-farmland",
-};
-
-/** Map fields use the mapped groups only; non-farmland is filtered upstream. */
-export const mappedGroups = [
-  "grassland",
-  "cereals",
-  "maize",
-  "oilseeds_break",
-  "roots",
-  "horticulture",
-  "fruit",
-  "fallow",
-] as const;
-
-export const patternGroups = mappedGroups.filter((group) => group !== "grassland");
+/**
+ * Read group identity, labels and fills from the generated crops.json so the
+ * site can never drift from the pipeline taxonomy.
+ */
+export function groupLookup(groups: readonly CropGroup[]): GroupLookup {
+  const fills: Record<string, string> = {};
+  const labels: Record<string, string> = {};
+  for (const group of groups) {
+    fills[group.group_id] = group.color;
+    labels[group.group_id] = group.name;
+  }
+  const mappedGroups = groups
+    .filter((group) => group.include !== false)
+    .map((group) => group.group_id);
+  return {
+    fills,
+    labels,
+    mappedGroups,
+    patternGroups: mappedGroups.filter((group) => group !== "grassland"),
+  };
+}
 
 export const patternStroke = "rgba(34, 48, 40, 0.52)";

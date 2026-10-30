@@ -5,12 +5,14 @@ import type {
   SourceSpecification,
 } from "maplibre-gl";
 import { fieldsSourceLayer, fieldsUrl, useVectorFields } from "../config";
-import { groupFills, mappedGroups, palette, patternGroups } from "../palette";
+import { palette, type GroupLookup } from "../palette";
 import { addFieldPatterns, patternImageName } from "./field-patterns";
 
 export const FIELDS_SOURCE = "fields";
 
-export const fillLayerIds = mappedGroups.map((group) => `fields-fill-${group}`);
+export function fillLayerIds(lookup: GroupLookup): string[] {
+  return lookup.mappedGroups.map((group) => `fields-fill-${group}`);
+}
 export const outlineLayerId = "fields-outline";
 export const selectedHaloLayerId = "fields-selected-halo";
 export const selectedLayerId = "fields-selected-outline";
@@ -28,10 +30,10 @@ function groupFilter(group: string): FilterSpecification {
   return ["==", ["get", "crop_group"], group] as FilterSpecification;
 }
 
-function fieldLayers(): LayerSpecification[] {
+function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
   const layers: LayerSpecification[] = [];
 
-  for (const group of mappedGroups) {
+  for (const group of lookup.mappedGroups) {
     layers.push({
       id: `fields-fill-${group}`,
       type: "fill",
@@ -40,7 +42,7 @@ function fieldLayers(): LayerSpecification[] {
       minzoom: 10,
       filter: groupFilter(group),
       paint: {
-        "fill-color": groupFills[group],
+        "fill-color": lookup.fills[group],
         "fill-opacity": [
           "interpolate",
           ["linear"],
@@ -56,7 +58,7 @@ function fieldLayers(): LayerSpecification[] {
     });
   }
 
-  for (const group of patternGroups) {
+  for (const group of lookup.patternGroups) {
     layers.push({
       id: `fields-pattern-${group}`,
       type: "fill",
@@ -133,10 +135,11 @@ export function addFieldSource(map: MapLibreMap): void {
 export function addFieldLayers(
   map: MapLibreMap,
   beforeId: string | undefined,
+  lookup: GroupLookup,
 ): string[] {
-  addFieldPatterns(map);
+  addFieldPatterns(map, lookup.patternGroups);
   const added: string[] = [];
-  for (const layer of fieldLayers()) {
+  for (const layer of fieldLayers(lookup)) {
     map.addLayer(layer, beforeId);
     added.push(layer.id);
   }
