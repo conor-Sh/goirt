@@ -343,16 +343,6 @@ body {
     box-shadow: 0 -8px 26px rgb(34 48 40 / 18%);
   }
 
-  .field-popup::before {
-    content: "";
-    display: block;
-    width: 2.5rem;
-    height: 0.25rem;
-    margin: 0 auto 0.6rem;
-    background: var(--casing);
-    border-radius: 999px;
-  }
-
   .field-popup-close {
     min-width: 2.75rem;
     min-height: 2.75rem;
