@@ -62,10 +62,11 @@ derived from the tiles already loaded, so a crop elsewhere in the county is
 still highlighted when its tiles arrive. Clearing restores the filters and
 leaves the viewport where it is.
 
-Mapped detection, fit and the live announcement use the precomputed
-`hectares_total` and `bbox` in `crops.json`, not viewport features. A selection
-with zero hectares or no bbox is reported as having no mapped fields and the
-pill is removed. Otherwise the map fits the union bbox with 48 px padding and
+Mapped detection uses the precomputed `bbox` in `crops.json`, not viewport
+features: a selection with no bbox is reported as having no mapped fields and the
+pill is removed. The live announcement reports the precomputed `hectares_total`,
+so a very small crop can still be mapped with a rounded total of `0 ha`.
+Otherwise the map fits the union bbox with 48 px padding and
 `maxZoom: 12.5`. Crop fits never go below the field layers' `minzoom` of 10, so
 the matching fields are visible; a crop whose bounds are effectively national
 is centred at zoom 10 rather than leaving the previous viewport. Group
