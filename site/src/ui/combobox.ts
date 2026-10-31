@@ -232,7 +232,7 @@ export class Combobox<T> {
   private select(index: number): void {
     const entry = this.entries[index];
     if (!entry) return;
-    this.config.onSelect(entry);
     this.close();
+    this.config.onSelect(entry);
   }
 }

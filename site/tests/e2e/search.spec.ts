@@ -82,6 +82,12 @@ test("finds crops, aliases and groups from the local crop index", async ({
     "No crops match",
   );
   await expect(option(page, "Clear search")).toBeVisible();
+
+  await option(page, "Clear search").click();
+  await expect(input).toHaveValue("");
+  await expect(listbox).toBeVisible();
+  await expect(option(page, "Barley")).toBeVisible();
+  await expect(option(page, "Cereals")).toBeVisible();
 });
 
 test("supports the combobox keyboard, ARIA and live-region pattern", async ({
