@@ -1,8 +1,9 @@
 # Crop search
 
-The crop search field at the top of the map is built from
-`site/public/data/crops.json`, which is already loaded to colour the fields. It
-adds no requests while typing, stores no queries and sends no analytics.
+The crop search field at the top of the map is built from the crop index that is
+already loaded to colour the fields (`site/public/data/crops.json` in the
+committed sample, `crops-full.json` in the full build). It adds no requests while
+typing, stores no queries and sends no analytics.
 
 The reusable keyboard and ARIA behaviour lives in `site/src/ui/combobox.ts`; the
 crop-specific index, matching and states live in

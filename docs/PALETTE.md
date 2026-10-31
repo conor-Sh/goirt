@@ -71,9 +71,9 @@ The separation is deliberate:
 | Fruit | `#9A7F9E` | Orchard dots |
 | Fallow & environment | `#D4C8AE` | Very sparse stipple |
 
-Per-crop colours remain in `data/lookup/crops.csv`, but the map keys fills and
-patterns by `crop_group`. That keeps the legend to eight groups and the texture
-set to seven patterns.
+Per-crop colours remain in `data/lookup/crops.csv` for future use, but the map
+keys fills and patterns by `crop_group`. That keeps the legend to eight groups
+and the texture set to seven patterns.
 
 ## 4. Patterns and zoom
 

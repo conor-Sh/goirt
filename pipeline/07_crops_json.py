@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write site/public/data/crops.json from the validated crop lookup."""
+"""Write a site crop index from the validated crop lookup and processed fields."""
 
 from __future__ import annotations
 

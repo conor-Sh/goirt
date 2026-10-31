@@ -6,8 +6,8 @@ small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
 layer grouped by crop. A density-sampled overview dot layer keeps the map
 coloured from about z5 until the field polygons take over at z10. Clicking a
 field opens a safe crop, group, area and county popup, and crop search runs
-against the committed crop index; location search is the next piece, not this
-one.
+against the already-loaded crop index; location search is the next piece, not
+this one.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
@@ -136,8 +136,9 @@ the map stays clear for the crop search panel.
 ## Crop search
 
 The search field at the top of the map finds crops by name, display name, alias
-or group. It works entirely from the already-loaded
-[`site/public/data/crops.json`](site/public/data/crops.json): there are no
+or group. It works entirely from the crop index that is already loaded to colour
+the fields ([`site/public/data/crops.json`](site/public/data/crops.json) in the
+committed sample, `crops-full.json` in the full build): there are no
 per-keystroke network requests, analytics events or stored queries.
 
 - **Before typing** it shows five popular crops (Barley, Wheat, Maize, Potatoes,
