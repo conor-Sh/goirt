@@ -58,37 +58,131 @@ export function normalizePlace(value: string | undefined): string {
 const placeFormsCache = new WeakMap<Place, readonly string[]>();
 const placeHintCache = new WeakMap<Place, string>();
 
+const HINT_CELL_DEGREES = 0.05;
+
+interface HintTown {
+  place: Place;
+  name: string;
+  order: number;
+}
+
+interface HintGrid {
+  cells: Map<string, HintTown[]>;
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+}
+
+function hintGrid(towns: readonly HintTown[]): HintGrid {
+  const grid: HintGrid = {
+    cells: new Map(),
+    minX: Infinity,
+    maxX: -Infinity,
+    minY: Infinity,
+    maxY: -Infinity,
+  };
+  for (const town of towns) {
+    const x = Math.floor(town.place.lon / HINT_CELL_DEGREES);
+    const y = Math.floor(town.place.lat / HINT_CELL_DEGREES);
+    const key = `${x},${y}`;
+    const bucket = grid.cells.get(key);
+    if (bucket) bucket.push(town);
+    else grid.cells.set(key, [town]);
+    if (x < grid.minX) grid.minX = x;
+    if (x > grid.maxX) grid.maxX = x;
+    if (y < grid.minY) grid.minY = y;
+    if (y > grid.maxY) grid.maxY = y;
+  }
+  return grid;
+}
+
+function nearestTown(
+  place: Place,
+  name: string,
+  grid: HintGrid,
+  minCosLat: number,
+): Place | undefined {
+  if (grid.cells.size === 0) return undefined;
+  const cellX = Math.floor(place.lon / HINT_CELL_DEGREES);
+  const cellY = Math.floor(place.lat / HINT_CELL_DEGREES);
+  const maxRing = Math.max(
+    cellX - grid.minX,
+    grid.maxX - cellX,
+    cellY - grid.minY,
+    grid.maxY - cellY,
+  );
+  let best: HintTown | undefined;
+  let bestDistance = Infinity;
+  for (let ring = 0; ring <= maxRing; ring++) {
+    if (best) {
+      const innerMinX = (cellX - ring + 1) * HINT_CELL_DEGREES;
+      const innerMaxX = (cellX + ring) * HINT_CELL_DEGREES;
+      const innerMinY = (cellY - ring + 1) * HINT_CELL_DEGREES;
+      const innerMaxY = (cellY + ring) * HINT_CELL_DEGREES;
+      const toEdge = Math.min(
+        place.lon - innerMinX,
+        innerMaxX - place.lon,
+        place.lat - innerMinY,
+        innerMaxY - place.lat,
+      );
+      const lowerBound = minCosLat * Math.max(0, toEdge);
+      if (lowerBound * lowerBound > bestDistance) return best.place;
+    }
+    for (let cy = cellY - ring; cy <= cellY + ring; cy++) {
+      for (let cx = cellX - ring; cx <= cellX + ring; cx++) {
+        if (
+          ring > 0 &&
+          Math.abs(cx - cellX) !== ring &&
+          Math.abs(cy - cellY) !== ring
+        ) {
+          continue;
+        }
+        const bucket = grid.cells.get(`${cx},${cy}`);
+        if (!bucket) continue;
+        for (const town of bucket) {
+          if (town.place === place || town.name === name) continue;
+          const cosLat = Math.cos(
+            (((town.place.lat + place.lat) / 2) * Math.PI) / 180,
+          );
+          const dLon = (town.place.lon - place.lon) * cosLat;
+          const dLat = town.place.lat - place.lat;
+          const distance = dLon * dLon + dLat * dLat;
+          if (
+            distance < bestDistance ||
+            (distance === bestDistance && best !== undefined && town.order < best.order)
+          ) {
+            bestDistance = distance;
+            best = town;
+          }
+        }
+      }
+    }
+  }
+  return best?.place;
+}
+
 function addDuplicateHints(index: readonly Place[]): void {
   const groups = new Map<string, Place[]>();
+  let maxAbsLat = 0;
   for (const place of index) {
     const key = `${place.type}|${normalizePlace(place.county)}|${normalizePlace(place.name)}`;
     const group = groups.get(key);
     if (group) group.push(place);
     else groups.set(key, [place]);
+    maxAbsLat = Math.max(maxAbsLat, Math.abs(place.lat));
   }
-  const towns = index
+  const towns: HintTown[] = index
     .filter((place) => place.type === "town")
-    .map((place) => ({ place, name: normalizePlace(place.name) }));
+    .map((place, order) => ({ place, name: normalizePlace(place.name), order }));
+  const grid = hintGrid(towns);
+  const minCosLat = Math.cos((maxAbsLat * Math.PI) / 180);
   for (const group of groups.values()) {
     if (group.length < 2) continue;
     const hints = new Map<Place, string>();
     for (const place of group) {
       const name = normalizePlace(place.name);
-      let nearest: Place | undefined;
-      let nearestDistance = Infinity;
-      for (const town of towns) {
-        if (town.place === place || town.name === name) continue;
-        const cosLat = Math.cos(
-          (((town.place.lat + place.lat) / 2) * Math.PI) / 180,
-        );
-        const dLon = (town.place.lon - place.lon) * cosLat;
-        const dLat = town.place.lat - place.lat;
-        const distance = dLon * dLon + dLat * dLat;
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearest = town.place;
-        }
-      }
+      const nearest = nearestTown(place, name, grid, minCosLat);
       if (nearest) hints.set(place, `near ${nearest.name}`);
     }
     const hintCounts = new Map<string, number>();

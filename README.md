@@ -109,11 +109,12 @@ The basemap step uses the pinned Protomaps daily build `PROTOMAPS_BUILD`
 or extract is unavailable, the app still runs from the committed sample on the
 paper background; PMTiles remains a local build artifact, not a CI dependency.
 
-`pipeline/09_places.py` is the only stage that downloads data: the GeoNames
-Ireland dump, its alternate-name file and the Tailte Éireann/OSi townland feature
-service. It needs network access on a fresh build and caches the downloads under
-`$GOIRT_WORK_DIR/places`. CI never runs it; CI reads the committed
-`site/public/data/places-sample.json`.
+`pipeline/09_places.py` downloads place data: the GeoNames Ireland dump, its
+alternate-name file and the Tailte Éireann/OSi townland feature service. Like the
+other fetch stages (`01_fetch.sh` downloads the ~2.9 GB LPIS archive and
+`06_basemap.sh` requests Protomaps tiles), it needs network access on a fresh
+build and caches the downloads under `$GOIRT_WORK_DIR/places`. CI never runs it;
+CI reads the committed `site/public/data/places-sample.json`.
 
 ## Zoom behaviour
 

@@ -98,8 +98,9 @@ wiring is `site/src/ui/location.ts`; the index is built by
 The index covers all 26 Republic counties: 26 counties, 11,603 populated places
 and 50,380 townlands. English and Irish names are indexed where the
 source publishes them. The full index is a local build
-(`site/public/data/places.json`, gitignored); the site and CI read the committed
-`site/public/data/places-sample.json`.
+(`site/public/data/places.json`, gitignored); `site/.env.example` and CI read the
+committed `site/public/data/places-sample.json`, while `site/.env.full.example`
+points the local full build at `places.json`.
 
 - **Loading:** the index is fetched once, on first focus of the location field.
   Typing performs no network requests, stores no queries and sends no analytics.
