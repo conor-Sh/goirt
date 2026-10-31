@@ -62,6 +62,7 @@ function fit(map: MapLibreMap, bbox: Bbox, minZoom?: number): boolean {
   map.easeTo({
     center: camera.center,
     zoom: Math.max(camera.zoom ?? minZoom, minZoom),
+    bearing: camera.bearing ?? 0,
     duration,
   });
   return true;
@@ -72,7 +73,7 @@ export function applyFieldHighlight(
   selection: SearchSelection,
 ): HighlightResult {
   const { hectaresTotal: hectares, bbox } = selection;
-  if (hectares <= 0 || !bbox) {
+  if (!bbox) {
     clearFieldHighlight(map);
     return { mapped: false, hectares, fitted: false };
   }
