@@ -55,8 +55,10 @@ export function normalizePlace(value: string | undefined): string {
     .replace(/\s+/g, " ");
 }
 
+const placeFormsCache = new WeakMap<Place, readonly string[]>();
+
 export function buildPlaceIndex(file: PlacesFile): Place[] {
-  return file.places.filter(
+  const index = file.places.filter(
     (place) =>
       Boolean(place.id) &&
       Boolean(place.name) &&
@@ -64,6 +66,8 @@ export function buildPlaceIndex(file: PlacesFile): Place[] {
       Number.isFinite(place.lon) &&
       Number.isFinite(place.lat),
   );
+  for (const place of index) placeForms(place);
+  return index;
 }
 
 export function withinBounds(place: Place, bounds: Bbox | null): boolean {
@@ -77,12 +81,20 @@ export function withinBounds(place: Place, bounds: Bbox | null): boolean {
   );
 }
 
-function placeForms(place: Place): string[] {
+function placeForms(place: Place): readonly string[] {
+  const cached = placeFormsCache.get(place);
+  if (cached) return cached;
   const forms = (place.search ?? [])
     .map((form) => normalizePlace(form))
     .filter(Boolean);
-  if (forms.length > 0) return forms;
-  return [normalizePlace(place.name), normalizePlace(place.name_ga)].filter(Boolean);
+  const resolved =
+    forms.length > 0
+      ? forms
+      : [normalizePlace(place.name), normalizePlace(place.name_ga)].filter(
+          Boolean,
+        );
+  placeFormsCache.set(place, resolved);
+  return resolved;
 }
 
 function scorePlace(place: Place, query: string): number {
