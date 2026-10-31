@@ -14,6 +14,10 @@ function element<T extends HTMLElement>(selector: string): T | null {
   return document.querySelector<T>(selector);
 }
 
+function formatHectares(value: number): string {
+  return new Intl.NumberFormat("en-IE", { maximumFractionDigits: 1 }).format(value);
+}
+
 export function attachCropSearch(
   map: MapLibreMap,
   crops: CropsFile | null,
@@ -42,7 +46,6 @@ export function attachCropSearch(
 
   const index = buildCropSearchIndex(crops);
   let selection: SearchSelection | undefined;
-  let selectionVersion = 0;
 
   const setStatus = (message: string): void => {
     status.textContent = message;
@@ -75,7 +78,6 @@ export function attachCropSearch(
   };
 
   const clearSelection = (): void => {
-    selectionVersion += 1;
     selection = undefined;
     clearPill();
     clearFieldHighlight(map);
@@ -84,16 +86,14 @@ export function attachCropSearch(
     input.focus();
   };
 
-  const choose = async (target: SearchSelection): Promise<void> => {
-    const version = ++selectionVersion;
+  const choose = (target: SearchSelection): void => {
     selection = target;
     input.value = "";
     clearText.hidden = true;
     setStatus("");
     renderPill(target);
 
-    const result = await applyFieldHighlight(map, target);
-    if (version !== selectionVersion) return;
+    const result = applyFieldHighlight(map, target);
 
     if (!result.mapped) {
       selection = undefined;
@@ -105,7 +105,7 @@ export function attachCropSearch(
     }
 
     announce(
-      `${target.label} selected. ${result.matched} mapped fields highlighted.`,
+      `${target.label} selected. ${formatHectares(result.hectares)} ha mapped in 2025.`,
     );
   };
 
@@ -134,7 +134,7 @@ export function attachCropSearch(
     onSelect: (entry) => {
       const option = entry.value;
       if (option.selection) {
-        void choose(option.selection);
+        choose(option.selection);
         return;
       }
       if (option.action === "clear") {

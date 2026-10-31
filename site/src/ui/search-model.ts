@@ -1,4 +1,4 @@
-import type { Crop, CropGroup, CropsFile } from "../data/crops";
+import type { Bbox, Crop, CropGroup, CropsFile } from "../data/crops";
 
 export const RESULT_LIMIT = 7;
 export const POPULAR_LIMIT = 5;
@@ -7,12 +7,16 @@ export interface CropSelection {
   kind: "crops";
   label: string;
   cropIds: number[];
+  hectaresTotal: number;
+  bbox: Bbox | null;
 }
 
 export interface GroupSelection {
   kind: "groups";
   label: string;
   groupIds: string[];
+  hectaresTotal: number;
+  bbox: Bbox | null;
 }
 
 export type SearchSelection = CropSelection | GroupSelection;
@@ -67,25 +71,6 @@ const GROUP_CHIPS = [
   { label: "Horticulture", groupIds: ["horticulture"] },
   { label: "Fallow", groupIds: ["fallow"] },
 ] as const;
-
-const QUERY_ALIASES: Record<string, string[]> = {
-  spud: ["potato"],
-  potato: ["potato"],
-  corn: ["maize"],
-  rape: ["oilseed rape"],
-  osr: ["oilseed rape"],
-  canola: ["oilseed rape"],
-  beet: ["beet"],
-  barley: ["barley"],
-  wheat: ["wheat"],
-  oat: ["oat"],
-  grass: ["grass"],
-  pasture: ["pasture"],
-  hay: ["hay"],
-  bean: ["bean"],
-  pea: ["pea"],
-  tillage: ["cereal", "oilseed", "root"],
-};
 
 const QUERY_GROUPS: Record<string, string[]> = {
   grass: ["grassland"],
@@ -182,11 +167,46 @@ export function buildCropSearchIndex(file: CropsFile): CropSearchIndex {
   return { crops, groups, groupLabels };
 }
 
+function mergeBbox(current: Bbox | null, next: Bbox | null | undefined): Bbox | null {
+  if (!next) return current;
+  if (!current) return [...next];
+  return [
+    Math.min(current[0], next[0]),
+    Math.min(current[1], next[1]),
+    Math.max(current[2], next[2]),
+    Math.max(current[3], next[3]),
+  ];
+}
+
 function cropSelection(records: readonly CropRecord[], label: string): CropSelection {
+  let hectaresTotal = 0;
+  let bbox: Bbox | null = null;
+  for (const record of records) {
+    hectaresTotal += record.crop.hectares_total ?? 0;
+    bbox = mergeBbox(bbox, record.crop.bbox);
+  }
   return {
     kind: "crops",
     label,
     cropIds: Array.from(new Set(records.map((record) => record.crop.crop_id))),
+    hectaresTotal,
+    bbox,
+  };
+}
+
+function groupSelection(records: readonly GroupRecord[], label: string): GroupSelection {
+  let hectaresTotal = 0;
+  let bbox: Bbox | null = null;
+  for (const record of records) {
+    hectaresTotal += record.group.hectares_total ?? 0;
+    bbox = mergeBbox(bbox, record.group.bbox);
+  }
+  return {
+    kind: "groups",
+    label,
+    groupIds: records.map((record) => record.group.group_id),
+    hectaresTotal,
+    bbox,
   };
 }
 
@@ -213,11 +233,7 @@ function groupOption(record: GroupRecord, label = `${record.group.name} group`):
     label,
     meta: "Group",
     kind: "group",
-    selection: {
-      kind: "groups",
-      label,
-      groupIds: [record.group.group_id],
-    },
+    selection: groupSelection([record], label),
   };
 }
 
@@ -247,28 +263,17 @@ export function popularView(index: CropSearchIndex): SearchView {
       label,
       meta: "Group",
       kind: "group",
-      selection: {
-        kind: "groups",
-        label,
-        groupIds: records.map((record) => record.group.group_id),
-      },
+      selection: groupSelection(records, label),
     });
   }
 
   return { options, popular: true };
 }
 
-function queryTerms(query: string): string[] {
-  const aliases = QUERY_ALIASES[query] ?? [];
-  return Array.from(new Set([query, ...aliases.map((alias) => normalize(alias))]));
-}
-
-function scoreRecord(record: CropRecord, terms: readonly string[]): number {
+function scoreRecord(record: CropRecord, query: string): number {
   let best = 0;
-  for (const term of terms) {
-    for (const candidate of record.terms) {
-      best = Math.max(best, scoreTerm(term, candidate));
-    }
+  for (const candidate of record.terms) {
+    best = Math.max(best, scoreTerm(query, candidate));
   }
   return best;
 }
@@ -276,15 +281,11 @@ function scoreRecord(record: CropRecord, terms: readonly string[]): number {
 function scoredGroups(
   index: CropSearchIndex,
   query: string,
-  terms: readonly string[],
 ): Array<{ record: GroupRecord; score: number }> {
   const aliases = QUERY_GROUPS[query] ?? [];
   const scored: Array<{ record: GroupRecord; score: number }> = [];
   for (const record of index.groups) {
-    let score = 0;
-    for (const term of terms) {
-      score = Math.max(score, scoreTerm(term, record.name));
-    }
+    let score = scoreTerm(query, record.name);
     const expanded = aliases.includes(record.group.group_id);
     if (expanded) {
       score = Math.max(score, PREFIX_SCORE + 10);
@@ -361,10 +362,9 @@ export function searchCrops(
   const query = normalize(rawQuery);
   if (!query) return popularView(index);
 
-  const terms = queryTerms(query);
-  const groups = scoredGroups(index, query, terms);
+  const groups = scoredGroups(index, query);
   const crops = index.crops
-    .map((record) => ({ record, score: scoreRecord(record, terms) }))
+    .map((record) => ({ record, score: scoreRecord(record, query) }))
     .filter((entry) => entry.score > 0)
     .sort(
       (a, b) =>

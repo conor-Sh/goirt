@@ -242,6 +242,71 @@ test("highlights group overview dots and reports crops without mapped fields", a
   await expect(pill).toBeHidden();
 });
 
+test("fits a mapped crop before its field tiles render", async ({ page }) => {
+  await ready(page);
+  const input = page.getByRole("combobox", { name: "Search crops and groups" });
+  const pill = page.locator("#crop-search-pill");
+  const status = page.locator("#crop-search-status");
+
+  await page.evaluate(() => {
+    const map = (window as unknown as { __goirt: GoirtProbe }).__goirt.map;
+    map.jumpTo({ center: [-6.58, 52.45], zoom: 6 });
+  });
+
+  await input.fill("maize");
+  await option(page, "Maize").click();
+  await expect(pill).toContainText("Maize");
+  await expect(status).toBeHidden();
+
+  await page.waitForFunction(
+    () => !(window as unknown as { __goirt: GoirtProbe }).__goirt.map.isMoving(),
+    undefined,
+    { timeout: 5_000 },
+  );
+
+  const state = await page.evaluate(() => {
+    const map = (window as unknown as { __goirt: GoirtProbe }).__goirt.map;
+    return {
+      zoom: map.getZoom(),
+      outline: JSON.stringify(map.getFilter("fields-search-outline")),
+      dim: JSON.stringify(map.getFilter("fields-search-dim")),
+    };
+  });
+
+  expect(state.zoom).toBeGreaterThan(6);
+  expect(state.zoom).toBeLessThanOrEqual(12.5);
+  expect(state.outline).toContain("44");
+  expect(state.dim).toContain("!");
+});
+
+test("reports a no-fields crop at low zoom from crop metadata", async ({
+  page,
+}) => {
+  await ready(page);
+  const input = page.getByRole("combobox", { name: "Search crops and groups" });
+  const pill = page.locator("#crop-search-pill");
+  const status = page.locator("#crop-search-status");
+
+  await page.evaluate(() => {
+    const map = (window as unknown as { __goirt: GoirtProbe }).__goirt.map;
+    map.jumpTo({ center: [-6.58, 52.45], zoom: 6 });
+  });
+
+  await input.fill("barley");
+  await option(page, "Spring barley").click();
+
+  await expect(status).toContainText("No mapped fields for Spring barley in 2025");
+  await expect(pill).toBeHidden();
+  const outline = await page.evaluate(() =>
+    JSON.stringify(
+      (window as unknown as { __goirt: GoirtProbe }).__goirt.map.getFilter(
+        "fields-search-outline",
+      ),
+    ),
+  );
+  expect(outline).toContain("-1");
+});
+
 test("makes no crop or search network requests while typing", async ({
   page,
 }) => {

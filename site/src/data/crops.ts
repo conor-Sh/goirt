@@ -1,3 +1,5 @@
+export type Bbox = [number, number, number, number];
+
 export interface Crop {
   crop_id: number;
   name: string;
@@ -8,6 +10,8 @@ export interface Crop {
   aliases: string;
   notes?: string;
   include?: boolean;
+  hectares_total?: number;
+  bbox?: Bbox | null;
 }
 
 export interface CropGroup {
@@ -16,6 +20,8 @@ export interface CropGroup {
   color: string;
   crop_ids: number[];
   include?: boolean;
+  hectares_total?: number;
+  bbox?: Bbox | null;
 }
 
 export interface CropsFile {

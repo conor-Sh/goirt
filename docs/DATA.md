@@ -186,7 +186,12 @@ seed lives in `pipeline/crop_taxonomy.py`.
 
 `site/public/data/crops.json` is generated from the validated lookup by
 `pipeline/07_crops_json.py`. It is the client-side crop name/group/colour
-reference, not a second hand-maintained source.
+reference, not a second hand-maintained source. The generator also sums each
+crop's and group's `hectares_total` and unions their WGS84 `bbox` from the
+processed fields, so search can detect mapped crops and fit their extent without
+querying whichever tiles happen to be loaded. The committed file uses the tiny
+CI sample; `pipeline/build.sh` writes the full Wexford index to the gitignored
+`site/public/data/crops-full.json`.
 
 ## 7. Public schema and privacy
 
@@ -312,7 +317,8 @@ at 20 ha/dot). CI never needs the source archive or tippecanoe.
 | Full overview PMTiles | `site/public/data/overview.pmtiles` | no |
 | Overview CI sample | `site/public/data/overview-sample.geojson` | yes |
 | Basemap extract | `site/public/basemap/wexford.pmtiles` | no |
-| Crop reference JSON | `site/public/data/crops.json` | yes |
+| CI crop reference JSON | `site/public/data/crops.json` | yes |
+| Full crop search index | `site/public/data/crops-full.json` | no |
 
 The committed sample is 16 real anonymised parcels, two per displayed group, with
 the public schema only. It is clearly labelled as fixture data in its `name` and

@@ -29,10 +29,12 @@ Scores are ordered:
 4. substring
 5. subsequence
 
-There is no edit-distance matching. The small alias table adds expansions such
-as `spuds` → potatoes, `corn` → maize, `rape`/`osr`/`canola` → oilseed rape,
-`beet` → sugar and fodder beet, and `tillage` → cereals, oilseeds/break and
-roots.
+There is no edit-distance matching. Crop aliases come from the `aliases` field
+in `crops.json`, so `spuds`, `corn`, `rape`/`osr`/`canola` and `beet` resolve
+through the same data the map uses. Group terms expand common queries:
+`grass`/`pasture` → grassland, `tillage` → cereals, oilseeds/break and roots,
+and `break` → oilseeds/break and roots. There is no second hand-maintained alias
+table, so a synthetic term cannot pull in an unrelated crop by substring.
 
 ## Result states
 
@@ -54,15 +56,20 @@ chips are shown alongside the popular crops.
 A crop selection filters on `crop_id`; a group selection filters on
 `crop_group`. Matching fields keep their normal fill and gain the selected
 outline. A translucent land-coloured layer dims everything outside the
-selection without removing it. Clearing restores the filters and leaves the
-viewport where it is.
+selection without removing it. The filters are set on the source layers, not
+derived from the tiles already loaded, so a crop elsewhere in the county is
+still highlighted when its tiles arrive. Clearing restores the filters and
+leaves the viewport where it is.
 
-The fit uses 48 px padding and `maxZoom: 12.5`. A selection whose bounds are
-effectively national is not fitted, so the national view and the highlight do
-the work. Group selections also add a highlight layer over the low-zoom
-overview dots, which carry only `crop_group`. Crop selections rely on the field
-layer after fitting; per-crop low-zoom dots are follow-up work and the overview
-schema is unchanged.
+Mapped detection, fit and the live announcement use the precomputed
+`hectares_total` and `bbox` in `crops.json`, not viewport features. A selection
+with zero hectares or no bbox is reported as having no mapped fields and the
+pill is removed. Otherwise the map fits the union bbox with 48 px padding and
+`maxZoom: 12.5`; a selection whose bounds are effectively national is not
+fitted, so the national view and the highlight do the work. Group selections
+also add a highlight layer over the low-zoom overview dots, which carry only
+`crop_group`. Crop selections rely on the field layer after fitting; per-crop
+low-zoom dots are follow-up work and the overview schema is unchanged.
 
 ## Keyboard and screen readers
 
@@ -75,9 +82,10 @@ leaves the field. Pointer users can select a row directly.
 
 ## Tests
 
-Unit tests in `site/tests/search.test.ts` cover normalisation, plurals, aliases,
-group expansion, ranking, ambiguity and the result/popular limits. Playwright
-tests in `site/tests/e2e/search.spec.ts` cover `barley`, `grass`, `spuds`,
-`rape`, `beet`, the empty and no-match states, selecting and clearing, keyboard
-and ARIA behaviour, highlight and fit, group overview dots, the no-mapped-fields
-message, and the absence of extra network requests while typing.
+Unit tests in `site/tests/search.test.ts` cover normalisation, plurals, data
+aliases, group expansion, ranking, ambiguity, selection totals and bboxes, and
+the result/popular limits. Playwright tests in `site/tests/e2e/search.spec.ts`
+cover `barley`, `grass`, `spuds`, `rape`, `beet`, the empty and no-match states,
+selecting and clearing, keyboard and ARIA behaviour, highlight and fit, group
+overview dots, the no-mapped-fields message, selecting a crop before its field
+tiles render, and the absence of extra network requests while typing.

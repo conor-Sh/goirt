@@ -6,6 +6,7 @@ These do not need the 2.9 GB source archive. Run with:
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import sqlite3
 import sys
@@ -323,6 +324,53 @@ class OverviewSamplingTests(unittest.TestCase):
             self.assertGreaterEqual(y, -0.1)
             self.assertLessEqual(y, 0.2)
             self.assertEqual(feature["properties"]["crop_group"], "grassland")
+
+
+class CropsJsonTests(unittest.TestCase):
+    def load_module(self):
+        spec = importlib.util.spec_from_file_location(
+            "crops_json", common.REPO_ROOT / "pipeline" / "07_crops_json.py"
+        )
+        self.assertIsNotNone(spec)
+        self.assertIsNotNone(spec.loader)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+        return module
+
+    def test_field_stats_aggregate_crop_and_group_totals(self) -> None:
+        module = self.load_module()
+        features = []
+        for bounds, crop_id, group, hectares in [
+            ((0, 0, 1, 1), 1, "cereals", 5.0),
+            ((2, 2, 3, 3), 1, "cereals", 2.5),
+            ((4, 4, 5, 5), 2, "roots", 7.0),
+        ]:
+            features.append(
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "crop_id": crop_id,
+                        "crop_group": group,
+                        "hectares": hectares,
+                    },
+                    "geometry": box(*bounds).__geo_interface__,
+                }
+            )
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "fields.geojson"
+            path.write_text(
+                json.dumps({"type": "FeatureCollection", "features": features}),
+                encoding="utf-8",
+            )
+            crops, groups = module.read_field_stats(path)
+
+        self.assertAlmostEqual(crops[1].hectares, 7.5)
+        self.assertEqual(crops[1].bounds, (0.0, 0.0, 3.0, 3.0))
+        self.assertAlmostEqual(crops[2].hectares, 7.0)
+        self.assertEqual(crops[2].bounds, (4.0, 4.0, 5.0, 5.0))
+        self.assertAlmostEqual(groups["cereals"].hectares, 7.5)
+        self.assertEqual(groups["cereals"].bounds, (0.0, 0.0, 3.0, 3.0))
 
 
 class SiteDataTests(unittest.TestCase):

@@ -81,7 +81,7 @@ bash pipeline/build.sh
 | Full audit | `uv run python pipeline/02_inspect.py` | `$GOIRT_WORK_DIR/inspection-2025.json` |
 | Lookup check | `uv run python pipeline/03_lookup.py --check` | fails on an unknown 2025 crop or stale lookup metadata |
 | Process | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
-| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` |
+| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full Wexford) |
 | Overview | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
 | Field tiles | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
 | Basemap | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |

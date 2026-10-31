@@ -101,6 +101,77 @@ describe("aliases and group expansion", () => {
     expect(labels).toContain("Cereals group");
     expect(labels).toContain("Oilseeds & break group");
     expect(labels).toContain("Roots group");
+    expect(labels).not.toContain("Beetroot");
+  });
+});
+
+describe("selection metadata", () => {
+  const sample: CropsFile = {
+    crops: [
+      {
+        crop_id: 1,
+        name: "Spring barley",
+        display_name: "Spring barley",
+        group: "cereals",
+        color: "#C69A55",
+        pattern: "cereals",
+        aliases: "barley",
+        hectares_total: 12.5,
+        bbox: [-7, 52, -6.5, 52.5],
+      },
+      {
+        crop_id: 2,
+        name: "Winter barley",
+        display_name: "Winter barley",
+        group: "cereals",
+        color: "#C69A55",
+        pattern: "cereals",
+        aliases: "barley",
+        hectares_total: 7.5,
+        bbox: [-6.4, 52.1, -6, 52.6],
+      },
+    ],
+    groups: [
+      {
+        group_id: "cereals",
+        name: "Cereals",
+        color: "#C69A55",
+        crop_ids: [1, 2],
+        hectares_total: 20,
+        bbox: [-7, 52, -6, 52.6],
+      },
+    ],
+    source: {
+      dataset: "test",
+      year: 2025,
+      crop_values: 2,
+      included_crops: 2,
+    },
+  };
+  const sampleIndex = buildCropSearchIndex(sample);
+
+  it("sums hectares and unions bboxes for an ambiguous crop selection", () => {
+    const all = searchCrops(sampleIndex, "barley").options.find(
+      (option) => option.label === "All barley (2)",
+    );
+    expect(all?.selection).toMatchObject({
+      kind: "crops",
+      cropIds: [1, 2],
+      hectaresTotal: 20,
+      bbox: [-7, 52, -6, 52.6],
+    });
+  });
+
+  it("reads group totals and bboxes from the generated index", () => {
+    const group = searchCrops(sampleIndex, "cereal").options.find(
+      (option) => option.kind === "group",
+    );
+    expect(group?.selection).toMatchObject({
+      kind: "groups",
+      groupIds: ["cereals"],
+      hectaresTotal: 20,
+      bbox: [-7, 52, -6, 52.6],
+    });
   });
 });
 
@@ -112,7 +183,7 @@ describe("ambiguous results", () => {
     expect(labels).toContain("All barley (2)");
 
     const all = view.options.find((option) => option.label === "All barley (2)");
-    expect(all?.selection).toEqual({
+    expect(all?.selection).toMatchObject({
       kind: "crops",
       label: "All barley (2)",
       cropIds: [34, 35],
