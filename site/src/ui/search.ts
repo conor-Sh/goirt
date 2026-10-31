@@ -81,6 +81,7 @@ export function attachCropSearch(
     selection = undefined;
     clearPill();
     clearFieldHighlight(map);
+    combobox.refresh();
     setStatus("");
     announce("Selection cleared.");
     input.focus();
@@ -90,6 +91,7 @@ export function attachCropSearch(
     selection = target;
     input.value = "";
     clearText.hidden = true;
+    combobox.refresh();
     setStatus("");
     renderPill(target);
 

@@ -192,7 +192,7 @@ describe("ambiguous results", () => {
 
   it("does not add an all-grass row when a real group matches", () => {
     const labels = cropLabels("grass");
-    expect(labels).not.toContain("All grass (");
+    expect(labels.some((label) => label.startsWith("All grass ("))).toBe(false);
     expect(labels[0]).toBe("Grassland group");
   });
 });

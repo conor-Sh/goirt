@@ -133,6 +133,11 @@ test("supports the combobox keyboard, ARIA and live-region pattern", async ({
   await expect(pill).toContainText("Maize");
   await expect(input).toHaveValue("");
 
+  await page.keyboard.press("ArrowDown");
+  await expect(listbox).toBeVisible();
+  await expect(option(page, "Barley")).toBeVisible();
+  await page.keyboard.press("Escape");
+
   await input.fill("wheat");
   await page.keyboard.press("Tab");
   await expect(listbox).toBeHidden();

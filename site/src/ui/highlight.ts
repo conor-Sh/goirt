@@ -87,6 +87,7 @@ export function applyFieldHighlight(
 }
 
 export function clearFieldHighlight(map: MapLibreMap): void {
+  map.stop();
   const empty = hiddenFilter();
   setSearchFilters(map, empty, empty);
   setOverviewHighlight(map, []);
