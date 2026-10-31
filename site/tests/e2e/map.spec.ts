@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 interface GoirtProbe {
   map: {
@@ -9,6 +9,7 @@ interface GoirtProbe {
     getZoom(): number;
     isSourceLoaded(id: string): boolean;
     jumpTo(options: { center: [number, number]; zoom: number }): void;
+    once(event: string, listener: () => void): void;
   };
   fieldsReady: boolean;
   fieldsCount: number;
@@ -146,4 +147,126 @@ test("opens the data and licences dialog", async ({ page }) => {
 
   await page.getByRole("button", { name: "Close data and licences" }).click();
   await expect(dialog).toBeHidden();
+});
+
+
+const MAIZE_FIELD_CENTER: [number, number] = [-6.542337822429906, 52.462270738317756];
+
+async function showMaizeField(page: Page): Promise<void> {
+  await page.waitForFunction(
+    () =>
+      Boolean(
+        (window as unknown as { __goirt?: GoirtProbe }).__goirt?.fieldsReady,
+      ),
+    undefined,
+    { timeout: 20_000 },
+  );
+
+  await page.evaluate(
+    (center) =>
+      new Promise<void>((resolve) => {
+        const goirt = (window as unknown as { __goirt?: GoirtProbe }).__goirt;
+        if (!goirt) throw new Error("map probe missing");
+        goirt.map.once("idle", () => resolve());
+        goirt.map.jumpTo({ center, zoom: 13 });
+      }),
+    MAIZE_FIELD_CENTER,
+  );
+}
+
+async function clickMapCentre(page: Page): Promise<void> {
+  const box = await page.locator(".maplibregl-canvas").boundingBox();
+  if (!box) throw new Error("map canvas missing");
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+}
+
+test("opens a safe field popup and dismisses it with Escape or Close", async ({
+  page,
+}) => {
+  const consoleErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  });
+
+  await page.goto("/");
+  await showMaizeField(page);
+  await clickMapCentre(page);
+
+  const popup = page.locator("#field-popup");
+  await expect(popup).toBeVisible();
+  await expect(popup).toHaveAttribute("data-layout", "card");
+  await expect(page.locator("#field-popup-title")).toHaveText("Maize");
+  await expect(page.locator("#field-popup-group")).toHaveText("Maize");
+  await expect(
+    popup.locator("dt", { hasText: "Claimed area" }),
+  ).toBeVisible();
+  await expect(page.locator("#field-popup-area")).toHaveText("22.0 ha");
+  await expect(page.locator("#field-popup-county")).toHaveText("Wexford");
+  await expect(page.locator("#field-popup-close")).toBeFocused();
+
+  const popupHtml = await popup.evaluate((element) => element.outerHTML);
+  expect(popupHtml).not.toMatch(
+    /herd|holding|par_lab|sub_div|subdivision|scheme|source_id|claim_area|eh_area|commonage/i,
+  );
+
+  await page.keyboard.press("Escape");
+  await expect(popup).toBeHidden();
+  expect(await page.evaluate(() => document.activeElement?.tagName)).toBe(
+    "CANVAS",
+  );
+
+  await clickMapCentre(page);
+  await expect(popup).toBeVisible();
+  await page.locator("#field-popup-close").click();
+  await expect(popup).toBeHidden();
+  expect(await page.evaluate(() => document.activeElement?.tagName)).toBe(
+    "CANVAS",
+  );
+
+  expect(consoleErrors).toEqual([]);
+});
+
+test("shows the field popup as a bottom sheet on a mobile viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await showMaizeField(page);
+  await clickMapCentre(page);
+
+  const popup = page.locator("#field-popup");
+  await expect(popup).toBeVisible();
+  await expect(popup).toHaveAttribute("data-layout", "sheet");
+  await expect(page.locator("#field-popup-close")).toBeFocused();
+  await expect(popup).toContainText("Claimed area");
+  await expect(popup).toContainText("22.0 ha");
+
+  const layout = await popup.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      position: style.position,
+      left: style.left,
+      bottom: style.bottom,
+      paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
+    };
+  });
+  expect(layout.position).toBe("fixed");
+  expect(layout.left).toBe("0px");
+  expect(Number.parseFloat(layout.bottom)).toBeGreaterThan(0);
+  expect(Number.parseFloat(layout.paddingLeft)).toBeGreaterThanOrEqual(16);
+  expect(Number.parseFloat(layout.paddingRight)).toBeGreaterThanOrEqual(16);
+
+  const clearsBottomControls = await popup.evaluate((element) => {
+    const popupRect = element.getBoundingClientRect();
+    const controls = document.querySelectorAll(".attribution, #data-button");
+    return [...controls].every((control) => {
+      const rect = control.getBoundingClientRect();
+      return popupRect.bottom <= rect.top;
+    });
+  });
+  expect(clearsBottomControls).toBe(true);
+
+  await page.keyboard.press("Escape");
+  await expect(popup).toBeHidden();
 });

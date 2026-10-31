@@ -4,8 +4,9 @@ Goirt is a local County Wexford crop map built from real 2025 DAFM LPIS field
 geometry. The first version is a walking skeleton: a repeatable data pipeline, a
 small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
 layer grouped by crop. A density-sampled overview dot layer keeps the map
-coloured from about z5 until the field polygons take over at z10. Popup and crop
-search are the next piece, not this one.
+coloured from about z5 until the field polygons take over at z10. Clicking a
+field opens a safe crop, group, area and county popup; crop search is the next
+piece, not this one.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
@@ -118,6 +119,19 @@ over.
 `/data/overview.pmtiles`. Both GeoJSON and PMTiles overview sources are supported.
 A missing overview is logged and leaves the field map working.
 
+## Field details
+
+Click a field to select it and open its details. The desktop card anchors beside
+the clicked field; a small screen gets a bottom sheet above the attribution bar.
+The popup shows the crop display name, group, claimed or eligible area in
+hectares to 0.1 ha, and county. It never shows herd, holding, parcel,
+sub-division, scheme or source identifiers.
+
+Clicking another field updates the popup and the selected outline. Clicking empty
+map, moving the map, pressing Escape or using the close control dismisses it;
+Escape and the close control return focus to the map. A small strip at the top of
+the map stays clear for the crop search panel.
+
 ## Tests
 
 ```bash
@@ -136,10 +150,13 @@ pnpm --dir site test:e2e
 ```
 
 The fixture smoke loads the committed Wexford sample, waits for the field layer,
-checks the attribution and opens the data/licences dialog. A second smoke zooms
-out to z6 and checks that the committed overview source and circle layer are
-present and loaded. Neither test needs the 5 GB source archive or tippecanoe; CI
-runs these commands in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+checks the attribution and opens the data/licences dialog. Another smoke clicks a
+field, checks the popup content and confirms Escape and the close control dismiss
+it and return focus; a mobile viewport checks the bottom sheet. A further smoke
+zooms out to z6 and checks that the committed overview source and circle layer
+are present and loaded. None of these tests needs the 5 GB source archive or
+tippecanoe; CI runs these commands in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Repository layout
 
@@ -162,11 +179,11 @@ site/public/basemap/*.pmtiles                local basemap (gitignored)
 
 In v1: County Wexford, 2025 LPIS agricultural parcels, group fills, outlines,
 selected outline, group patterns at z ≥ 12.5, the low-zoom overview dots from
-z5, attribution and the data/licences dialog.
+z5, the safe field popup, attribution and the data/licences dialog.
 
-Out of scope: popup card, crop search, statewide build, deployment,
-high-contrast mode, county/region markers, harvest dates, other years, a Cork
-stress test, and any per-farmer or per-holding analysis.
+Out of scope: crop search, statewide build, deployment, high-contrast mode,
+county/region markers, harvest dates, other years, a Cork stress test, and any
+per-farmer or per-holding analysis.
 
 ## Licence
 

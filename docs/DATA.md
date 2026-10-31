@@ -119,8 +119,8 @@ parts, not by a single parcel polygon. That is the unit the map shows.
   sentinel or null area.
 - Record the basis on every feature as `area_basis`: `claimed` when the value
   comes from `claim_area`, `eligible` when it comes from the `eh_area` fallback.
-  The selection label shows the matching "Claimed area" or "Eligible area" text,
-  so a fallback value is never presented as claimed.
+  The field popup shows the matching "Claimed area" or "Eligible area" text, so a
+  fallback value is never presented as claimed.
 
 Wexford outcome: 51,644 features use claimed area, 33 use the eligible-area
 fallback, and 703 candidate parts had both area fields null or zero and were

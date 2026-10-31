@@ -12,7 +12,7 @@ One row per observed 2025 LPIS crop value (176 rows). Columns:
 | `crop_id` | Stable public id used in tiles and `crops.json` |
 | `crop` | Exact 2025 LPIS crop string |
 | `group` | Display/semantic group; one of the eight crop groups or `non_farmland` |
-| `color` | Per-crop fill for the future popup/search |
+| `color` | Per-crop fill, reserved for crop search |
 | `pattern` | Pattern family (`grass`, `cereals`, `maize`, `oilseeds`, `roots`, `horticulture`, `fruit`, `fallow`, `none`) |
 | `aliases` | Semicolon-separated search aliases |
 | `display_name` | Friendly name |
