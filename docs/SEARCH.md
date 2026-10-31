@@ -109,14 +109,14 @@ points the local full build at `places.json`.
   town and a town outranks a townland at the same match quality; towns rank by
   population, and in-area places rank ahead of out-of-area ones before the
   7-result cap.
-- **Empty query:** popular counties and towns, preferring places in the current
-  extent; popular towns are not padded with disabled out-of-area places.
+- **Empty query:** popular counties and towns, preferring enabled places;
+  popular towns are not padded with disabled out-of-area places.
 - **Results:** grouped by Counties, Towns and villages, and Townlands, with one
   heading per type and enabled places ahead of disabled ones within each type,
-  the county as a subtitle and the Irish name when it differs. Places that share a
-  name in the same county add a nearest-town hint, such as “near Gorey”, or
-  their coordinates when the nearest town is also shared. An out-of-area place
-  is shown disabled with “Available with the nationwide map”.
+  the county as a subtitle and the Irish name when it differs. Places of the same
+  type that share a name in the same county add a nearest-town hint, such as
+  “near Gorey”, or their coordinates when the nearest town is also shared. An
+  out-of-area place is shown disabled with “Available with the nationwide map”.
 - **No match:** the query is named in the status and live region; nothing is
   selected.
 - **Selection:** a removable pill shows the English and Irish name. A county fits

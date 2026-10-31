@@ -361,13 +361,9 @@ The index has no field data and no field-to-townland join. It is a place-name
 reference, not a spatial join table. Townland centroids are not attached to
 parcels, and selecting a place never filters the crop field layer.
 
-The site loads the index once when the location field is first focused. Matching
-is exact, prefix, token prefix, substring and subsequence over the normalised
-English and Irish forms. Counties rank above towns above townlands for equal
-match quality, towns rank by population, the list is capped at 7, and results are
-grouped by type with the county as a subtitle. Selecting a county fits its bbox;
-selecting a town recentres at about z12 and a townland at about z13. There is no
-marker or pin and no field filtering.
+The site loads the index once when the location field is first focused; matching,
+ranking, grouping and selection behaviour are documented in [SEARCH.md](SEARCH.md).
+There is no marker or pin and no field filtering.
 
 The temporary Wexford build guards places outside the Wexford basemap bbox and
 shows them disabled with an “available with the nationwide map” note. The index

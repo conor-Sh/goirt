@@ -176,9 +176,8 @@ per-keystroke network requests, analytics events or stored queries.
   Enter, Escape, Home/End and Tab out.
 - **Crop-data errors** disable only the search field; the map stays usable.
 
-The combobox component is reusable so a location field can share the same
-keyboard and ARIA behaviour. More detail is in
-[`docs/SEARCH.md`](docs/SEARCH.md).
+The combobox component is reusable; the location field shares the same keyboard
+and ARIA behaviour. More detail is in [`docs/SEARCH.md`](docs/SEARCH.md).
 
 ## Location search
 
@@ -198,8 +197,8 @@ and never filters the crop field layer.
   subsequence over both names. Counties rank above towns above townlands for
   equal match quality, towns rank by population, in-area places rank ahead of
   out-of-area ones before the 7-result cap, and rows are grouped by type with the
-  county as a subtitle. Same-named places in one county add a nearest-town or
-  coordinate hint.
+  county as a subtitle. Same-named places of the same type in one county add a
+  nearest-town or coordinate hint.
 - An empty query shows popular counties and towns. No match is named in the
   status and live region. A selection becomes a removable pill; clearing removes
   it without resetting the viewport.
