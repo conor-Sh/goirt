@@ -202,18 +202,22 @@ class TownlandIndexTests(unittest.TestCase):
             {"crop_id", "crop_group", "hectares", "area_basis"} & set(record)
         )
 
-    def test_duplicate_names_in_the_same_county_are_dropped(self) -> None:
+    def test_same_named_townlands_at_different_points_are_preserved(self) -> None:
         records = places.deduplicate(
             places.parse_townland_features(
                 [
                     self.feature("BALLYMORE", "An Baile Mór", "WEXFORD", 1.0, 1.0),
                     self.feature("BALLYMORE", "An Baile Mór", "WEXFORD", 2.0, 2.0),
+                    self.feature("BALLYMORE", "An Baile Mór", "WEXFORD", 1.0, 1.0),
                     self.feature("BALLYMORE", "An Baile Mór", "CORK", 12.0, 2.0),
                 ],
                 places.CountyIndex(fixtures()),
             )
         )
-        self.assertEqual(len(records), 2)
+        self.assertEqual(len(records), 3)
+        wexford = [record for record in records if record["county"] == "Wexford"]
+        self.assertEqual(len(wexford), 2)
+        self.assertEqual(len({record["id"] for record in wexford}), 2)
 
     def test_sample_keeps_all_counties_and_an_out_of_area_place(self) -> None:
         counties = places.county_places(fixtures())

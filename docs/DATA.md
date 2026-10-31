@@ -324,8 +324,9 @@ Sources:
 GeoNames' alternate-name file provides the Irish town names (`isolanguage = ga`,
 preferred names first). The county Irish names are the `Contae` values published
 by the same OSi Gazetteer for the 26 counties. Townlands are queried with
-pagination, `outSR=4326` and a stable `OBJECTID_1` order; blank English names and
-duplicate name/county entries are dropped. Places are assigned to the Republic by
+pagination, `outSR=4326` and a stable `OBJECTID_1` order; blank English names are
+dropped and records are de-duplicated by their stable source id, so same-named
+townlands at different points are all kept. Places are assigned to the Republic by
 point-in-county, so a GeoNames record that actually sits across the border is
 excluded.
 
@@ -335,10 +336,10 @@ Build outcome:
 |---|---:|---:|
 | County | 26 | 26 |
 | Town / village | 11,603 | 89 |
-| Townland | 45,639 | 100 |
-| **Total** | **57,268** | **215** |
+| Townland | 50,380 | 100 |
+| **Total** | **62,009** | **215** |
 
-The full index is about 15.7 MB after normalisation. The sample keeps every
+The full index is about 17 MB after normalisation. The sample keeps every
 county, the largest towns, the Wexford towns over 1,000 people and a small
 townland slice, and is about 61 kB.
 

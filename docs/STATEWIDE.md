@@ -78,8 +78,8 @@ index; it is the one piece that already spans the country.
 
 - Keep `pipeline/09_places.py`, `site/public/data/places-sample.json` and the
   full gitignored `site/public/data/places.json`. The index already covers all
-  26 Republic counties, 11,603 populated places and 45,639 de-duplicated
-  townlands, with English and Irish names.
+  26 Republic counties, 11,603 populated places and 50,380 townlands, with
+  English and Irish names.
 - Re-run `pipeline/09_places.py` only to refresh sources; it still writes a
   small CI sample and needs network access. CI continues to read the committed
   sample and never downloads GeoNames or the Gazetteer.

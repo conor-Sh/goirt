@@ -142,6 +142,32 @@ describe("place states", () => {
     expect(view.message).toContain("nationwide map");
   });
 
+  it("ranks in-area places ahead of out-of-area ones before the limit", () => {
+    const view = searchPlaces(places, "ba", (entry) =>
+      withinBounds(entry, [-7.1, 52.1, -6.05, 52.85]),
+    );
+    expect(view.options).toHaveLength(PLACE_RESULT_LIMIT);
+    expect(view.options.every((option) => !option.disabled)).toBe(true);
+    expect(view.message).toBeUndefined();
+    expect(view.options.map((option) => option.label)).toEqual(
+      expect.arrayContaining(["Courtown", "Castletown", "Ballinroad"]),
+    );
+  });
+
+  it("counts only enabled places as available results", () => {
+    const view = searchPlaces(places, "ba", (entry) => entry.name === "Courtown", 2);
+    expect(view.options[0]).toMatchObject({ label: "Courtown", disabled: false });
+    expect(view.options[1].disabled).toBe(true);
+    expect(view.message).toBeUndefined();
+    expect(describePlaceView(view, "ba")).toBe("1 result available: Courtown.");
+  });
+
+  it("does not pad popular towns with disabled places", () => {
+    const view = popularPlaces(places, () => false);
+    expect(view.options.some((option) => option.kind === "town")).toBe(false);
+    expect(view.message).toContain("nationwide map");
+  });
+
   it("keeps Wexford places enabled in the Wexford extent", () => {
     const view = searchPlaces(places, "enniscorthy", (entry) =>
       withinBounds(entry, [-7.1, 52.1, -6.05, 52.85]),
@@ -163,6 +189,57 @@ describe("place states", () => {
 });
 
 describe("place index", () => {
+  it("disambiguates same-named places in the same county by their nearest town", () => {
+    const index = buildPlaceIndex({
+      places: [
+        place("town:gorey", "Gorey", "town", "Wexford", {
+          lon: -6.29,
+          lat: 52.67,
+        }),
+        place("town:ferns", "Ferns", "town", "Wexford", {
+          lon: -6.5,
+          lat: 52.59,
+        }),
+        place("townland:one", "Ballymore", "townland", "Wexford", {
+          lon: -6.28,
+          lat: 52.68,
+        }),
+        place("townland:two", "Ballymore", "townland", "Wexford", {
+          lon: -6.51,
+          lat: 52.6,
+        }),
+      ],
+    });
+    const metas = searchPlaces(index, "ballymore").options.map(
+      (option) => option.meta,
+    );
+    expect(metas).toEqual(["Wexford · near Gorey", "Wexford · near Ferns"]);
+  });
+
+  it("falls back to coordinates when the nearest town is shared", () => {
+    const index = buildPlaceIndex({
+      places: [
+        place("town:gorey", "Gorey", "town", "Wexford", {
+          lon: -6.29,
+          lat: 52.67,
+        }),
+        place("townland:one", "Ballymore", "townland", "Wexford", {
+          lon: -6.28,
+          lat: 52.68,
+        }),
+        place("townland:two", "Ballymore", "townland", "Wexford", {
+          lon: -6.3,
+          lat: 52.66,
+        }),
+      ],
+    });
+    const metas = searchPlaces(index, "ballymore").options.map(
+      (option) => option.meta,
+    );
+    expect(metas[0]).toContain("52.6800, -6.2800");
+    expect(metas[1]).toContain("52.6600, -6.3000");
+  });
+
   it("carries counties with bboxes and no field properties", () => {
     const wexford = places.find((entry) => entry.id === "county:wexford");
     expect(wexford).toMatchObject({

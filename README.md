@@ -189,14 +189,16 @@ and never filters the crop field layer.
 - The index is built by `pipeline/09_places.py` from the 2019 counties, the
   GeoNames Ireland populated places and the Tailte Éireann/OSi townland
   gazetteer. The full index is `site/public/data/places.json` (gitignored, about
-  15.7 MB); the committed `site/public/data/places-sample.json` is what CI and
+  17 MB); the committed `site/public/data/places-sample.json` is what CI and
   the fixture site load.
 - It is fetched once, when the location field is first focused. Typing makes no
   network requests; the query is not stored or sent anywhere.
 - Matching is diacritic-insensitive exact, prefix, token prefix, substring and
   subsequence over both names. Counties rank above towns above townlands for
-  equal match quality, towns rank by population, results are capped at 7, and
-  rows are grouped by type with the county as a subtitle.
+  equal match quality, towns rank by population, in-area places rank ahead of
+  out-of-area ones before the 7-result cap, and rows are grouped by type with the
+  county as a subtitle. Same-named places in one county add a nearest-town or
+  coordinate hint.
 - An empty query shows popular counties and towns. No match is named in the
   status and live region. A selection becomes a removable pill; clearing removes
   it without resetting the viewport.

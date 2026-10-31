@@ -1,9 +1,4 @@
 {
-  "counts": {
-    "county": 26,
-    "town": 89,
-    "townland": 100
-  },
   "places": [
     {
       "bbox": [
@@ -1737,1239 +1732,1244 @@
       "type": "town"
     },
     {
-      "county": "Waterford",
       "id": "townland:79ebbd74e69a",
-      "lat": 52.01916,
-      "lon": -7.823446,
       "name": "Abartagh",
       "name_ga": "Abartach",
+      "type": "townland",
+      "county": "Waterford",
+      "lon": -7.823446,
+      "lat": 52.01916,
       "search": [
         "abartagh",
         "abartach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Galway",
       "id": "townland:7ab5ba84310d",
-      "lat": 53.258172,
-      "lon": -8.585639,
       "name": "Abberanville",
       "name_ga": "Abberanville",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.585639,
+      "lat": 53.258172,
       "search": [
         "abberanville"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Donegal",
       "id": "townland:9c2d03e17e57",
-      "lat": 54.687946,
-      "lon": -8.157759,
       "name": "Abbernadoorny",
       "name_ga": "",
+      "type": "townland",
+      "county": "Donegal",
+      "lon": -8.157759,
+      "lat": 54.687946,
       "search": [
         "abbernadoorny"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Galway",
       "id": "townland:3198c92779aa",
-      "lat": 53.41798,
-      "lon": -8.693031,
       "name": "Abbert",
       "name_ga": "An Abart",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.693031,
+      "lat": 53.41798,
       "search": [
         "abbert",
         "an abart"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Galway",
       "id": "townland:73a602fdcf38",
-      "lat": 53.42776,
-      "lon": -8.684854,
       "name": "Abbert Demesne",
       "name_ga": "Diméin na hAbarta",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.684854,
+      "lat": 53.42776,
       "search": [
         "abbert demesne",
         "dimein na habarta"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Tipperary",
       "id": "townland:c6d801d9840f",
-      "lat": 53.086194,
-      "lon": -8.064605,
       "name": "Abbeville",
       "name_ga": "Baile an Phíopaire",
+      "type": "townland",
+      "county": "Tipperary",
+      "lon": -8.064605,
+      "lat": 53.086194,
       "search": [
         "abbeville",
         "baile an phiopaire"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Cork",
       "id": "townland:9d929047ad47",
-      "lat": 51.676592,
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Cork",
       "lon": -9.476699,
-      "name": "Abbey",
-      "name_ga": "An Mhainistir",
+      "lat": 51.676592,
       "search": [
         "abbey",
         "an mhainistir"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Galway",
       "id": "townland:61703f6f0998",
-      "lat": 53.110378,
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Galway",
       "lon": -8.389717,
-      "name": "Abbey",
-      "name_ga": "An Mhainistir",
+      "lat": 53.110378,
       "search": [
         "abbey",
         "an mhainistir"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Limerick",
+      "id": "townland:19478d3f94e3",
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.747772,
+      "lat": 53.443551,
+      "search": [
+        "abbey",
+        "an mhainistir"
+      ]
+    },
+    {
       "id": "townland:a0b8f0a1a669",
-      "lat": 52.318866,
-      "lon": -8.459132,
       "name": "Abbey",
       "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Limerick",
+      "lon": -8.459132,
+      "lat": 52.318866,
       "search": [
         "abbey",
         "an mhainistir"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Clare",
       "id": "townland:b937aad4e818",
-      "lat": 53.134631,
-      "lon": -9.04522,
       "name": "Abbey East",
       "name_ga": "An Mhainistir Thoir",
+      "type": "townland",
+      "county": "Clare",
+      "lon": -9.04522,
+      "lat": 53.134631,
       "search": [
         "abbey east",
         "an mhainistir thoir"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Donegal",
       "id": "townland:eb2539283c52",
-      "lat": 54.508604,
+      "name": "Abbey Island",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Donegal",
       "lon": -8.200148,
-      "name": "Abbey Island",
-      "name_ga": "",
+      "lat": 54.508604,
       "search": [
         "abbey island"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Kerry",
       "id": "townland:22538073be01",
-      "lat": 51.755771,
-      "lon": -10.150462,
       "name": "Abbey Island",
       "name_ga": "",
+      "type": "townland",
+      "county": "Kerry",
+      "lon": -10.150462,
+      "lat": 51.755771,
       "search": [
         "abbey island"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Longford",
       "id": "townland:9b9ccf6dbb4d",
-      "lat": 53.69189,
-      "lon": -7.623268,
       "name": "Abbey Land",
       "name_ga": "Fearann na Mainistreach",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.623268,
+      "lat": 53.69189,
       "search": [
         "abbey land",
         "fearann na mainistreach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Cork",
       "id": "townland:6302a10268cd",
-      "lat": 51.71497,
-      "lon": -8.530704,
       "name": "Abbey-Lands",
       "name_ga": "Fearann na Mainistreach",
+      "type": "townland",
+      "county": "Cork",
+      "lon": -8.530704,
+      "lat": 51.71497,
       "search": [
         "abbey lands",
         "fearann na mainistreach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Clare",
       "id": "townland:2a1b8f9a0ad3",
-      "lat": 53.124971,
-      "lon": -9.062332,
       "name": "Abbey West",
       "name_ga": "An Mhainistir Thiar",
+      "type": "townland",
+      "county": "Clare",
+      "lon": -9.062332,
+      "lat": 53.124971,
       "search": [
         "abbey west",
         "an mhainistir thiar"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Longford",
       "id": "townland:33e4dff2ca60",
-      "lat": 53.734882,
-      "lon": -7.798666,
       "name": "Abbeycartron",
       "name_ga": "Cartrún na Mainistreach",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.798666,
+      "lat": 53.734882,
       "search": [
         "abbeycartron",
         "cartrun na mainistreach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Roscommon",
       "id": "townland:1d00fede2c42",
-      "lat": 53.846874,
-      "lon": -8.187435,
       "name": "Abbeycartron",
       "name_ga": "",
+      "type": "townland",
+      "county": "Roscommon",
+      "lon": -8.187435,
+      "lat": 53.846874,
       "search": [
         "abbeycartron"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Longford",
       "id": "townland:26c6926a6283",
-      "lat": 53.635275,
-      "lon": -7.797976,
       "name": "Abbeyderg",
       "name_ga": "Mainistir Dhearg",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.797976,
+      "lat": 53.635275,
       "search": [
         "abbeyderg",
         "mainistir dhearg"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:925bc52bf3ea",
-      "lat": 52.691971,
-      "lon": -6.62453,
       "name": "Abbeydown",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.62453,
+      "lat": 52.691971,
       "search": [
         "abbeydown"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Limerick",
       "id": "townland:3812c314c433",
-      "lat": 52.404116,
-      "lon": -8.577468,
       "name": "Abbeyfarm",
       "name_ga": "Feirm na Mainistreach",
+      "type": "townland",
+      "county": "Limerick",
+      "lon": -8.577468,
+      "lat": 52.404116,
       "search": [
         "abbeyfarm",
         "feirm na mainistreach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Limerick",
-      "id": "townland:e0da6699a4a3",
-      "lat": 52.372659,
-      "lon": -9.292785,
-      "name": "Abbeyfeale East",
-      "name_ga": "Mainistir na Féile Thoir",
-      "search": [
-        "abbeyfeale east",
-        "mainistir na feile thoir"
-      ],
-      "type": "townland"
-    },
-    {
-      "county": "Wexford",
       "id": "townland:4a0f6d65b1e4",
-      "lat": 52.276361,
-      "lon": -6.528461,
       "name": "Ablintown",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.528461,
+      "lat": 52.276361,
       "search": [
         "ablintown"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:e6da02e604e3",
-      "lat": 52.320204,
-      "lon": -6.901261,
       "name": "Aclamon",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.901261,
+      "lat": 52.320204,
       "search": [
         "aclamon"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:947441058832",
-      "lat": 52.401171,
-      "lon": -6.724502,
       "name": "Adamstown",
       "name_ga": "Maigh Arnaí",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.724502,
+      "lat": 52.401171,
       "search": [
         "adamstown",
         "maigh arnai"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:5d629a4673f1",
-      "lat": 52.710254,
-      "lon": -6.187334,
       "name": "Ahare",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.187334,
+      "lat": 52.710254,
       "search": [
         "ahare"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:cde0eaeab5ff",
-      "lat": 52.213888,
-      "lon": -6.903842,
       "name": "Aldridge",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.903842,
+      "lat": 52.213888,
       "search": [
         "aldridge"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:d29a7d11d23d",
-      "lat": 52.220438,
-      "lon": -6.40063,
       "name": "Allenstown Big",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.40063,
+      "lat": 52.220438,
       "search": [
         "allenstown big"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:630d30511a66",
-      "lat": 52.22464,
-      "lon": -6.405544,
       "name": "Allenstown Little",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.405544,
+      "lat": 52.22464,
       "search": [
         "allenstown little"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:d3c0e6f4f41c",
-      "lat": 52.249874,
-      "lon": -6.668901,
       "name": "Ambrosetown",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.668901,
+      "lat": 52.249874,
       "search": [
         "ambrosetown"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:5a17d1991440",
-      "lat": 52.568736,
-      "lon": -6.291224,
       "name": "Annagh",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.291224,
+      "lat": 52.568736,
       "search": [
         "annagh"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:b989d52de303",
-      "lat": 52.738517,
-      "lon": -6.351916,
       "name": "Annagh Central",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.351916,
+      "lat": 52.738517,
       "search": [
         "annagh central"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:b43a8221a38c",
-      "lat": 52.747214,
-      "lon": -6.350965,
       "name": "Annagh Long",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.350965,
+      "lat": 52.747214,
       "search": [
         "annagh long"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:64c3e6659817",
-      "lat": 52.733652,
-      "lon": -6.340179,
       "name": "Annagh Lower",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.340179,
+      "lat": 52.733652,
       "search": [
         "annagh lower"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:54799789fc29",
-      "lat": 52.729336,
-      "lon": -6.362035,
       "name": "Annagh Middle",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.362035,
+      "lat": 52.729336,
       "search": [
         "annagh middle"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:08ffbbde8d84",
-      "lat": 52.725489,
-      "lon": -6.345226,
       "name": "Annagh More",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.345226,
+      "lat": 52.725489,
       "search": [
         "annagh more"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:37b72c8cf6e8",
-      "lat": 52.736098,
-      "lon": -6.372029,
       "name": "Annagh Upper",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.372029,
+      "lat": 52.736098,
       "search": [
         "annagh upper"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:cef1ee32edd4",
-      "lat": 52.511235,
-      "lon": -6.492502,
       "name": "Annaghfin",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.492502,
+      "lat": 52.511235,
       "search": [
         "annaghfin"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:52405395ea72",
-      "lat": 52.750783,
-      "lon": -6.366578,
       "name": "Annaghgap",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.366578,
+      "lat": 52.750783,
       "search": [
         "annaghgap"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:59dd259566e1",
-      "lat": 52.744564,
-      "lon": -6.376512,
       "name": "Annaghhill",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.376512,
+      "lat": 52.744564,
       "search": [
         "annaghhill"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:be61acb20340",
-      "lat": 52.400927,
-      "lon": -6.947003,
       "name": "Annefield",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.947003,
+      "lat": 52.400927,
       "search": [
         "annefield"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:556a553f701c",
-      "lat": 52.352452,
-      "lon": -6.546355,
       "name": "Ardcandrisk",
       "name_ga": "Ard Conrois",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.546355,
+      "lat": 52.352452,
       "search": [
         "ardcandrisk",
         "ard conrois"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:8f99aafff60e",
-      "lat": 52.357753,
-      "lon": -6.445155,
       "name": "Ardcavan",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.445155,
+      "lat": 52.357753,
       "search": [
         "ardcavan"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:ec52ef6595a9",
-      "lat": 52.374177,
-      "lon": -6.437719,
       "name": "Ardcolm",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.437719,
+      "lat": 52.374177,
       "search": [
         "ardcolm"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:ce4c0d602683",
-      "lat": 52.295698,
-      "lon": -6.691161,
       "name": "Ardenagh Great",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.691161,
+      "lat": 52.295698,
       "search": [
         "ardenagh great"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:85151b0416b5",
-      "lat": 52.303009,
-      "lon": -6.697969,
       "name": "Ardenagh Little",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.697969,
+      "lat": 52.303009,
       "search": [
         "ardenagh little"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:a4b843b3ac13",
-      "lat": 52.401194,
-      "lon": -6.938649,
       "name": "Ardross",
       "name_ga": "Ard Rois",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.938649,
+      "lat": 52.401194,
       "search": [
         "ardross",
         "ard rois"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:c4d2354ee50d",
-      "lat": 52.271274,
-      "lon": -6.79407,
       "name": "Arklow",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.79407,
+      "lat": 52.271274,
       "search": [
         "arklow"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:4e50159247dc",
-      "lat": 52.377955,
-      "lon": -6.920523,
       "name": "Arnestown",
       "name_ga": "Baile Arn",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.920523,
+      "lat": 52.377955,
       "search": [
         "arnestown",
         "baile arn"
-      ],
-      "type": "townland"
+      ]
     },
     {
+      "id": "townland:cd8f8cb42233",
+      "name": "Arnestown",
+      "name_ga": "Baile Arn",
+      "type": "townland",
       "county": "Wexford",
+      "lon": -6.725769,
+      "lat": 52.289281,
+      "search": [
+        "arnestown",
+        "baile arn"
+      ]
+    },
+    {
       "id": "townland:c6118a9fb7d7",
-      "lat": 52.283696,
-      "lon": -6.57603,
       "name": "Arpinstown",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.57603,
+      "lat": 52.283696,
       "search": [
         "arpinstown"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:8c49d5812522",
-      "lat": 52.63313,
-      "lon": -6.294034,
       "name": "Arragorteen",
       "name_ga": "Ardghoirtín",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.294034,
+      "lat": 52.63313,
       "search": [
         "arragorteen",
         "ardghoirtin"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:b9dae0d7766f",
-      "lat": 52.381808,
-      "lon": -6.483928,
       "name": "Artramon",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.483928,
+      "lat": 52.381808,
       "search": [
         "artramon"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:f1b5f5bd2c8c",
-      "lat": 52.758615,
-      "lon": -6.193209,
       "name": "Ashwood Lower",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.193209,
+      "lat": 52.758615,
       "search": [
         "ashwood lower"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:978c0010d58f",
-      "lat": 52.764799,
-      "lon": -6.195562,
       "name": "Ashwood Upper",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.195562,
+      "lat": 52.764799,
       "search": [
         "ashwood upper"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:401ae56b27e4",
-      "lat": 52.702094,
-      "lon": -6.261277,
       "name": "Ask",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.261277,
+      "lat": 52.702094,
       "search": [
         "ask"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:f2e59d328fe0",
-      "lat": 52.666157,
-      "lon": -6.494523,
       "name": "Aska Beg",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.494523,
+      "lat": 52.666157,
       "search": [
         "aska beg"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:a28564c383ea",
-      "lat": 52.673556,
-      "lon": -6.474867,
       "name": "Aska More",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.474867,
+      "lat": 52.673556,
       "search": [
         "aska more"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:719be42ae4bc",
-      "lat": 52.478233,
-      "lon": -6.401175,
       "name": "Askabeg",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.401175,
+      "lat": 52.478233,
       "search": [
         "askabeg"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:7ad8de64fef5",
-      "lat": 52.694385,
-      "lon": -6.636645,
       "name": "Askaheige",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.636645,
+      "lat": 52.694385,
       "search": [
         "askaheige"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:9b7ee07043f6",
-      "lat": 52.73259,
-      "lon": -6.435922,
       "name": "Askakeel",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.435922,
+      "lat": 52.73259,
       "search": [
         "askakeel"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:05d5009aa297",
-      "lat": 52.459274,
-      "lon": -6.387882,
       "name": "Askasilla",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.387882,
+      "lat": 52.459274,
       "search": [
         "askasilla"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:639e9871904c",
-      "lat": 52.609633,
-      "lon": -6.522156,
       "name": "Askinamoe",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.522156,
+      "lat": 52.609633,
       "search": [
         "askinamoe"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:302f45afcf9e",
-      "lat": 52.781659,
-      "lon": -6.262791,
       "name": "Askinch Lower",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.262791,
+      "lat": 52.781659,
       "search": [
         "askinch lower"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:c6ec1bf4b421",
-      "lat": 52.788354,
-      "lon": -6.271302,
       "name": "Askinch Upper",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.271302,
+      "lat": 52.788354,
       "search": [
         "askinch upper"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:d5fadf8297cc",
-      "lat": 52.473881,
-      "lon": -6.771963,
       "name": "Askinfarney",
       "name_ga": "Easca na Fearna",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.771963,
+      "lat": 52.473881,
       "search": [
         "askinfarney",
         "easca na fearna"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:2ab97850f0f8",
-      "lat": 52.482452,
-      "lon": -6.678896,
       "name": "Askinfarney",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.678896,
+      "lat": 52.482452,
       "search": [
         "askinfarney"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:4dc0c7576c9f",
-      "lat": 52.603511,
-      "lon": -6.216565,
       "name": "Askingarran Lower",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.216565,
+      "lat": 52.603511,
       "search": [
         "askingarran lower"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:cea91d1924cc",
-      "lat": 52.603777,
-      "lon": -6.231319,
       "name": "Askingarran Upper",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.231319,
+      "lat": 52.603777,
       "search": [
         "askingarran upper"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:169c2aa67e05",
-      "lat": 52.550356,
-      "lon": -6.755497,
       "name": "Askinvillar Lower",
       "name_ga": "Easca an Bhiolair Íochtarach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.755497,
+      "lat": 52.550356,
       "search": [
         "askinvillar lower",
         "easca an bhiolair iochtarach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:55717195f5ac",
-      "lat": 52.552282,
-      "lon": -6.772047,
       "name": "Askinvillar Upper",
       "name_ga": "Easca an Bhiolair Uachtarach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.772047,
+      "lat": 52.552282,
       "search": [
         "askinvillar upper",
         "easca an bhiolair uachtarach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:1a1b9c17f7d4",
-      "lat": 52.525826,
-      "lon": -6.613957,
       "name": "Askunshin",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.613957,
+      "lat": 52.525826,
       "search": [
         "askunshin"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:e06f8d562673",
-      "lat": 52.355821,
-      "lon": -6.728539,
       "name": "Assagart",
       "name_ga": "Agard Hae",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.728539,
+      "lat": 52.355821,
       "search": [
         "assagart",
         "agard hae"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:8062f37861ee",
-      "lat": 52.263105,
-      "lon": -6.452043,
       "name": "Assaly Great",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.452043,
+      "lat": 52.263105,
       "search": [
         "assaly great"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:30c80895332d",
-      "lat": 52.259969,
-      "lon": -6.459755,
       "name": "Assaly Little",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.459755,
+      "lat": 52.259969,
       "search": [
         "assaly little"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:3afbdc13a52f",
-      "lat": 52.51925,
-      "lon": -6.708073,
       "name": "Aughathlappa",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.708073,
+      "lat": 52.51925,
       "search": [
         "aughathlappa"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:c63a8c9edd0a",
-      "lat": 52.331386,
-      "lon": -6.921775,
       "name": "Aughclare",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.921775,
+      "lat": 52.331386,
       "search": [
         "aughclare"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:966eca1753b5",
-      "lat": 52.285324,
-      "lon": -6.679814,
       "name": "Aughermon",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.679814,
+      "lat": 52.285324,
       "search": [
         "aughermon"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:df2e5455145c",
-      "lat": 52.305829,
-      "lon": -6.642572,
       "name": "Aughfad",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.642572,
+      "lat": 52.305829,
       "search": [
         "aughfad"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:c32e19b3a27d",
-      "lat": 52.225162,
-      "lon": -6.392307,
       "name": "Aughmore",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.392307,
+      "lat": 52.225162,
       "search": [
         "aughmore"
-      ],
-      "type": "townland"
+      ]
     },
     {
+      "id": "townland:bc6280139d83",
+      "name": "Aughmore",
+      "name_ga": "",
+      "type": "townland",
       "county": "Wexford",
+      "lon": -6.421796,
+      "lat": 52.454086,
+      "search": [
+        "aughmore"
+      ]
+    },
+    {
       "id": "townland:9c016ba75385",
-      "lat": 52.484071,
-      "lon": -6.546451,
       "name": "Aughnagalley",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.546451,
+      "lat": 52.484071,
       "search": [
         "aughnagalley"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:568d57918f5b",
-      "lat": 52.290116,
-      "lon": -6.62552,
       "name": "Aughnagan",
       "name_ga": "Áth na gCeann",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.62552,
+      "lat": 52.290116,
       "search": [
         "aughnagan",
         "ath na gceann"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:b3a90b57fbd9",
-      "lat": 52.725203,
-      "lon": -6.442241,
       "name": "Aughnamaulmeen",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.442241,
+      "lat": 52.725203,
       "search": [
         "aughnamaulmeen"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:1b915094b37c",
-      "lat": 52.749845,
-      "lon": -6.310513,
       "name": "Aughullen",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.310513,
+      "lat": 52.749845,
       "search": [
         "aughullen"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:39352c9575ef",
-      "lat": 52.306881,
-      "lon": -6.513444,
       "name": "Bachelorshall",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.513444,
+      "lat": 52.306881,
       "search": [
         "bachelorshall"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:45d34dd2021f",
-      "lat": 52.603673,
-      "lon": -6.363494,
       "name": "Balcarrig",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.363494,
+      "lat": 52.603673,
       "search": [
         "balcarrig"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:7aa3a4857aae",
-      "lat": 52.597688,
-      "lon": -6.357104,
       "name": "Balcarrighill",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.357104,
+      "lat": 52.597688,
       "search": [
         "balcarrighill"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:84bd076bb5fa",
-      "lat": 52.240801,
-      "lon": -6.57919,
       "name": "Baldwinstown",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.57919,
+      "lat": 52.240801,
       "search": [
         "baldwinstown"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:2c544febbb72",
-      "lat": 52.410887,
-      "lon": -6.778006,
       "name": "Ballagh",
       "name_ga": "Bealach na bhFiach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.778006,
+      "lat": 52.410887,
       "search": [
         "ballagh",
         "bealach na bhfiach"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:aa08334cf229",
-      "lat": 52.192014,
-      "lon": -6.506309,
       "name": "Ballagh",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.506309,
+      "lat": 52.192014,
       "search": [
         "ballagh"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:fac594158384",
-      "lat": 52.190361,
-      "lon": -6.495043,
       "name": "Ballagh Burrow",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.495043,
+      "lat": 52.190361,
       "search": [
         "ballagh burrow"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:2af5178be7ad",
-      "lat": 52.398016,
-      "lon": -6.398728,
       "name": "Ballaghablake",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.398728,
+      "lat": 52.398016,
       "search": [
         "ballaghablake"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:f993e1e2b647",
-      "lat": 52.644753,
-      "lon": -6.35704,
       "name": "Ballaghboy",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.35704,
+      "lat": 52.644753,
       "search": [
         "ballaghboy"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:136d8982960f",
-      "lat": 52.62215,
-      "lon": -6.552367,
       "name": "Ballaman",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.552367,
+      "lat": 52.62215,
       "search": [
         "ballaman"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:a18dd8c5fdfb",
-      "lat": 52.207663,
-      "lon": -6.365093,
       "name": "Ballare",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.365093,
+      "lat": 52.207663,
       "search": [
         "ballare"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
       "id": "townland:8c8799962d9b",
-      "lat": 52.204836,
-      "lon": -6.547549,
       "name": "Ballask",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.547549,
+      "lat": 52.204836,
       "search": [
         "ballask"
-      ],
-      "type": "townland"
+      ]
     },
     {
+      "id": "townland:043604e58fe4",
+      "name": "Ballask",
+      "name_ga": "",
+      "type": "townland",
       "county": "Wexford",
+      "lon": -6.355577,
+      "lat": 52.194702,
+      "search": [
+        "ballask"
+      ]
+    },
+    {
       "id": "townland:6d5fa7db1cdd",
-      "lat": 52.42921,
-      "lon": -6.376391,
       "name": "Ballina",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.376391,
+      "lat": 52.42921,
       "search": [
         "ballina"
-      ],
-      "type": "townland"
+      ]
     },
     {
-      "county": "Wexford",
-      "id": "townland:872bb7ff1e3f",
-      "lat": 52.423846,
-      "lon": -6.355767,
-      "name": "Ballina Lower",
+      "id": "townland:6cf1c9da0588",
+      "name": "Ballina",
       "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.415718,
+      "lat": 52.39055,
       "search": [
-        "ballina lower"
-      ],
-      "type": "townland"
+        "ballina"
+      ]
     },
     {
-      "county": "Wexford",
-      "id": "townland:f3ea224adc2c",
-      "lat": 52.425481,
-      "lon": -6.372587,
-      "name": "Ballina Upper",
+      "id": "townland:a4ba73734460",
+      "name": "Ballina",
       "name_ga": "",
-      "search": [
-        "ballina upper"
-      ],
-      "type": "townland"
-    },
-    {
+      "type": "townland",
       "county": "Wexford",
-      "id": "townland:d019f036af47",
-      "lat": 52.691808,
-      "lon": -6.233148,
-      "name": "Ballinacarrig",
-      "name_ga": "Baile na Carraige",
+      "lon": -6.413395,
+      "lat": 52.397971,
       "search": [
-        "ballinacarrig",
-        "baile na carraige"
-      ],
-      "type": "townland"
-    },
-    {
-      "county": "Wexford",
-      "id": "townland:848ecdba928f",
-      "lat": 52.592246,
-      "lon": -6.688304,
-      "name": "Ballinacoola",
-      "name_ga": "",
-      "search": [
-        "ballinacoola"
-      ],
-      "type": "townland"
-    },
-    {
-      "county": "Wexford",
-      "id": "townland:9d193f3f9613",
-      "lat": 52.394256,
-      "lon": -6.406549,
-      "name": "Ballinacoola Beg",
-      "name_ga": "",
-      "search": [
-        "ballinacoola beg"
-      ],
-      "type": "townland"
+        "ballina"
+      ]
     }
   ],
+  "counts": {
+    "county": 26,
+    "town": 89,
+    "townland": 100
+  },
   "source": {
-    "counties": "Tailte Éireann Counties — National Statutory Boundaries — 2019",
     "dataset": "Goirt Republic of Ireland place index",
-    "note": "Sample committed for CI; the full index is a local pipeline build.",
-    "sample": true,
+    "counties": "Tailte Éireann Counties — National Statutory Boundaries — 2019",
+    "towns": "GeoNames Ireland (CC BY 4.0)",
     "townlands": "Tailte Éireann/OSi National Placenames Gazetteer, townlands",
-    "towns": "GeoNames Ireland (CC BY 4.0)"
+    "sample": true,
+    "note": "Sample committed for CI; the full index is a local pipeline build."
   }
 }

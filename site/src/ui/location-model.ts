@@ -56,6 +56,53 @@ export function normalizePlace(value: string | undefined): string {
 }
 
 const placeFormsCache = new WeakMap<Place, readonly string[]>();
+const placeHintCache = new WeakMap<Place, string>();
+
+function addDuplicateHints(index: readonly Place[]): void {
+  const groups = new Map<string, Place[]>();
+  for (const place of index) {
+    const key = `${place.type}|${normalizePlace(place.county)}|${normalizePlace(place.name)}`;
+    const group = groups.get(key);
+    if (group) group.push(place);
+    else groups.set(key, [place]);
+  }
+  const towns = index
+    .filter((place) => place.type === "town")
+    .map((place) => ({ place, name: normalizePlace(place.name) }));
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    const hints = new Map<Place, string>();
+    for (const place of group) {
+      const name = normalizePlace(place.name);
+      let nearest: Place | undefined;
+      let nearestDistance = Infinity;
+      for (const town of towns) {
+        if (town.place === place || town.name === name) continue;
+        const dLon = town.place.lon - place.lon;
+        const dLat = town.place.lat - place.lat;
+        const distance = dLon * dLon + dLat * dLat;
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearest = town.place;
+        }
+      }
+      if (nearest) hints.set(place, `near ${nearest.name}`);
+    }
+    const hintCounts = new Map<string, number>();
+    for (const hint of hints.values()) {
+      hintCounts.set(hint, (hintCounts.get(hint) ?? 0) + 1);
+    }
+    for (const place of group) {
+      const hint = hints.get(place);
+      placeHintCache.set(
+        place,
+        hint && hintCounts.get(hint) === 1
+          ? hint
+          : `${place.lat.toFixed(4)}, ${place.lon.toFixed(4)}`,
+      );
+    }
+  }
+}
 
 export function buildPlaceIndex(file: PlacesFile): Place[] {
   const index = file.places.filter(
@@ -67,6 +114,7 @@ export function buildPlaceIndex(file: PlacesFile): Place[] {
       Number.isFinite(place.lat),
   );
   for (const place of index) placeForms(place);
+  addDuplicateHints(index);
   return index;
 }
 
@@ -118,6 +166,8 @@ function optionFor(
   ) {
     parts.push(place.name_ga);
   }
+  const hint = placeHintCache.get(place);
+  if (hint) parts.push(hint);
   if (disabled) parts.push(NATIONWIDE_NOTE);
   return {
     id: place.id,
@@ -160,7 +210,7 @@ function popularTowns(
       ? available.filter((place) => counties.has(place.county))
       : available;
   return (
-    preferred.length > 0 ? preferred : available.length > 0 ? available : towns
+    preferred.length > 0 ? preferred : available
   ).slice(0, POPULAR_TOWN_LIMIT);
 }
 
@@ -217,13 +267,20 @@ export function searchPlaces(
     };
   }
 
-  const options = scored
+  const available: typeof scored = [];
+  const disabled: typeof scored = [];
+  for (const entry of scored) {
+    if (isAvailable(entry.place)) available.push(entry);
+    else disabled.push(entry);
+  }
+
+  const options = [...available, ...disabled]
     .slice(0, limit)
     .map((entry) => optionFor(entry.place, isAvailable));
   return {
     options,
     message:
-      options.every((option) => option.disabled)
+      options.length > 0 && options.every((option) => option.disabled)
         ? "These places are available with the nationwide map."
         : undefined,
   };
@@ -234,8 +291,9 @@ export function describePlaceView(view: PlaceView, rawQuery: string): string {
   if (view.popular || !rawQuery.trim()) {
     return "Popular counties and towns shown.";
   }
-  const names = view.options.slice(0, 3).map((option) => option.label);
-  const count = view.options.length;
+  const available = view.options.filter((option) => !option.disabled);
+  const names = available.slice(0, 3).map((option) => option.label);
+  const count = available.length;
   const noun = count === 1 ? "result" : "results";
   return `${count} ${noun} available: ${names.join(", ")}.`;
 }

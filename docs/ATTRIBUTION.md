@@ -127,8 +127,8 @@ Source: Tailte Éireann, *Townlands — OSi National Placenames Gazetteer*, CC B
 - Licence: https://creativecommons.org/licenses/by/4.0/
 - Kept: `English_Na`, `Irish_Name`, `County`, `Contae` and point coordinates.
 - Changes: paginated query in WGS84, filtered to the 26 Republic counties,
-  English labels title-cased, blank names and duplicate name/county entries
-  dropped.
+  English labels title-cased, blank names and duplicate source records dropped;
+  distinct same-named places are kept and disambiguated in search.
 
 ### GeoNames
 

@@ -96,7 +96,7 @@ wiring is `site/src/ui/location.ts`; the index is built by
 `pipeline/09_places.py` and documented in [DATA.md](DATA.md).
 
 The index covers all 26 Republic counties: 26 counties, 11,603 populated places
-and 45,639 de-duplicated townlands. English and Irish names are indexed where the
+and 50,380 townlands. English and Irish names are indexed where the
 source publishes them. The full index is a local build
 (`site/public/data/places.json`, gitignored); the site and CI read the committed
 `site/public/data/places-sample.json`.
@@ -106,11 +106,14 @@ source publishes them. The full index is a local build
 - **Matching:** diacritic-insensitive exact, prefix, token prefix, substring and
   subsequence over the normalised English and Irish forms. A county outranks a
   town and a town outranks a townland at the same match quality; towns rank by
-  population. Result lists are capped at 7.
-- **Empty query:** popular counties and towns, filtered to the current extent
-  when that would otherwise show only disabled places.
+  population, and in-area places rank ahead of out-of-area ones before the
+  7-result cap.
+- **Empty query:** popular counties and towns, preferring places in the current
+  extent; popular towns are not padded with disabled out-of-area places.
 - **Results:** grouped by Counties, Towns and villages, and Townlands, with the
-  county as a subtitle and the Irish name when it differs. An out-of-area place
+  county as a subtitle and the Irish name when it differs. Places that share a
+  name in the same county add a nearest-town hint, such as “near Gorey”, or
+  their coordinates when the nearest town is also shared. An out-of-area place
   is shown disabled with “Available with the nationwide map”.
 - **No match:** the query is named in the status and live region; nothing is
   selected.

@@ -316,15 +316,10 @@ def parse_townland_features(
 
 
 def deduplicate(places: Iterable[dict[str, object]]) -> list[dict[str, object]]:
-    seen: set[tuple[str, str, str, str]] = set()
+    seen: set[str] = set()
     unique: list[dict[str, object]] = []
     for place in places:
-        key = (
-            str(place["type"]),
-            normalize_place(str(place["county"])),
-            normalize_place(str(place["name"])),
-            normalize_place(str(place.get("name_ga") or "")),
-        )
+        key = str(place["id"])
         if key in seen:
             continue
         seen.add(key)
