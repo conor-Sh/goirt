@@ -83,8 +83,8 @@ export function attachCropSearch(
     clearFieldHighlight(map);
     combobox.refresh();
     setStatus("");
-    announce("Selection cleared.");
     input.focus();
+    announce("Selection cleared.");
   };
 
   const choose = (target: SearchSelection): void => {

@@ -144,6 +144,39 @@ test("supports the combobox keyboard, ARIA and live-region pattern", async ({
   await expect(input).not.toBeFocused();
 });
 
+test("resets the active option and live region when the search text is cleared", async ({
+  page,
+}) => {
+  await ready(page);
+  const input = page.getByRole("combobox", { name: "Search crops and groups" });
+  const listbox = page.getByRole("listbox", { name: "Crop search results" });
+  const live = page.locator("#crop-search-live");
+  const pill = page.locator("#crop-search-pill");
+
+  await input.fill("barley");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  expect(await input.getAttribute("aria-activedescendant")).toBeTruthy();
+
+  await page.locator("#crop-search-clear").click();
+  await expect(input).toHaveValue("");
+  await expect(listbox).toBeVisible();
+  expect(await input.getAttribute("aria-activedescendant")).toBeNull();
+
+  await page.keyboard.press("ArrowDown");
+  const first = await input.getAttribute("aria-activedescendant");
+  await expect(page.locator(`#${first}`)).toHaveText(/^Barley/);
+
+  await input.fill("maize");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(pill).toContainText("Maize");
+
+  await page.getByRole("button", { name: "Clear Maize selection" }).click();
+  await expect(pill).toBeHidden();
+  await expect(live).toHaveText("Selection cleared.");
+});
+
 test("highlights and fits a crop, then clears without resetting the viewport", async ({
   page,
 }) => {

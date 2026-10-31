@@ -78,7 +78,7 @@ export class Combobox<T> {
       }
     }
 
-    if (this.activeIndex >= this.entries.length) this.activeIndex = -1;
+    this.activeIndex = -1;
     this.syncActive();
     if (this.openState && this.entries.length === 0) this.close();
   }

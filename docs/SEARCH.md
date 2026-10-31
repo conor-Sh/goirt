@@ -14,7 +14,7 @@ highlighting and fitting.
 
 `buildCropSearchIndex()` skips crops and groups marked `include: false`, so
 non-farmland values are never suggested. Each crop is indexed by its `name`,
-`display_name`, aliases and group label.
+`display_name` and aliases; its group label is shown as row metadata.
 
 `normalize()` lowercases, trims, collapses whitespace, strips punctuation,
 removes diacritics and singularises common plurals (`potatoes` → `potato`,
