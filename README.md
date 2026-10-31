@@ -5,8 +5,9 @@ geometry. The first version is a walking skeleton: a repeatable data pipeline, a
 small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
 layer grouped by crop. A density-sampled overview dot layer keeps the map
 coloured from about z5 until the field polygons take over at z10. Clicking a
-field opens a safe crop, group, area and county popup; crop search is the next
-piece, not this one.
+field opens a safe crop, group, area and county popup, and crop search runs
+against the already-loaded crop index; location search is the next piece, not
+this one.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
@@ -80,7 +81,7 @@ bash pipeline/build.sh
 | Full audit | `uv run python pipeline/02_inspect.py` | `$GOIRT_WORK_DIR/inspection-2025.json` |
 | Lookup check | `uv run python pipeline/03_lookup.py --check` | fails on an unknown 2025 crop or stale lookup metadata |
 | Process | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
-| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` |
+| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full Wexford) |
 | Overview | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
 | Field tiles | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
 | Basemap | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
@@ -132,6 +133,43 @@ map, moving the map, pressing Escape or using the close control dismisses it;
 Escape and the close control return focus to the map. A small strip at the top of
 the map stays clear for the crop search panel.
 
+## Crop search
+
+The search field at the top of the map finds crops by name, display name, alias
+or group. It works entirely from the crop index that is already loaded to colour
+the fields ([`site/public/data/crops.json`](site/public/data/crops.json) in the
+committed sample, `crops-full.json` in the full build): there are no
+per-keystroke network requests, analytics events or stored queries.
+
+- **Before typing** it shows five popular crops (Barley, Wheat, Maize, Potatoes,
+  Oilseed rape) and the group chips Grass, Cereals, Break/root, Horticulture and
+  Fallow.
+- **Matching** lowercases, trims, collapses whitespace, strips punctuation and
+  diacritics, and singularises common plurals. It scores exact, prefix, token
+  prefix, substring and subsequence matches in that order. There is no
+  edit-distance fuzzy matching. Aliases such as `spuds`, `corn`, `rape`, `osr`,
+  `beet`, `pasture` and `tillage` expand to the expected crops or groups.
+- **Ambiguous queries** keep individual crops and add a query group row, for
+  example `barley` shows Spring barley, Winter barley and All barley (2).
+  Result lists are capped at 7; popular crops at 5.
+- **No match** names the query, suggests up to three near names and offers a
+  clear action.
+- **Selecting a crop or group** closes the list and shows a removable pill. The
+  matching fields keep their colour and outline, non-matching fields are dimmed
+  rather than removed, and the map fits the selection with 48 px padding and a
+  maximum zoom of 12.5. Group selections also highlight the matching low-zoom
+  overview dots. A selection with no mapped fields says so instead of leaving a
+  stuck pill; clearing restores the colours without resetting the viewport.
+- **Keyboard and screen readers** work through `role="combobox"`,
+  `aria-expanded`, `aria-controls`, `role="listbox"`, `role="option"`,
+  `aria-activedescendant`, a hidden live region for result counts, ArrowUp/Down,
+  Enter, Escape, Home/End and Tab out.
+- **Crop-data errors** disable only the search field; the map stays usable.
+
+The combobox component is reusable so a location field can share the same
+keyboard and ARIA behaviour. More detail is in
+[`docs/SEARCH.md`](docs/SEARCH.md).
+
 ## Tests
 
 ```bash
@@ -154,7 +192,10 @@ checks the attribution and opens the data/licences dialog. Another smoke clicks 
 field, checks the popup content and confirms Escape and the close control dismiss
 it and return focus; a mobile viewport checks the bottom sheet. A further smoke
 zooms out to z6 and checks that the committed overview source and circle layer
-are present and loaded. None of these tests needs the 5 GB source archive or
+are present and loaded. The search smokes cover aliases, ambiguity, popular and
+no-match states, keyboard and ARIA behaviour, crop highlight and fit, group
+overview dots, the no-mapped-fields message, clearing, and the absence of
+per-keystroke network requests. Neither suite needs the 5 GB source archive or
 tippecanoe; CI runs these commands in
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
@@ -164,7 +205,7 @@ tippecanoe; CI runs these commands in
 data/lookup/        crops.csv and cached 2019 counties (committed)
 data/work/          downloaded/derived data (gitignored; or GOIRT_WORK_DIR)
 docs/research/      verbatim source reports and 2025 crop tally
-docs/               data, privacy, palette and attribution decisions
+docs/               data, privacy, palette, search and attribution decisions
 pipeline/           fetch, inspect, lookup, process, overview, tile, basemap, privacy scan
 site/               Vite/TypeScript/MapLibre app and tests
 site/public/fixtures/wexford-sample.geojson  committed CI fixture
@@ -179,11 +220,12 @@ site/public/basemap/*.pmtiles                local basemap (gitignored)
 
 In v1: County Wexford, 2025 LPIS agricultural parcels, group fills, outlines,
 selected outline, group patterns at z ≥ 12.5, the low-zoom overview dots from
-z5, the safe field popup, attribution and the data/licences dialog.
+z5, the safe field popup, crop search with aliases and groups, attribution and
+the data/licences dialog.
 
-Out of scope: crop search, statewide build, deployment, high-contrast mode,
-county/region markers, harvest dates, other years, a Cork stress test, and any
-per-farmer or per-holding analysis.
+Out of scope: location/place search, statewide build, deployment, high-contrast
+mode, county/region markers, harvest dates, other years, a Cork stress test, and
+any per-farmer or per-holding analysis.
 
 ## Licence
 

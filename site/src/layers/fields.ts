@@ -9,6 +9,7 @@ import { palette, type GroupLookup } from "../palette";
 import { addFieldPatterns, patternImageName } from "./field-patterns";
 
 export const FIELDS_SOURCE = "fields";
+export const FIELD_MIN_ZOOM = 10;
 
 export function fillLayerIds(lookup: GroupLookup): string[] {
   return lookup.mappedGroups.map((group) => `fields-fill-${group}`);
@@ -16,6 +17,13 @@ export function fillLayerIds(lookup: GroupLookup): string[] {
 export const outlineLayerId = "fields-outline";
 export const selectedHaloLayerId = "fields-selected-halo";
 export const selectedLayerId = "fields-selected-outline";
+export const searchDimLayerId = "fields-search-dim";
+export const searchHaloLayerId = "fields-search-halo";
+export const searchOutlineLayerId = "fields-search-outline";
+
+function hiddenSearchFilter(): FilterSpecification {
+  return ["==", ["get", "crop_id"], -1] as FilterSpecification;
+}
 
 const sourceSpec: SourceSpecification = useVectorFields
   ? {
@@ -39,7 +47,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
       type: "fill",
       source: FIELDS_SOURCE,
       ...sourceLayer,
-      minzoom: 10,
+      minzoom: FIELD_MIN_ZOOM,
       filter: groupFilter(group),
       paint: {
         "fill-color": lookup.fills[group],
@@ -78,7 +86,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.outline,
@@ -88,11 +96,54 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
   });
 
   layers.push({
+    id: searchDimLayerId,
+    type: "fill",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: FIELD_MIN_ZOOM,
+    filter: hiddenSearchFilter(),
+    paint: {
+      "fill-color": palette.land,
+      "fill-opacity": 0.62,
+    },
+  });
+
+  layers.push({
+    id: searchHaloLayerId,
+    type: "line",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: FIELD_MIN_ZOOM,
+    filter: hiddenSearchFilter(),
+    layout: { "line-join": "round" },
+    paint: {
+      "line-color": palette.card,
+      "line-opacity": 0.95,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 4.5, 14, 6],
+    },
+  });
+
+  layers.push({
+    id: searchOutlineLayerId,
+    type: "line",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: FIELD_MIN_ZOOM,
+    filter: hiddenSearchFilter(),
+    layout: { "line-join": "round" },
+    paint: {
+      "line-color": palette.selectedOutline,
+      "line-opacity": 1,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 2, 14, 3],
+    },
+  });
+
+  layers.push({
     id: selectedHaloLayerId,
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.card,
@@ -111,7 +162,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.selectedOutline,

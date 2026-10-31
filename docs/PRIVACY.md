@@ -121,15 +121,19 @@ The scan reports the driver, feature count and field names for each artifact.
 ## 6. Data handling
 
 - The archive, extracted GeoPackage, full fixture, overview dots, overview
-  PMTiles, basemap extract and build output stay out of git. They live under
-  `$GOIRT_WORK_DIR` or the gitignored `site/public/` paths.
+  PMTiles, basemap extract, full crop index (`crops-full.json`) and build output
+  stay out of git. They live under `$GOIRT_WORK_DIR` or the gitignored
+  `site/public/` paths.
 - The committed field sample is 16 real parcels with the public schema only,
   clearly labelled as fixture data. The committed overview sample is 17 points
-  carrying only `crop_group`. These are the only field-derived data in the
-  repository.
+  carrying only `crop_group`. The committed `crops.json` also carries
+  field-derived aggregate `hectares_total` and `bbox` per crop and group,
+  computed from those same sample parcels; it adds no per-field data. These are
+  the only field-derived data in the repository.
 - No source archive is served from the site. The browser loads only the field
-  PMTiles/GeoJSON, the overview PMTiles/GeoJSON, the basemap extract and
-  `crops.json`.
+  PMTiles/GeoJSON, the overview PMTiles/GeoJSON, the basemap extract and the
+  crop index (`crops.json` in the committed sample, `crops-full.json` in a full
+  build).
 
 ## 7. Residual risk
 

@@ -8,6 +8,7 @@ data/work/
 site/public/basemap/*.pmtiles
 site/public/fixtures/*.pmtiles
 site/public/data/*.pmtiles
+site/public/data/crops-full.json
 
 # Node / site build output
 site/node_modules/
