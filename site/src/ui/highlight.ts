@@ -1,6 +1,7 @@
 import type { FilterSpecification, Map as MapLibreMap } from "maplibre-gl";
 import type { Bbox } from "../data/crops";
 import {
+  FIELD_MIN_ZOOM,
   searchDimLayerId,
   searchHaloLayerId,
   searchOutlineLayerId,
@@ -43,21 +44,26 @@ function isNational([west, south, east, north]: Bbox): boolean {
   return east - west > 3.5 || north - south > 3;
 }
 
-function fit(map: MapLibreMap, bbox: Bbox): boolean {
-  if (isNational(bbox)) return false;
+function fit(map: MapLibreMap, bbox: Bbox, minZoom?: number): boolean {
+  if (minZoom === undefined && isNational(bbox)) return false;
   const [west, south, east, north] = bbox;
   const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-  map.fitBounds(
-    [
-      [west, south],
-      [east, north],
-    ],
-    {
-      padding: 48,
-      maxZoom: 12.5,
-      duration: reduced ? 0 : 600,
-    },
-  );
+  const duration = reduced ? 0 : 600;
+  const bounds: [[number, number], [number, number]] = [
+    [west, south],
+    [east, north],
+  ];
+  if (minZoom === undefined) {
+    map.fitBounds(bounds, { padding: 48, maxZoom: 12.5, duration });
+    return true;
+  }
+  const camera = map.cameraForBounds(bounds, { padding: 48, maxZoom: 12.5 });
+  if (!camera) return false;
+  map.easeTo({
+    center: camera.center,
+    zoom: Math.max(camera.zoom ?? minZoom, minZoom),
+    duration,
+  });
   return true;
 }
 
@@ -76,7 +82,8 @@ export function applyFieldHighlight(
     map,
     selection.kind === "groups" ? selection.groupIds : [],
   );
-  return { mapped: true, hectares, fitted: fit(map, bbox) };
+  const minZoom = selection.kind === "crops" ? FIELD_MIN_ZOOM : undefined;
+  return { mapped: true, hectares, fitted: fit(map, bbox, minZoom) };
 }
 
 export function clearFieldHighlight(map: MapLibreMap): void {

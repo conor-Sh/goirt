@@ -279,6 +279,91 @@ test("fits a mapped crop before its field tiles render", async ({ page }) => {
   expect(state.dim).toContain("!");
 });
 
+for (const size of [
+  { width: 1280, height: 720 },
+  { width: 1440, height: 900 },
+]) {
+  test(`keeps crop fits at the field minzoom at ${size.width}x${size.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(size);
+    await ready(page);
+    const input = page.getByRole("combobox", { name: "Search crops and groups" });
+    const pill = page.locator("#crop-search-pill");
+    const status = page.locator("#crop-search-status");
+
+    const cases = [
+      { query: "permanent pasture", label: "Permanent Pasture", cropId: "24" },
+      { query: "spring oats", label: "Spring oats", cropId: "36" },
+    ];
+
+    for (const entry of cases) {
+      await input.fill(entry.query);
+      await option(page, entry.label).click();
+      await expect(pill).toContainText(entry.label);
+      await expect(status).toBeHidden();
+      await page.waitForFunction(
+        () => !(window as unknown as { __goirt: GoirtProbe }).__goirt.map.isMoving(),
+        undefined,
+        { timeout: 5_000 },
+      );
+
+      const state = await page.evaluate(() => {
+        const map = (window as unknown as { __goirt: GoirtProbe }).__goirt.map;
+        return {
+          zoom: map.getZoom(),
+          outline: JSON.stringify(map.getFilter("fields-search-outline")),
+        };
+      });
+
+      expect(state.zoom).toBeGreaterThanOrEqual(10);
+      expect(state.zoom).toBeLessThanOrEqual(12.5);
+      expect(state.outline).toContain(entry.cropId);
+
+      await page
+        .getByRole("button", { name: `Clear ${entry.label} selection` })
+        .click();
+      await expect(pill).toBeHidden();
+    }
+  });
+}
+
+test("clamps an over-wide crop fit to the field minzoom", async ({ page }) => {
+  await page.route("**/data/crops.json", async (route) => {
+    const response = await route.fetch();
+    const body = (await response.json()) as {
+      crops: Array<{ crop_id: number; bbox: number[] | null }>;
+    };
+    const crop = body.crops.find((entry) => entry.crop_id === 24);
+    if (crop) crop.bbox = [-10.5, 51.4, -6, 55.4];
+    await route.fulfill({ response, json: body });
+  });
+  await ready(page);
+  const input = page.getByRole("combobox", { name: "Search crops and groups" });
+  const pill = page.locator("#crop-search-pill");
+  const status = page.locator("#crop-search-status");
+
+  await input.fill("permanent pasture");
+  await option(page, "Permanent Pasture").click();
+  await expect(pill).toContainText("Permanent Pasture");
+  await expect(status).toBeHidden();
+  await page.waitForFunction(
+    () => !(window as unknown as { __goirt: GoirtProbe }).__goirt.map.isMoving(),
+    undefined,
+    { timeout: 5_000 },
+  );
+
+  const state = await page.evaluate(() => {
+    const map = (window as unknown as { __goirt: GoirtProbe }).__goirt.map;
+    return { zoom: map.getZoom(), center: map.getCenter() };
+  });
+
+  expect(state.zoom).toBeGreaterThanOrEqual(10);
+  expect(state.zoom).toBeLessThan(10.5);
+  expect(state.center.lng).toBeLessThan(-6.6);
+  expect(state.center.lat).toBeGreaterThan(52.5);
+});
+
 test("reports a no-fields crop at low zoom from crop metadata", async ({
   page,
 }) => {

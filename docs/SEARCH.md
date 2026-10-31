@@ -65,11 +65,14 @@ Mapped detection, fit and the live announcement use the precomputed
 `hectares_total` and `bbox` in `crops.json`, not viewport features. A selection
 with zero hectares or no bbox is reported as having no mapped fields and the
 pill is removed. Otherwise the map fits the union bbox with 48 px padding and
-`maxZoom: 12.5`; a selection whose bounds are effectively national is not
-fitted, so the national view and the highlight do the work. Group selections
-also add a highlight layer over the low-zoom overview dots, which carry only
-`crop_group`. Crop selections rely on the field layer after fitting; per-crop
-low-zoom dots are follow-up work and the overview schema is unchanged.
+`maxZoom: 12.5`. Crop fits never go below the field layers' `minzoom` of 10, so
+the matching fields are visible; a crop whose bounds are effectively national
+is centred at zoom 10 rather than leaving the previous viewport. Group
+selections keep the earlier behaviour and are not fitted when their bounds are
+effectively national, because group selections also add a highlight layer over
+the low-zoom overview dots, which carry only `crop_group`. Crop selections rely
+on the field layer after fitting; per-crop low-zoom dots are follow-up work and
+the overview schema is unchanged.
 
 ## Keyboard and screen readers
 

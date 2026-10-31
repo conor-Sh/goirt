@@ -9,6 +9,7 @@ import { palette, type GroupLookup } from "../palette";
 import { addFieldPatterns, patternImageName } from "./field-patterns";
 
 export const FIELDS_SOURCE = "fields";
+export const FIELD_MIN_ZOOM = 10;
 
 export function fillLayerIds(lookup: GroupLookup): string[] {
   return lookup.mappedGroups.map((group) => `fields-fill-${group}`);
@@ -46,7 +47,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
       type: "fill",
       source: FIELDS_SOURCE,
       ...sourceLayer,
-      minzoom: 10,
+      minzoom: FIELD_MIN_ZOOM,
       filter: groupFilter(group),
       paint: {
         "fill-color": lookup.fills[group],
@@ -85,7 +86,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.outline,
@@ -99,7 +100,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "fill",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     filter: hiddenSearchFilter(),
     paint: {
       "fill-color": palette.land,
@@ -112,7 +113,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     filter: hiddenSearchFilter(),
     layout: { "line-join": "round" },
     paint: {
@@ -127,7 +128,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     filter: hiddenSearchFilter(),
     layout: { "line-join": "round" },
     paint: {
@@ -142,7 +143,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.card,
@@ -161,7 +162,7 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
     type: "line",
     source: FIELDS_SOURCE,
     ...sourceLayer,
-    minzoom: 10,
+    minzoom: FIELD_MIN_ZOOM,
     layout: { "line-join": "round" },
     paint: {
       "line-color": palette.selectedOutline,
