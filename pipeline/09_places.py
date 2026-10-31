@@ -81,9 +81,6 @@ COUNTY_GA = {
 REPUBLIC_COUNTIES = frozenset(COUNTY_GA)
 TYPE_ORDER = {"county": 0, "town": 1, "townland": 2}
 
-# Popular empty-query entries, in the order shown. Missing names are skipped.
-POPULAR_COUNTIES = ("Wexford", "Dublin", "Cork", "Galway", "Kerry", "Limerick")
-POPULAR_TOWNS_LIMIT = 3
 SAMPLE_TOP_TOWNS = 80
 SAMPLE_WEXFORD_TOWN_POPULATION = 1_000
 SAMPLE_WEXFORD_TOWNLANDS = 80
@@ -406,15 +403,11 @@ def download(url: str, target: Path) -> Path:
     return target
 
 
-def fetch_townlands(limit: int | None = None) -> list[dict[str, object]]:
+def fetch_townlands() -> list[dict[str, object]]:
     features: list[dict[str, object]] = []
     offset = 0
-    while limit is None or len(features) < limit:
-        remaining = TOWNLANDS_PAGE_SIZE if limit is None else min(
-            TOWNLANDS_PAGE_SIZE, limit - len(features)
-        )
-        if remaining <= 0:
-            break
+    while True:
+        remaining = TOWNLANDS_PAGE_SIZE
         query = urllib.parse.urlencode(
             {
                 "where": "1=1",
@@ -464,14 +457,6 @@ def main() -> int:
         default=common.SITE_DATA / "places-sample.json",
         help="small deterministic index committed for CI",
     )
-    parser.add_argument(
-        "--townland-limit", type=int, default=None,
-        help="cap the townland fetch for a quick trial build",
-    )
-    parser.add_argument(
-        "--no-other-counties", action="store_true",
-        help="restrict the build to County Wexford (not used by the shipped v1)",
-    )
     args = parser.parse_args()
 
     started = time.time()
@@ -497,16 +482,12 @@ def main() -> int:
     print(f"GeoNames Irish town names: {len(irish_names):,}", flush=True)
 
     townplaces = parse_geonames(geonames_txt, index, irish_names)
-    townland_features = fetch_townlands(args.townland_limit)
+    townland_features = fetch_townlands()
     townland_places = parse_townland_features(townland_features, index)
 
     all_places = deduplicate(
         county_places(counties) + townplaces + townland_places
     )
-    if args.no_other_counties:
-        all_places = [
-            place for place in all_places if place["county"] == common.WEXFORD
-        ]
     all_places.sort(key=place_sort_key)
 
     full_payload = payload(all_places, sample=False)
