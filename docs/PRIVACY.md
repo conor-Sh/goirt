@@ -18,6 +18,11 @@ The mitigation is to publish only what the crop map needs:
 - county name;
 - the field geometry, as supplied for the crop-bearing part.
 
+The field popup renders only the crop display name resolved from `crop_id`, the
+group label, the rounded area with its claimed/eligible basis, and the county. It
+reads no other feature property, and it does not log, store, transmit or put
+feature data in a query string.
+
 Nothing is published about who farms the land, which holding or herd it belongs
 to, which scheme it participates in, or where it sits inside a parcel label.
 
@@ -37,6 +42,8 @@ The public artifacts do not contain:
   lookup maps it to a crop name);
 - any attribute on the low-zoom overview dots other than `crop_group`; the dots
   carry no hectares, county, crop id, parcel id or source id;
+- any popup content beyond the safe five fields: no herd, holding, parcel label,
+  sub-division, commonage share, scheme flag, source id or raw area field;
 - per-farmer, per-holding or per-parcel-label rankings, totals or analyses.
 
 The 2025 crop lookup does contain crop names and descriptions, but no source
@@ -108,7 +115,8 @@ The scan reports the driver, feature count and field names for each artifact.
 - The map has no analytics, tracking or third-party telemetry. Basemap, glyph and
   sprite requests go to the configured local or Protomaps asset host; they carry
   no field attributes.
-- The site does not log field properties. The selection label is client-side only.
+- The site does not log field properties. The field popup is client-side only and
+  sends no feature data to a server or analytics service.
 
 ## 6. Data handling
 
