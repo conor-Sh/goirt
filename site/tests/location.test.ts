@@ -216,6 +216,13 @@ describe("place index", () => {
     expect(metas).toEqual(["Wexford · near Gorey", "Wexford · near Ferns"]);
   });
 
+  it("picks the genuinely nearest town for a disambiguation hint", () => {
+    const ballask = searchPlaces(places, "ballask").options;
+    const western = ballask.find((option) => option.place.lon === -6.547549);
+    expect(western?.meta).toContain("near Rosslare");
+    expect(western?.meta).not.toContain("near Wexford");
+  });
+
   it("falls back to coordinates when the nearest town is shared", () => {
     const index = buildPlaceIndex({
       places: [

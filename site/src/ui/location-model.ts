@@ -78,7 +78,10 @@ function addDuplicateHints(index: readonly Place[]): void {
       let nearestDistance = Infinity;
       for (const town of towns) {
         if (town.place === place || town.name === name) continue;
-        const dLon = town.place.lon - place.lon;
+        const cosLat = Math.cos(
+          (((town.place.lat + place.lat) / 2) * Math.PI) / 180,
+        );
+        const dLon = (town.place.lon - place.lon) * cosLat;
         const dLat = town.place.lat - place.lat;
         const distance = dLon * dLon + dLat * dLat;
         if (distance < nearestDistance) {
