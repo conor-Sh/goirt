@@ -5,15 +5,17 @@ geometry. The first version is a walking skeleton: a repeatable data pipeline, a
 small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
 layer grouped by crop. A density-sampled overview dot layer keeps the map
 coloured from about z5 until the field polygons take over at z10. Clicking a
-field opens a safe crop, group, area and county popup, and crop search runs
-against the already-loaded crop index; location search is the next piece, not
-this one.
+field opens a safe crop, group, area and county popup, crop search runs against
+the already-loaded crop index, and a separate location field searches an
+all-Republic county, town and townland index before recentring the map.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
-  0.1 ha, 2019 statutory counties, Wexford first.
+  0.1 ha, 2019 statutory counties, Wexford first. The place index already covers
+  all 26 Republic counties with English and Irish names.
 - Privacy: field features carry only `crop_id`, `crop_group`, `hectares`,
-  `area_basis` and `county`; overview dots carry only `crop_group`.
+  `area_basis` and `county`; overview dots carry only `crop_group`; the place
+  index carries no field data and is never joined to fields.
 - Evidence: the two research reports and the 2025 crop tally are copied verbatim
   into [`docs/research/`](docs/research/).
 
@@ -83,6 +85,7 @@ bash pipeline/build.sh
 | Process | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
 | Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full Wexford) |
 | Overview | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
+| Places | `uv run python pipeline/09_places.py` | `site/public/data/places.json` (gitignored, all Republic) and `site/public/data/places-sample.json` (CI sample) |
 | Field tiles | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
 | Basemap | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
 | Privacy scan | `uv run python pipeline/privacy_scan.py` | fails on any forbidden property |
@@ -105,6 +108,12 @@ The basemap step uses the pinned Protomaps daily build `PROTOMAPS_BUILD`
 `PROTOMAPS_BUILD` or `PROTOMAPS_BBOX` for a different build. If the native build
 or extract is unavailable, the app still runs from the committed sample on the
 paper background; PMTiles remains a local build artifact, not a CI dependency.
+
+`pipeline/09_places.py` is the only stage that downloads data: the GeoNames
+Ireland dump, its alternate-name file and the Tailte Éireann/OSi townland feature
+service. It needs network access on a fresh build and caches the downloads under
+`$GOIRT_WORK_DIR/places`. CI never runs it; CI reads the committed
+`site/public/data/places-sample.json`.
 
 ## Zoom behaviour
 
@@ -170,11 +179,43 @@ The combobox component is reusable so a location field can share the same
 keyboard and ARIA behaviour. More detail is in
 [`docs/SEARCH.md`](docs/SEARCH.md).
 
+## Location search
+
+A separate location field sits beside crop search. It searches counties, towns
+and townlands across the Republic, using English and Irish names where the
+sources publish them, and only recentres the map. It never adds a pin or marker
+and never filters the crop field layer.
+
+- The index is built by `pipeline/09_places.py` from the 2019 counties, the
+  GeoNames Ireland populated places and the Tailte Éireann/OSi townland
+  gazetteer. The full index is `site/public/data/places.json` (gitignored, about
+  15.7 MB); the committed `site/public/data/places-sample.json` is what CI and
+  the fixture site load.
+- It is fetched once, when the location field is first focused. Typing makes no
+  network requests; the query is not stored or sent anywhere.
+- Matching is diacritic-insensitive exact, prefix, token prefix, substring and
+  subsequence over both names. Counties rank above towns above townlands for
+  equal match quality, towns rank by population, results are capped at 7, and
+  rows are grouped by type with the county as a subtitle.
+- An empty query shows popular counties and towns. No match is named in the
+  status and live region. A selection becomes a removable pill; clearing removes
+  it without resetting the viewport.
+- A county fits its bbox; a town recentres at about z12 and a townland at about
+  z13, clamped to the map zoom limits.
+- The Wexford build keeps the all-Republic index but disables places outside its
+  basemap extent with an “available with the nationwide map” note. That guard is
+  the temporary `locationBounds` constant in `site/src/config.ts`; the cleanup
+  checklist is [`docs/STATEWIDE.md`](docs/STATEWIDE.md).
+- If the place index fails to load, only the location field is disabled; the map
+  and crop search stay usable.
+
+More detail is in [`docs/SEARCH.md`](docs/SEARCH.md).
+
 ## Tests
 
 ```bash
-# Python: crop lookup, area rule, county join, overview sampling, safe schema,
-# privacy scan.
+# Python: crop lookup, area rule, county join, overview sampling, place index,
+# safe schema, privacy scan.
 uv sync --frozen
 uv run python -m unittest discover -s pipeline -p 'test_*.py' -v
 uv run python pipeline/privacy_scan.py
@@ -195,9 +236,11 @@ zooms out to z6 and checks that the committed overview source and circle layer
 are present and loaded. The search smokes cover aliases, ambiguity, popular and
 no-match states, keyboard and ARIA behaviour, crop highlight and fit, group
 overview dots, the no-mapped-fields message, clearing, and the absence of
-per-keystroke network requests. Neither suite needs the 5 GB source archive or
-tippecanoe; CI runs these commands in
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+per-keystroke network requests. The location smokes cover selecting a Wexford
+place and a county, the no-marker rule, the Wexford extent note, clearing,
+keyboard and ARIA behaviour, and no per-keystroke place requests. Neither suite
+needs the 5 GB source archive, a network connection or tippecanoe; CI runs these
+commands in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Repository layout
 
@@ -206,10 +249,12 @@ data/lookup/        crops.csv and cached 2019 counties (committed)
 data/work/          downloaded/derived data (gitignored; or GOIRT_WORK_DIR)
 docs/research/      verbatim source reports and 2025 crop tally
 docs/               data, privacy, palette, search and attribution decisions
-pipeline/           fetch, inspect, lookup, process, overview, tile, basemap, privacy scan
+pipeline/           fetch, inspect, lookup, process, overview, places, tile, basemap, privacy scan
 site/               Vite/TypeScript/MapLibre app and tests
 site/public/fixtures/wexford-sample.geojson  committed CI fixture
 site/public/data/overview-sample.geojson     committed overview CI sample
+site/public/data/places-sample.json          committed location CI sample
+site/public/data/places.json                 full all-Republic index (gitignored)
 site/public/data/crops.json                  generated crop reference
 site/public/fixtures/*.pmtiles               local full build (gitignored)
 site/public/data/*.pmtiles                   local overview build (gitignored)
@@ -218,14 +263,16 @@ site/public/basemap/*.pmtiles                local basemap (gitignored)
 
 ## Scope
 
-In v1: County Wexford, 2025 LPIS agricultural parcels, group fills, outlines,
-selected outline, group patterns at z ≥ 12.5, the low-zoom overview dots from
-z5, the safe field popup, crop search with aliases and groups, attribution and
-the data/licences dialog.
+In v1: County Wexford fields, 2025 LPIS agricultural parcels, group fills,
+outlines, selected outline, group patterns at z ≥ 12.5, the low-zoom overview
+dots from z5, the safe field popup, crop search with aliases and groups, location
+search over the all-Republic place index with a Wexford extent guard, attribution
+and the data/licences dialog.
 
-Out of scope: location/place search, statewide build, deployment, high-contrast
-mode, county/region markers, harvest dates, other years, a Cork stress test, and
-any per-farmer or per-holding analysis.
+Out of scope: streets and addresses, runtime geocoding or reverse geocoding,
+filtering fields by place, per-crop low-zoom dots, the statewide build itself,
+deployment, high-contrast mode, county/region markers, harvest dates, other
+years, a Cork stress test, and any per-farmer or per-holding analysis.
 
 ## Licence
 

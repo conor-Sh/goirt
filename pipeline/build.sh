@@ -21,6 +21,7 @@ uv run python pipeline/07_crops_json.py \
   --fields "$WORK/wexford/fields.fgb" \
   --out "$ROOT/site/public/data/crops-full.json"
 uv run python pipeline/08_overview.py
+uv run python pipeline/09_places.py
 bash pipeline/05_tiles.sh
 bash pipeline/06_basemap.sh
 uv run python pipeline/privacy_scan.py

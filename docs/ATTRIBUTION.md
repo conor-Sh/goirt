@@ -10,7 +10,8 @@ Rendered text:
 
 ```text
 © OpenStreetMap contributors · Protomaps · DAFM LPIS (CC BY 4.0) ·
-Tailte Éireann counties · Not endorsed by DAFM.
+Tailte Éireann counties · Tailte Éireann placenames · GeoNames ·
+Not endorsed by DAFM.
 ```
 
 Links:
@@ -22,6 +23,8 @@ Links:
 | DAFM LPIS (CC BY 4.0) | https://opendata.agriculture.gov.ie/dataset/anonymous-lpis-data-for-2025 |
 | CC BY 4.0 licence | https://creativecommons.org/licenses/by/4.0/ |
 | Tailte Éireann counties | https://data-osi.opendata.arcgis.com/datasets/osi::counties-national-statutory-boundaries-2019/about |
+| Tailte Éireann placenames | https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands___OSi_National_Placenames_Gazetteer/FeatureServer/0 |
+| GeoNames | https://www.geonames.org/ |
 
 The compact bar wraps or scrolls rather than hiding behind another surface on
 mobile. It is rendered by `site/src/ui/attribution.ts`.
@@ -41,6 +44,11 @@ The dialog repeats the obligations in full:
 > **County boundaries:** Tailte Éireann, *Counties — National Statutory
 > Boundaries — 2019*, CC BY 4.0. Generalised statutory boundaries, reference
 > only; not a boundary survey.
+>
+> **Place names:** Tailte Éireann/OSi *National Placenames Gazetteer* townlands
+> and GeoNames Ireland, both CC BY 4.0. English and Irish names are shown as
+> published; the place index is reference only and is not joined to field
+> records.
 >
 > **Code:** Goirt, MIT. MapLibre (BSD-3-Clause) and PMTiles (BSD-3-Clause).
 >
@@ -105,7 +113,39 @@ warns that the boundaries are generalised and for reference only; they are not a
 statutory boundary survey. The dialog repeats that caveat. The county join rule is
 documented in [DATA.md](DATA.md).
 
-## 6. Code and assets
+## 6. Place names
+
+Two Republic-wide place-name sources feed the location index. Neither is joined
+to LPIS field data.
+
+### Tailte Éireann/OSi National Placenames Gazetteer
+
+Source: Tailte Éireann, *Townlands — OSi National Placenames Gazetteer*, CC BY
+4.0.
+
+- Feature service: https://services-eu1.arcgis.com/FH5XCsx8rYXqnjF5/arcgis/rest/services/Townlands___OSi_National_Placenames_Gazetteer/FeatureServer/0
+- Licence: https://creativecommons.org/licenses/by/4.0/
+- Kept: `English_Na`, `Irish_Name`, `County`, `Contae` and point coordinates.
+- Changes: paginated query in WGS84, filtered to the 26 Republic counties,
+  English labels title-cased, blank names and duplicate name/county entries
+  dropped.
+
+### GeoNames
+
+Source: GeoNames, *Ireland* dump, CC BY 4.0.
+
+- Dataset: https://download.geonames.org/export/dump/IE.zip
+- Licence: https://creativecommons.org/licenses/by/4.0/
+- Kept: populated places (`P`), English name, Irish alternate names from
+  `alternateNamesV2`, coordinates and population.
+- Changes: filtered to the Republic by point-in-county, Irish names reduced to
+  preferred non-historic variants, places ranked by population.
+
+The bar links both sources and the dialog carries the full credit and licence.
+Keep both when the statewide build lands; the place index is already
+Republic-wide.
+
+## 7. Code and assets
 
 - Goirt code: MIT.
 - MapLibre GL: BSD-3-Clause, https://maplibre.org/
@@ -121,10 +161,12 @@ The site does not bundle a third-party webfont or icon set; it uses system font
 stacks. If Figtree, Fluent Emoji or another bundled asset is added later, ship its
 licence file and update this document and the dialog.
 
-## 7. What the attribution must not claim
+## 8. What the attribution must not claim
 
 - Do not say the map is official, endorsed or verified by DAFM.
 - Do not say the field boundaries are cadastral or legally authoritative.
 - Do not say the data is fully anonymous. Say "derived from anonymised LPIS data;
   identifying holding attributes removed".
 - Do not remove the attribution bar when a popup, sheet or dialog is open.
+- Do not imply the place names or townland points are a cadastral or
+  field-boundary dataset, or that they are joined to LPIS parcels.

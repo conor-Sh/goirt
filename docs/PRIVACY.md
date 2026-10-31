@@ -44,7 +44,10 @@ The public artifacts do not contain:
   carry no hectares, county, crop id, parcel id or source id;
 - any popup content beyond the safe five fields: no herd, holding, parcel label,
   sub-division, commonage share, scheme flag, source id or raw area field;
-- per-farmer, per-holding or per-parcel-label rankings, totals or analyses.
+- per-farmer, per-holding or per-parcel-label rankings, totals or analyses;
+- any join between the place index and field features. Townlands are not attached
+  to parcels, and selecting a county, town or townland never filters, labels or
+  reveals fields.
 
 The 2025 crop lookup does contain crop names and descriptions, but no source
 identifiers.
@@ -71,6 +74,13 @@ crop_group
 is a build hint in the feature wrapper, not a published property. Overview
 GeoJSON and PMTiles artifacts are scanned against the one-field allowlist, so an
 accidental hectares, county or identifier field fails the build.
+
+The location index has its own schema, separate from field features:
+`id`, `name`, `name_ga`, `type`, `county`, `lon`, `lat`, optional county
+`bbox`, optional town `population`, and normalised `search` forms. It carries no
+`crop_id`, `crop_group`, `hectares`, `area_basis`, parcel label or source holding
+attribute. There is no field-to-townland join; the index cannot be used to look
+up a field or the fields on a townland.
 
 PMTiles carries one technical addition, `mvt_id`. Tippecanoe generates it as an
 internal vector-tile feature id so MapLibre feature state and selection work. It
@@ -114,7 +124,8 @@ The scan reports the driver, feature count and field names for each artifact.
   published and never committed.
 - The map has no analytics, tracking or third-party telemetry. Basemap, glyph and
   sprite requests go to the configured local or Protomaps asset host; they carry
-  no field attributes.
+  no field attributes. The location index is fetched once on first focus and the
+  typed query is never sent anywhere.
 - The site does not log field properties. The field popup is client-side only and
   sends no feature data to a server or analytics service.
 
@@ -130,10 +141,15 @@ The scan reports the driver, feature count and field names for each artifact.
   field-derived aggregate `hectares_total` and `bbox` per crop and group,
   computed from those same sample parcels; it adds no per-field data. These are
   the only field-derived data in the repository.
+- The committed `places-sample.json` is place-name data only: 26 counties, a
+  slice of populated places and a small townland sample. It is not derived from
+  the LPIS field data and contains no field, holding, herd or parcel attribute.
+  The full `places.json` is a local, gitignored build.
 - No source archive is served from the site. The browser loads only the field
-  PMTiles/GeoJSON, the overview PMTiles/GeoJSON, the basemap extract and the
-  crop index (`crops.json` in the committed sample, `crops-full.json` in a full
-  build).
+  PMTiles/GeoJSON, the overview PMTiles/GeoJSON, the basemap extract, the crop
+  index (`crops.json` in the committed sample, `crops-full.json` in a full
+  build) and the location index (`places-sample.json` in the committed sample,
+  `places.json` in a full build).
 
 ## 7. Residual risk
 

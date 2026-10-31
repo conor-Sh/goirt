@@ -32,6 +32,10 @@ export function renderAttribution(): void {
     link(dataLicences.lpis, "DAFM LPIS (CC BY 4.0)"),
     document.createTextNode(" · "),
     link(dataLicences.counties, "Tailte Éireann counties"),
+    document.createTextNode(" · "),
+    link(dataLicences.townlands, "Tailte Éireann placenames"),
+    document.createTextNode(" · "),
+    link(dataLicences.geonames, "GeoNames"),
     document.createTextNode(" · Not endorsed by DAFM."),
   );
 }
@@ -69,6 +73,15 @@ export function renderDataDialog(): void {
       ", ",
       link(dataLicences.countiesLicence, "CC BY 4.0"),
       ". Generalised statutory boundaries, reference only; not a boundary survey.",
+    ]),
+    paragraph([
+      strong("Place names: "),
+      link(dataLicences.townlands, "Tailte Éireann/OSi National Placenames Gazetteer"),
+      " townlands and ",
+      link(dataLicences.geonames, "GeoNames"),
+      " Ireland, both ",
+      link(dataLicences.townlandsLicence, "CC BY 4.0"),
+      ". English and Irish names are shown as published; the place index is reference only and is not joined to field records.",
     ]),
     paragraph([
       strong("Code: "),

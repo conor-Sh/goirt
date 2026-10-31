@@ -19,33 +19,62 @@
         <h1>2025 crop map</h1>
         <p class="lede">Anonymised LPIS parcels, grouped by crop. Area in hectares, claimed or eligible.</p>
       </header>
-      <section id="crop-search" class="search-panel" aria-label="Crop search">
-        <div class="search-field">
-          <label class="visually-hidden" for="crop-search-input">Search crops and groups</label>
-          <input
-            id="crop-search-input"
-            class="search-input"
-            type="text"
-            role="combobox"
-            aria-expanded="false"
-            aria-controls="crop-search-listbox"
-            aria-autocomplete="list"
-            aria-describedby="crop-search-hint"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder="Search crops or groups"
-          />
-          <button id="crop-search-clear" class="search-clear" type="button" aria-label="Clear search text" hidden>Clear</button>
-        </div>
-        <div id="crop-search-pill" class="search-pill" hidden></div>
-        <div id="crop-search-listbox" class="search-listbox" role="listbox" aria-label="Crop search results" hidden></div>
-        <p id="crop-search-status" class="search-status" hidden></p>
-        <p id="crop-search-live" class="visually-hidden" role="status" aria-live="polite"></p>
-        <p id="crop-search-hint" class="visually-hidden">
-          Type a crop name, alias or group. Use the arrow keys to choose a result and
-          Enter to select it; Escape closes the list.
-        </p>
-      </section>
+      <div id="search-panel" class="search-panel">
+        <section id="crop-search" class="search-block" aria-label="Crop search">
+          <div class="search-field">
+            <label class="visually-hidden" for="crop-search-input">Search crops and groups</label>
+            <input
+              id="crop-search-input"
+              class="search-input"
+              type="text"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="crop-search-listbox"
+              aria-autocomplete="list"
+              aria-describedby="crop-search-hint"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Search crops or groups"
+            />
+            <button id="crop-search-clear" class="search-clear" type="button" aria-label="Clear search text" hidden>Clear</button>
+          </div>
+          <div id="crop-search-pill" class="search-pill" hidden></div>
+          <div id="crop-search-listbox" class="search-listbox" role="listbox" aria-label="Crop search results" hidden></div>
+          <p id="crop-search-status" class="search-status" hidden></p>
+          <p id="crop-search-live" class="visually-hidden" role="status" aria-live="polite"></p>
+          <p id="crop-search-hint" class="visually-hidden">
+            Type a crop name, alias or group. Use the arrow keys to choose a result and
+            Enter to select it; Escape closes the list.
+          </p>
+        </section>
+        <section id="location-search" class="search-block" aria-label="Location search">
+          <div class="search-field">
+            <label class="visually-hidden" for="location-search-input">Search places</label>
+            <input
+              id="location-search-input"
+              class="search-input"
+              type="text"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="location-search-listbox"
+              aria-autocomplete="list"
+              aria-describedby="location-search-hint"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Search places"
+            />
+            <button id="location-search-clear" class="search-clear" type="button" aria-label="Clear location search text" hidden>Clear</button>
+          </div>
+          <div id="location-search-pill" class="search-pill" hidden></div>
+          <div id="location-search-listbox" class="search-listbox" role="listbox" aria-label="Location search results" hidden></div>
+          <p id="location-search-status" class="search-status" hidden></p>
+          <p id="location-search-live" class="visually-hidden" role="status" aria-live="polite"></p>
+          <p id="location-search-hint" class="visually-hidden">
+            Type a county, town or townland in English or Irish. Use the arrow keys
+            to choose a result and Enter to select it; Escape closes the list.
+          </p>
+        </section>
+      </div>
       <div id="attribution" class="attribution" aria-label="Map data attribution"></div>
       <button id="data-button" class="data-button" type="button" aria-haspopup="dialog">
         Data &amp; licences
