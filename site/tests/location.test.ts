@@ -156,8 +156,10 @@ describe("place states", () => {
 
   it("counts only enabled places as available results", () => {
     const view = searchPlaces(places, "ba", (entry) => entry.name === "Courtown", 2);
-    expect(view.options[0]).toMatchObject({ label: "Courtown", disabled: false });
-    expect(view.options[1].disabled).toBe(true);
+    expect(view.options.find((option) => option.label === "Courtown")).toMatchObject({
+      disabled: false,
+    });
+    expect(view.options.some((option) => option.disabled)).toBe(true);
     expect(view.message).toBeUndefined();
     expect(describePlaceView(view, "ba")).toBe("1 result available: Courtown.");
   });
@@ -185,6 +187,30 @@ describe("place states", () => {
     expect(county?.group).toBe("Counties");
     expect(town?.group).toBe("Towns and villages");
     expect(town?.meta).toContain("Wexford");
+  });
+
+  it("shows one heading per type with enabled results first within each type", () => {
+    const bounds: [number, number, number, number] = [-7.1, 52.1, -6.05, 52.85];
+    for (const query of ["bally", "ba", "e"]) {
+      const view = searchPlaces(places, query, (entry) =>
+        withinBounds(entry, bounds),
+      );
+      const groups = view.options.map((option) => option.group);
+      const runs = groups.filter(
+        (group, index) => index === 0 || group !== groups[index - 1],
+      );
+      expect(new Set(runs).size).toBe(runs.length);
+      expect(view.options.some((option) => !option.disabled)).toBe(true);
+      for (let index = 1; index < view.options.length; index++) {
+        const previous = view.options[index - 1];
+        const current = view.options[index];
+        if (previous.kind === current.kind) {
+          expect(Number(previous.disabled)).toBeLessThanOrEqual(
+            Number(current.disabled),
+          );
+        }
+      }
+    }
   });
 });
 

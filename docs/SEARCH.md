@@ -111,8 +111,9 @@ points the local full build at `places.json`.
   7-result cap.
 - **Empty query:** popular counties and towns, preferring places in the current
   extent; popular towns are not padded with disabled out-of-area places.
-- **Results:** grouped by Counties, Towns and villages, and Townlands, with the
-  county as a subtitle and the Irish name when it differs. Places that share a
+- **Results:** grouped by Counties, Towns and villages, and Townlands, with one
+  heading per type and enabled places ahead of disabled ones within each type,
+  the county as a subtitle and the Irish name when it differs. Places that share a
   name in the same county add a nearest-town hint, such as “near Gorey”, or
   their coordinates when the nearest town is also shared. An out-of-area place
   is shown disabled with “Available with the nationwide map”.

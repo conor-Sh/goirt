@@ -371,9 +371,15 @@ export function searchPlaces(
     else disabled.push(entry);
   }
 
-  const options = [...available, ...disabled]
-    .slice(0, limit)
-    .map((entry) => optionFor(entry.place, isAvailable));
+  const selected = [...available, ...disabled].slice(0, limit);
+  const options = selected
+    .map((entry) => ({ entry, disabled: !isAvailable(entry.place) }))
+    .sort(
+      (a, b) =>
+        TYPE_RANK[a.entry.place.type] - TYPE_RANK[b.entry.place.type] ||
+        Number(a.disabled) - Number(b.disabled),
+    )
+    .map(({ entry }) => optionFor(entry.place, isAvailable));
   return {
     options,
     message:

@@ -12,8 +12,8 @@ Sources:
   * GeoNames Ireland dump (CC BY 4.0)
   * Tailte Éireann/OSi National Placenames Gazetteer townlands (CC BY 4.0)
 
-CI only reads the committed sample. This script is a local build step and is the
-only place that touches the network.
+CI only reads the committed sample. This script is a local build step; like the
+other fetch stages (01_fetch.sh and 06_basemap.sh), it downloads source data.
 """
 
 from __future__ import annotations
