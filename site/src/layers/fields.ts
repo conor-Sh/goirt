@@ -16,6 +16,13 @@ export function fillLayerIds(lookup: GroupLookup): string[] {
 export const outlineLayerId = "fields-outline";
 export const selectedHaloLayerId = "fields-selected-halo";
 export const selectedLayerId = "fields-selected-outline";
+export const searchDimLayerId = "fields-search-dim";
+export const searchHaloLayerId = "fields-search-halo";
+export const searchOutlineLayerId = "fields-search-outline";
+
+function hiddenSearchFilter(): FilterSpecification {
+  return ["==", ["get", "crop_id"], -1] as FilterSpecification;
+}
 
 const sourceSpec: SourceSpecification = useVectorFields
   ? {
@@ -84,6 +91,49 @@ function fieldLayers(lookup: GroupLookup): LayerSpecification[] {
       "line-color": palette.outline,
       "line-opacity": 0.78,
       "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 12, 1.25, 14, 1.5],
+    },
+  });
+
+  layers.push({
+    id: searchDimLayerId,
+    type: "fill",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: 10,
+    filter: hiddenSearchFilter(),
+    paint: {
+      "fill-color": palette.land,
+      "fill-opacity": 0.62,
+    },
+  });
+
+  layers.push({
+    id: searchHaloLayerId,
+    type: "line",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: 10,
+    filter: hiddenSearchFilter(),
+    layout: { "line-join": "round" },
+    paint: {
+      "line-color": palette.card,
+      "line-opacity": 0.95,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 4.5, 14, 6],
+    },
+  });
+
+  layers.push({
+    id: searchOutlineLayerId,
+    type: "line",
+    source: FIELDS_SOURCE,
+    ...sourceLayer,
+    minzoom: 10,
+    filter: hiddenSearchFilter(),
+    layout: { "line-join": "round" },
+    paint: {
+      "line-color": palette.selectedOutline,
+      "line-opacity": 1,
+      "line-width": ["interpolate", ["linear"], ["zoom"], 10, 2, 14, 3],
     },
   });
 

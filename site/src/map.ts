@@ -11,6 +11,7 @@ import {
   basemapLayers,
   fieldsInsertIndex,
 } from "./style/basemap";
+import { attachCropSearch } from "./ui/search";
 import { attachSelection } from "./ui/selection";
 
 declare global {
@@ -136,6 +137,7 @@ export function createMap(
       addFieldSource(map);
       addFieldLayers(map, beforeId, lookup);
       attachSelection(map, loadedCrops);
+      attachCropSearch(map, loadedCrops());
 
       fieldsReady(map)
         .then((count) => {

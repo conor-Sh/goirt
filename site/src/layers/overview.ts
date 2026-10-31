@@ -1,15 +1,17 @@
 import type {
   ExpressionSpecification,
+  FilterSpecification,
   LayerSpecification,
   Map as MapLibreMap,
   SourceSpecification,
 } from "maplibre-gl";
 import { overviewUrl, useVectorOverview } from "../config";
-import { saturateHex, type GroupLookup } from "../palette";
+import { palette, saturateHex, type GroupLookup } from "../palette";
 
 export const OVERVIEW_SOURCE = "overview";
 export const OVERVIEW_SOURCE_LAYER = "overview";
 export const OVERVIEW_LAYER_ID = "overview-dots";
+export const OVERVIEW_HIGHLIGHT_LAYER_ID = "overview-highlight";
 
 const FALLBACK_COLOR = "#D4C8AE";
 /** Pastel field colours wash out from far away; the dots carry a richer version. */
@@ -86,6 +88,45 @@ export function addOverviewLayer(
   const layer = overviewLayer(lookup);
   map.addLayer(layer, beforeId);
   return layer.id;
+}
+
+export function setOverviewHighlight(
+  map: MapLibreMap,
+  groupIds: readonly string[],
+): void {
+  if (map.getLayer(OVERVIEW_HIGHLIGHT_LAYER_ID)) {
+    map.removeLayer(OVERVIEW_HIGHLIGHT_LAYER_ID);
+  }
+  if (groupIds.length === 0 || !map.getSource(OVERVIEW_SOURCE)) return;
+
+  const before = map
+    .getStyle()
+    .layers?.find((layer) => layer.id.startsWith("fields-"))?.id;
+  const filter = [
+    "in",
+    ["get", "crop_group"],
+    ["literal", groupIds],
+  ] as FilterSpecification;
+
+  map.addLayer(
+    {
+      id: OVERVIEW_HIGHLIGHT_LAYER_ID,
+      type: "circle",
+      source: OVERVIEW_SOURCE,
+      ...sourceLayer,
+      maxzoom: 10.5,
+      filter,
+      paint: {
+        "circle-color": palette.selectedOutline,
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 7, 4, 10.5, 6],
+        "circle-opacity": 0.92,
+        "circle-stroke-color": palette.card,
+        "circle-stroke-width": 1.4,
+        "circle-pitch-alignment": "map",
+      },
+    },
+    before && map.getLayer(before) ? before : undefined,
+  );
 }
 
 export function overviewReady(map: MapLibreMap): Promise<number> {

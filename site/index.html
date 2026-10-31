@@ -19,6 +19,33 @@
         <h1>2025 crop map</h1>
         <p class="lede">Anonymised LPIS parcels, grouped by crop. Area in hectares, claimed or eligible.</p>
       </header>
+      <section id="crop-search" class="search-panel" aria-label="Crop search">
+        <div class="search-field">
+          <label class="visually-hidden" for="crop-search-input">Search crops and groups</label>
+          <input
+            id="crop-search-input"
+            class="search-input"
+            type="text"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="crop-search-listbox"
+            aria-autocomplete="list"
+            aria-describedby="crop-search-hint"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Search crops or groups"
+          />
+          <button id="crop-search-clear" class="search-clear" type="button" aria-label="Clear search text" hidden>Clear</button>
+        </div>
+        <div id="crop-search-pill" class="search-pill" hidden></div>
+        <div id="crop-search-listbox" class="search-listbox" role="listbox" aria-label="Crop search results" hidden></div>
+        <p id="crop-search-status" class="search-status" hidden></p>
+        <p id="crop-search-live" class="visually-hidden" role="status" aria-live="polite"></p>
+        <p id="crop-search-hint" class="visually-hidden">
+          Type a crop name, alias or group. Use the arrow keys to choose a result and
+          Enter to select it; Escape closes the list.
+        </p>
+      </section>
       <div id="attribution" class="attribution" aria-label="Map data attribution"></div>
       <button id="data-button" class="data-button" type="button" aria-haspopup="dialog">
         Data &amp; licences
