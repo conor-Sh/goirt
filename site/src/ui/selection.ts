@@ -38,8 +38,7 @@ export function attachSelection(map: MapLibreMap, crops: () => CropsFile | null)
     const feature = features[0];
     if (feature.id === undefined) return;
     const properties = feature.properties as FieldProperties;
-    const id = feature.id ?? properties.crop_id;
-    if (id === undefined) return;
+    const id = feature.id;
 
     clear();
     selectedId = id;

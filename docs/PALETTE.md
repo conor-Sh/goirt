@@ -71,9 +71,9 @@ The separation is deliberate:
 | Fruit | `#9A7F9E` | Orchard dots |
 | Fallow & environment | `#D4C8AE` | Very sparse stipple |
 
-Per-crop colours remain in `data/lookup/crops.csv` for the future popup/search,
-but the map keys fills and patterns by `crop_group`. That keeps the legend to
-eight groups and the texture set to seven patterns.
+Per-crop colours remain in `data/lookup/crops.csv` for the field popup and crop
+search, but the map keys fills and patterns by `crop_group`. That keeps the legend
+to eight groups and the texture set to seven patterns.
 
 ## 4. Patterns and zoom
 
@@ -116,8 +116,14 @@ Selection highlights rather than hides:
 - Selected field: cream halo `#FFFDF8` plus a `#2F4A36` outline at 2–3 px.
 - The selected field keeps its crop fill and pattern; selection never replaces
   the underlying group.
-- A small non-blocking label may show the crop name, group, hectares and county.
-  There is no popup card in this version.
+- Clicking a field opens a details popup: an anchored card beside the field on
+  desktop, a bottom sheet above the attribution controls on small screens.
+- The popup shows the crop display name, group, claimed or eligible area in
+  hectares to 0.1 ha, and county, in card ink `#223028` or soft ink `#526157` on
+  the card surface `#FFFDF8`. It never shows herd, parcel, subdivision, scheme
+  or source identifiers.
+- Clicking empty map, moving the map, pressing Escape or using the close control
+  dismisses the popup.
 
 ## 7. Contrast
 
@@ -152,8 +158,8 @@ accessibility position for v1 is:
 - seven group patterns differentiate tillage at z ≥ 12.5;
 - text uses ink or soft ink, never a crop fill as a text background without
   checking;
-- the future popup and legend must show names and pattern swatches, not colour
-  alone.
+- the field popup and legend must name crops and groups in text, not rely on
+  colour alone.
 
 There is no high-contrast toggle in v1. That is a deliberate scope decision, not a
 claim that the pastel map meets strict compliance by itself.

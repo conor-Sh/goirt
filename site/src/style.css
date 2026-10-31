@@ -329,7 +329,7 @@ body {
     position: fixed;
     top: auto;
     right: 0;
-    bottom: calc(max(0.5rem, env(safe-area-inset-bottom)) + 2.4rem);
+    bottom: calc(max(0.5rem, env(safe-area-inset-bottom)) + 5.6rem);
     left: 0;
     width: auto;
     max-width: none;

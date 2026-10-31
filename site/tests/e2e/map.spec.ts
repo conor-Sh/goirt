@@ -257,6 +257,16 @@ test("shows the field popup as a bottom sheet on a mobile viewport", async ({
   expect(Number.parseFloat(layout.paddingLeft)).toBeGreaterThanOrEqual(16);
   expect(Number.parseFloat(layout.paddingRight)).toBeGreaterThanOrEqual(16);
 
+  const clearsBottomControls = await popup.evaluate((element) => {
+    const popupRect = element.getBoundingClientRect();
+    const controls = document.querySelectorAll(".attribution, #data-button");
+    return [...controls].every((control) => {
+      const rect = control.getBoundingClientRect();
+      return popupRect.bottom <= rect.top;
+    });
+  });
+  expect(clearsBottomControls).toBe(true);
+
   await page.keyboard.press("Escape");
   await expect(popup).toBeHidden();
 });

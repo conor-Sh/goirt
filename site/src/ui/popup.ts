@@ -32,6 +32,7 @@ const SHEET_QUERY = "(max-width: 640px)";
 const CARD_MARGIN = 12;
 const CARD_GAP = 14;
 const TOP_CLEARANCE = 84;
+const CONTROL_SELECTOR = ".attribution, .data-button";
 
 function finiteNumber(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) return value;
@@ -98,6 +99,7 @@ export class FieldPopup {
   readonly element: HTMLDivElement;
   readonly closeButton: HTMLButtonElement;
 
+  private readonly parent: HTMLElement;
   private readonly titleElement: HTMLHeadingElement;
   private readonly groupRow: HTMLDivElement;
   private readonly groupValue: HTMLElement;
@@ -109,6 +111,7 @@ export class FieldPopup {
   private readonly status: HTMLDivElement;
 
   private returnFocus: HTMLElement | null = null;
+  private lastAnchor: PopupAnchor | null = null;
   private open = false;
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
@@ -117,7 +120,12 @@ export class FieldPopup {
     this.close();
   };
 
+  private readonly onViewportChange = (): void => {
+    if (this.open && this.lastAnchor) this.updateLayout(this.lastAnchor);
+  };
+
   constructor(parent: HTMLElement) {
+    this.parent = parent;
     this.element = document.createElement("div");
     this.element.id = "field-popup";
     this.element.className = "field-popup";
@@ -170,6 +178,7 @@ export class FieldPopup {
 
     parent.append(this.element, this.status);
     document.addEventListener("keydown", this.onKeyDown);
+    window.addEventListener("resize", this.onViewportChange);
   }
 
   private createFact(
@@ -190,10 +199,6 @@ export class FieldPopup {
     return { row, label, value };
   }
 
-  isOpen(): boolean {
-    return this.open;
-  }
-
   show(
     content: FieldPopupContent,
     anchor: PopupAnchor,
@@ -212,10 +217,8 @@ export class FieldPopup {
 
     this.element.hidden = false;
     this.open = true;
-    this.element.dataset.layout = window.matchMedia(SHEET_QUERY).matches
-      ? "sheet"
-      : "card";
-    this.position(anchor);
+    this.lastAnchor = anchor;
+    this.updateLayout(anchor);
 
     if (!wasOpen) {
       this.returnFocus = returnFocus;
@@ -226,9 +229,11 @@ export class FieldPopup {
   close(restoreFocus = true): void {
     if (!this.open) return;
     this.open = false;
+    this.lastAnchor = null;
     this.element.hidden = true;
     this.element.style.left = "";
     this.element.style.top = "";
+    this.element.style.bottom = "";
     this.element.dataset.layout = "";
     this.status.textContent = "";
 
@@ -237,16 +242,38 @@ export class FieldPopup {
     if (restoreFocus) focusWithoutScroll(target);
   }
 
-  private position(anchor: PopupAnchor): void {
-    if (window.matchMedia(SHEET_QUERY).matches) {
+  private updateLayout(anchor: PopupAnchor): void {
+    const sheet = window.matchMedia(SHEET_QUERY).matches;
+    this.element.dataset.layout = sheet ? "sheet" : "card";
+    this.position(anchor, sheet);
+  }
+
+  private bottomClearance(viewportHeight: number): number {
+    let clearance = CARD_MARGIN;
+    const controls = this.parent.querySelectorAll<HTMLElement>(CONTROL_SELECTOR);
+    for (const control of controls) {
+      if (control.hidden) continue;
+      const rect = control.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) continue;
+      clearance = Math.max(clearance, viewportHeight - rect.top + CARD_MARGIN);
+    }
+    return clearance;
+  }
+
+  private position(anchor: PopupAnchor, sheet: boolean): void {
+    const viewportHeight = document.documentElement.clientHeight;
+    const clearance = this.bottomClearance(viewportHeight);
+
+    if (sheet) {
       this.element.style.left = "";
       this.element.style.top = "";
+      this.element.style.bottom = `${Math.round(clearance)}px`;
       return;
     }
 
+    this.element.style.bottom = "";
     const rect = this.element.getBoundingClientRect();
     const viewportWidth = document.documentElement.clientWidth;
-    const viewportHeight = document.documentElement.clientHeight;
 
     let left = anchor.x + CARD_GAP;
     if (left + rect.width > viewportWidth - CARD_MARGIN) {
@@ -259,7 +286,7 @@ export class FieldPopup {
 
     const top = Math.min(
       Math.max(TOP_CLEARANCE, anchor.y - rect.height / 2),
-      Math.max(TOP_CLEARANCE, viewportHeight - rect.height - CARD_MARGIN),
+      Math.max(TOP_CLEARANCE, viewportHeight - rect.height - clearance),
     );
 
     this.element.style.left = `${Math.round(left)}px`;
