@@ -111,7 +111,7 @@ test("fits a county bbox and shows the empty-query popular places", async ({
   const listbox = page.getByRole("listbox", { name: "Location search results" });
 
   await expect(option(page, "Wexford")).toBeVisible();
-  await expect(option(page, "Enniscorthy")).toBeVisible();
+  await expect(option(page, "Dublin")).toBeVisible();
   const groupLabels = await page
     .locator("#location-search-listbox .search-group-label")
     .allTextContents();
@@ -135,23 +135,31 @@ test("fits a county bbox and shows the empty-query popular places", async ({
   expect(state.zoom).toBeLessThan(11);
 });
 
-test("disables out-of-area places with a nationwide note", async ({ page }) => {
+test("enables out-of-area places across the Republic", async ({ page }) => {
   await ready(page);
   const input = await openLocation(page);
   const before = await mapState(page);
+  const corkPlace = places.places.find(
+    (place) => place.type === "county" && place.name === "Cork",
+  );
+  expect(corkPlace).toBeDefined();
 
   await input.fill("cork");
   const cork = page.getByRole("option", { name: /^Cork/ }).first();
-  await expect(cork).toHaveAttribute("aria-disabled", "true");
-  await expect(cork).toContainText("Available with the nationwide map");
-  await cork.click({ force: true });
+  await expect(cork).not.toHaveAttribute("aria-disabled", "true");
+  await expect(cork).not.toContainText("Available with the nationwide map");
+  await cork.click();
+  await expect(page.locator("#location-search-pill")).toContainText("Cork");
 
-  await expect(page.locator("#location-search-pill")).toBeHidden();
+  await page.waitForFunction(
+    () => !(window as unknown as { __goirt: GoirtProbe }).__goirt.map.isMoving(),
+    undefined,
+    { timeout: 5_000 },
+  );
   const after = await mapState(page);
-  expect(after.center.lng).toBeCloseTo(before.center.lng, 5);
-  expect(after.center.lat).toBeCloseTo(before.center.lat, 5);
-  expect(after.zoom).toBeCloseTo(before.zoom, 4);
-  await expect(page.locator("#location-search-status")).toContainText(
+  expect(after.center.lng).not.toBeCloseTo(before.center.lng, 2);
+  expect(after.center.lat).not.toBeCloseTo(before.center.lat, 2);
+  await expect(page.locator("#location-search-status")).not.toContainText(
     "nationwide map",
   );
 });

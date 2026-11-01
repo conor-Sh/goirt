@@ -402,6 +402,11 @@ def wexford_polygon(counties: Sequence[County]) -> BaseGeometry:
     raise PipelineError(f"{WEXFORD} not found in county boundaries")
 
 
+def republic_polygon(counties: Sequence[County]) -> BaseGeometry:
+    """Union of the 26 statutory counties, used to clip overview dots."""
+    return shapely.union_all([county.geometry for county in counties])
+
+
 def bbox_2157(geom_4326: BaseGeometry) -> tuple[float, float, float, float]:
     from pyproj import Transformer
 

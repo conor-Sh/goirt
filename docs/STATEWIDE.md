@@ -1,98 +1,79 @@
-# Statewide build: Wexford-only cleanup
+# Statewide build
 
-The repository is still a County Wexford build. The location index is already
-Republic-wide, but several map, data and copy decisions are Wexford-only. This is
-the checklist for the nationwide build. Do not delete the all-Republic place
-index; it is the one piece that already spans the country.
+The map is Republic-wide. The location index was already all-Republic; the field,
+overview and basemap sources, the site config and the copy now cover the whole
+country too. This document records the cleanup and the local build.
 
-## 1. Remove the Wexford extent guard
+## 1. Extent and scope
 
-- `site/src/config.ts` exports the temporary `locationBounds` constant (the
-  Wexford basemap bbox). Set it to `null` when the basemap and field source cover
-  Ireland. The location field will then enable every place instead of showing
-  “Available with the nationwide map”.
-- Remove the “available with the nationwide map” note path in
-  `site/src/ui/location-model.ts` only if the guard is permanently gone; the
-  disabled-row behaviour is still useful for future partial deployments.
-- Keep the `withinBounds` helper and its unit tests; they are generic.
-- Update the Wexford-specific location Playwright assertions in
-  `site/tests/e2e/location.spec.ts` to expect out-of-area places to be enabled.
+- `site/src/config.ts` no longer clips location search to a Wexford bbox:
+  `locationBounds` is `null`, so every place in the index can recentre the map.
+  `withinBounds` and its unit tests remain as a generic helper for a future
+  partial deployment.
+- `pipeline/common.py` keeps the 2019 county join for every field. The Wexford
+  filter is only used by the small fixture mode; `--statewide` keeps every
+  Republic county and the `"Ireland"` fallback.
+- The place index still covers all 26 Republic counties, 12,159 populated places
+  and 50,380 townlands, with English and Irish names. It has no field join, no
+  filtering of fields by place and no selection marker.
 
-## 2. Replace the basemap and field extent
+## 2. Statewide data build
 
-- `pipeline/06_basemap.sh`: replace the Wexford `PMTILES_BBOX` default
-  `-7.10,52.10,-6.05,52.85` with an Ireland bbox, or build a full-country
-  extract. Rename the output if the path changes, and update
-  `site/.env.full.example`.
-- `pipeline/01_fetch.sh`, `pipeline/04_process.py` and `pipeline/common.py`:
-  remove the `WEXFORD_BBOX` clip and the `Wexford` county filter that produce
-  the fixture. Keep the county join so every field still carries its 2019
-  county name.
-- `pipeline/05_tiles.sh`: rename `wexford-fields.pmtiles` and point
-  `site/.env.full.example` at the statewide tile output.
-- Delete the Wexford-only basemap and field PMTiles from local build paths, or
-  leave them gitignored; never commit them.
+```bash
+export GOIRT_WORK_DIR=/path/to/large/work
+bash pipeline/01_fetch.sh          # once: download, verify, extract
+bash pipeline/build.sh --statewide
+```
 
-## 3. Update the site shell and copy
+The process reads the 5 GB GeoPackage in 25 km EPSG:2157 tiles and appends to one
+FlatGeobuf, so the whole field set never has to fit in memory:
 
-- `site/index.html`: change the map `aria-label`, title, description, eyebrow,
-  heading and lede from County Wexford to Ireland.
-- `site/src/map.ts`: change the opening `center` and `zoom` from the Wexford
-  centre (`[-6.58, 52.45]`, `z10.2`) to an Ireland view; confirm `minZoom` and
-  `maxZoom` still suit the tiles.
-- `site/src/config.ts`, `site/.env.example` and `site/.env.full.example`: point
-  at the statewide fields, overview, basemap and `places.json`.
-- `site/src/ui/attribution.ts`: update the “What this map is, and is not” text
-  from County Wexford to Ireland; keep the DAFM non-endorsement wording.
+- `pipeline/04_process.py --statewide` writes
+  `$GOIRT_WORK_DIR/statewide/fields.{fgb,geojson}` and `manifest.json` with the
+  statewide candidate, folded-part, retained-feature, county, group and crop
+  counts plus the source and retained bboxes.
+- `pipeline/07_crops_json.py --fields …/statewide/fields.fgb` writes the
+  gitignored statewide `site/public/data/crops-full.json`. It reads the fields in
+  chunks and unions each crop's and group's totals and bbox.
+- `pipeline/08_overview.py --statewide` samples the same area-proportional dots
+  with the national 250,000 dot cap. `area_per_dot` rises above the 20 ha
+  Wexford default only when the cap requires it. Dots carry only `crop_group`.
+- `pipeline/05_tiles.sh --statewide` writes
+  `site/public/fixtures/fields-2025-v1.pmtiles` with
+  `-Z10 -z14 -B9 --generate-ids --simplification=2 --detect-shared-borders
+  --drop-densest-as-needed --extend-zooms-if-still-dropping`. The full-detail
+  layer is not coalesced.
+- `pipeline/06_basemap.sh --statewide` extracts
+  `site/public/basemap/ireland.pmtiles` at z0–14 from the pinned Protomaps build.
+- `pipeline/privacy_scan.py` reads the statewide artifacts and fails on any
+  property outside the five safe fields or the `crop_group`-only overview schema.
 
-## 4. Replace Wexford samples and totals
+The measured local outputs are `fields-2025-v1.pmtiles` at 348,180,930 bytes,
+`overview-2025-v1.pmtiles` at 2,457,135 bytes and `basemap/ireland.pmtiles` at
+277,139,277 bytes; together the three statewide artifacts are 627,777,342 bytes
+(about 628 MB). Every statewide artifact is gitignored. The committed Wexford
+sample and `overview-sample.geojson` stay in the repository for CI.
 
-- `site/public/fixtures/wexford-sample.geojson`: replace with a nationwide or
-  multi-county CI sample that still carries only the five public field fields.
-- `site/public/data/overview-sample.geojson`: regenerate from the new sample.
-- `site/public/data/crops.json`: regenerate field-derived `hectares_total` and
-  `bbox` values from the new sample; keep the lookup crop set unchanged.
-- `pipeline/test_pipeline.py`: replace Wexford parcel counts, totals, bbox and
-  sample assertions. Add/retain a check that county values are the 26 statutory
-  counties.
-- `docs/DATA.md`: replace the Wexford fixture outcome, area, group and overview
-  totals with the statewide build results.
+## 3. Site shell and copy
 
-## 5. Rebuild fields and overview for statewide volume
+- `site/index.html`, `site/src/map.ts` and `site/src/ui/attribution.ts` describe
+  the Republic of Ireland, not County Wexford.
+- The map opens on Ireland at about `[-8.0, 53.35]`, z6.4 at 1440×900, with
+  `minZoom` 5 and `maxZoom` 15. The overview layer covers z5–10.5 and fields start at z10.
+- `site/.env.full.example` points at `fields-2025-v1.pmtiles`,
+  `overview-2025-v1.pmtiles`, `crops-full.json`, `basemap/ireland.pmtiles` and
+  the full `places.json`.
+- `site/.env.example` and `.env.e2e` keep the committed Wexford sample for CI.
 
-- Run `pipeline/build.sh` after the clip/filter changes and build the native
-  tools described in the README.
-- `pipeline/overview.py`: the national dot cap is already 250,000 and
-  `area_per_dot` scales automatically, but re-tune the density thresholds and
-  tile zooms for the statewide distribution. Check the z5–z10 overview against
-  the new field extent.
-- `pipeline/05_tiles.sh`: re-tune `-Z`/`-z`, simplification, tile byte caps and
-  dropping behaviour for the larger field set. Record the actual tippecanoe
-  command and output size in `docs/DATA.md`.
-- Re-run `pipeline/privacy_scan.py`; the five-field and `crop_group` allowlists
-  must not change.
-- Tune the map's field/overview zoom handover (`FIELD_MIN_ZOOM`, overview
-  `maxzoom`) if the statewide density needs it.
+## 4. Final checks
 
-## 6. Keep the place index
+```bash
+pnpm --dir site typecheck
+pnpm --dir site test
+pnpm --dir site test:e2e
+uv run python -m unittest discover -s pipeline -p 'test_*.py' -v
+uv run python pipeline/privacy_scan.py
+```
 
-- Keep `pipeline/09_places.py`, `site/public/data/places-sample.json` and the
-  full gitignored `site/public/data/places.json`. The index already covers all
-  26 Republic counties, 11,603 populated places and 50,380 townlands, with
-  English and Irish names.
-- Re-run `pipeline/09_places.py` only to refresh sources; it still writes a
-  small CI sample and needs network access. CI continues to read the committed
-  sample and never downloads GeoNames or the Gazetteer.
-- Keep the place index independent of field data: no field-to-townland join, no
-  filtering of crop fields by place, and no pin or marker on selection.
-- Refresh `docs/DATA.md`, `docs/SEARCH.md` and `docs/ATTRIBUTION.md` counts if
-  the source releases change.
-
-## 7. Final checks
-
-- `pnpm --dir site typecheck`, `pnpm --dir site test`, `pnpm --dir site test:e2e`.
-- `uv run python -m unittest discover -s pipeline -p 'test_*.py' -v`.
-- `uv run python pipeline/privacy_scan.py`.
-- Confirm the location field still searches English and Irish names, still
-  recentres only, and still loads its index once on first focus with no
-  per-keystroke requests.
+The location field still searches English and Irish names, recentres only, and
+loads its index once on first focus with no per-keystroke requests.

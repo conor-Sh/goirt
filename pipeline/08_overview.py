@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Build the low-zoom overview dot source and its committed CI sample.
 
-Full output:
-  $GOIRT_WORK_DIR/wexford/overview.geojson     dot source (gitignored)
-  site/public/data/overview.pmtiles            tiled dots (gitignored)
+Full outputs:
+  $GOIRT_WORK_DIR/wexford/overview.geojson          dot source (gitignored)
+  site/public/data/overview.pmtiles                 tiled dots (gitignored)
+  $GOIRT_WORK_DIR/statewide/overview.geojson        statewide dot source (gitignored)
+  site/public/data/overview-2025-v1.pmtiles         statewide tiled dots (gitignored)
 
 Committed output:
-  site/public/data/overview-sample.geojson     tiny sample from the CI fixture
+  site/public/data/overview-sample.geojson          Wexford CI sample
 
 Sampling and density rules live in pipeline/overview.py.
 """
@@ -32,6 +34,9 @@ def manifest_group_total(fields: Path) -> float | None:
     if not manifest.exists():
         return None
     counts = json.loads(manifest.read_text(encoding="utf-8")).get("counts", {})
+    total = counts.get("total_hectares")
+    if total is not None:
+        return float(total)
     groups = counts.get("group_hectares")
     if not groups:
         return None
@@ -40,30 +45,33 @@ def manifest_group_total(fields: Path) -> float | None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--statewide", action="store_true", help="build all-Republic dots")
     parser.add_argument(
-        "--fields", type=Path, default=common.WORK_DIR / "wexford" / "fields.fgb"
+        "--fields", type=Path, default=None, help="processed fields to sample"
     )
     parser.add_argument(
         "--sample-fields",
         type=Path,
         default=common.SITE_FIXTURES / "wexford-sample.geojson",
     )
-    parser.add_argument(
-        "--dots", type=Path, default=common.WORK_DIR / "wexford" / "overview.geojson"
-    )
-    parser.add_argument(
-        "--out", type=Path, default=common.SITE_DATA / "overview.pmtiles"
-    )
+    parser.add_argument("--dots", type=Path, default=None, help="dot GeoJSON output")
+    parser.add_argument("--out", type=Path, default=None, help="dot PMTiles output")
     parser.add_argument(
         "--sample-out",
         type=Path,
         default=common.SITE_DATA / "overview-sample.geojson",
     )
-    parser.add_argument("--max-dots", type=int, default=overview.DEFAULT_MAX_DOTS)
+    parser.add_argument("--max-dots", type=int, default=None)
     parser.add_argument(
         "--start-ha-per-dot", type=float, default=overview.START_HA_PER_DOT
     )
     parser.add_argument("--seed", type=int, default=overview.SEED)
+    parser.add_argument(
+        "--chunk-features",
+        type=int,
+        default=100_000,
+        help="features read per chunk from the processed fields",
+    )
     parser.add_argument(
         "--tippecanoe",
         default=os.environ.get("TIPPECANOE", "tippecanoe"),
@@ -75,20 +83,47 @@ def main() -> int:
     args = parser.parse_args()
 
     started = time.time()
-    polygon = overview.wgs84_wexford()
+    scope = "statewide" if args.statewide else "wexford"
+    if args.fields is None:
+        args.fields = common.WORK_DIR / scope / "fields.fgb"
+    if args.dots is None:
+        args.dots = common.WORK_DIR / scope / "overview.geojson"
+    if args.out is None:
+        args.out = common.SITE_DATA / (
+            "overview-2025-v1.pmtiles" if args.statewide else "overview.pmtiles"
+        )
+    if args.max_dots is None:
+        args.max_dots = (
+            overview.NATIONAL_MAX_DOTS
+            if args.statewide
+            else overview.DEFAULT_MAX_DOTS
+        )
+    polygon = (
+        overview.republic_counties() if args.statewide else overview.wgs84_wexford()
+    )
 
     if not args.fields.exists():
         raise SystemExit(f"missing {args.fields}; run pipeline/04_process.py first")
-    geometries, groups, hectares = overview.read_fields(args.fields)
-    features, stats = overview.build_features(
-        geometries,
-        groups,
-        hectares,
-        polygon,
-        max_dots=args.max_dots,
-        start_ha_per_dot=args.start_ha_per_dot,
-        seed=args.seed,
-    )
+    if args.statewide:
+        features, stats = overview.build_features_chunked(
+            args.fields,
+            polygon,
+            max_dots=args.max_dots,
+            start_ha_per_dot=args.start_ha_per_dot,
+            seed=args.seed,
+            chunk_features=args.chunk_features,
+        )
+    else:
+        geometries, groups, hectares = overview.read_fields(args.fields)
+        features, stats = overview.build_features(
+            geometries,
+            groups,
+            hectares,
+            polygon,
+            max_dots=args.max_dots,
+            start_ha_per_dot=args.start_ha_per_dot,
+            seed=args.seed,
+        )
     manifest_total = manifest_group_total(args.fields)
     if manifest_total is not None and abs(
         float(stats["total_hectares"]) - manifest_total
@@ -101,7 +136,7 @@ def main() -> int:
     overview.write_features(
         args.dots,
         features,
-        "Area-proportional Wexford overview dots. Properties carry crop_group only.",
+        f"Area-proportional {scope} overview dots. Properties carry crop_group only.",
     )
     print(f"full overview: {json.dumps(stats, sort_keys=True)}", flush=True)
 
@@ -128,6 +163,7 @@ def main() -> int:
         )
         print(f"wrote {args.out} ({args.out.stat().st_size / 1e6:.2f} MB)", flush=True)
 
+    sample_polygon = overview.wgs84_wexford()
     if args.sample_fields.exists():
         sample_geometries, sample_groups, sample_hectares = overview.read_fields(
             args.sample_fields
@@ -136,7 +172,7 @@ def main() -> int:
             sample_geometries,
             sample_groups,
             sample_hectares,
-            polygon,
+            sample_polygon,
             max_dots=2_000,
             start_ha_per_dot=args.start_ha_per_dot,
             seed=args.seed,

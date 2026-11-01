@@ -10,6 +10,7 @@ interface GoirtProbe {
     isSourceLoaded(id: string): boolean;
     jumpTo(options: { center: [number, number]; zoom: number }): void;
     once(event: string, listener: () => void): void;
+    querySourceFeatures(id: string): unknown[];
   };
   fieldsReady: boolean;
   fieldsCount: number;
@@ -46,11 +47,24 @@ test("loads the Wexford sample fields and the required attribution", async ({
     { timeout: 20_000 },
   );
 
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        const goirt = (window as unknown as { __goirt?: GoirtProbe }).__goirt;
+        if (!goirt) throw new Error("map probe missing");
+        goirt.map.once("idle", () => resolve());
+        goirt.map.jumpTo({
+          center: [-6.542337822429906, 52.462270738317756],
+          zoom: 13,
+        });
+      }),
+  );
+
   const probe = await page.evaluate(() => {
     const goirt = (window as unknown as { __goirt?: GoirtProbe }).__goirt;
     if (!goirt) throw new Error("map probe missing");
     return {
-      fieldsCount: goirt.fieldsCount,
+      fieldsCount: goirt.map.querySourceFeatures("fields").length,
       hasSource: Boolean(goirt.map.getSource("fields")),
       layers: (goirt.map.getStyle().layers ?? []).map((layer) => ({
         id: layer.id,

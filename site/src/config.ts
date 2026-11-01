@@ -11,13 +11,10 @@ export const cropsUrl = value(env.VITE_CROPS_URL, "/data/crops.json");
 export const placesUrl = value(env.VITE_PLACES_URL, "/data/places-sample.json");
 
 /**
- * Temporary Wexford build guard: the basemap extract and field layer cover only
- * this bbox, so places outside it are shown but cannot recentre the map.
- * Set to `null` when the nationwide map ships. See docs/STATEWIDE.md.
+ * Optional partial-deployment guard. The statewide basemap and field layer cover
+ * the whole Republic, so every place in the index can recentre the map.
  */
-export const locationBounds: [number, number, number, number] | null = [
-  -7.1, 52.1, -6.05, 52.85,
-];
+export const locationBounds: [number, number, number, number] | null = null;
 
 export const isPmtiles = (url: string): boolean => url.endsWith(".pmtiles");
 export const useVectorFields = isPmtiles(fieldsUrl);

@@ -1,18 +1,19 @@
 # Goirt
 
-Goirt is a local County Wexford crop map built from real 2025 DAFM LPIS field
-geometry. The first version is a walking skeleton: a repeatable data pipeline, a
-small committed fixture, a muted cream/sage/olive MapLibre basemap, and a field
-layer grouped by crop. A density-sampled overview dot layer keeps the map
-coloured from about z5 until the field polygons take over at z10. Clicking a
-field opens a safe crop, group, area and county popup, crop search runs against
-the already-loaded crop index, and a separate location field searches an
-all-Republic county, town and townland index before recentring the map.
+Goirt is a Republic of Ireland crop map built from real 2025 DAFM LPIS field
+geometry. The full build covers all 26 Republic counties; a small committed
+Wexford sample keeps the CI and local default light. The app is a repeatable data
+pipeline, a muted cream/sage/olive MapLibre basemap, and a field layer grouped by
+crop. A density-sampled overview dot layer keeps the map coloured from about z5
+until the field polygons take over at z10. Clicking a field opens a safe crop,
+group, area and county popup, crop search runs against the already-loaded crop
+index, and a separate location field searches an all-Republic county, town and
+townland index before recentring the map.
 
 - Map: Vite, TypeScript, MapLibre GL and PMTiles.
 - Data: 2025 LPIS only, area in hectares (claimed or eligible basis) rounded to
-  0.1 ha, 2019 statutory counties, Wexford first. The place index already covers
-  all 26 Republic counties with English and Irish names.
+  0.1 ha, 2019 statutory counties. The place index covers all 26 Republic
+  counties with English and Irish names.
 - Privacy: field features carry only `crop_id`, `crop_group`, `hectares`,
   `area_basis` and `county`; overview dots carry only `crop_group`; the place
   index carries no field data and is never joined to fields.
@@ -29,9 +30,10 @@ Palette, data, privacy and attribution decisions are documented in
 - Node 26 and pnpm 10+.
 - Python 3.12+ managed with [`uv`](https://docs.astral.sh/uv/).
 - `tippecanoe` for the full PMTiles field and overview builds, built from source.
-- `go-pmtiles` for the Wexford basemap extract.
-- About 10 GB free for the source archive plus extracted GeoPackage. Do not use
-  `/tmp` for this data; point `GOIRT_WORK_DIR` at a larger disk.
+- `go-pmtiles` for the Protomaps basemap extract.
+- About 30 GB free for the source archive, extracted GeoPackage, statewide
+  processed fields and local tiles. Do not use `/tmp` for this data; point
+  `GOIRT_WORK_DIR` at a larger disk.
 
 ## Run the site from the committed sample
 
@@ -47,8 +49,8 @@ pnpm dev
 
 Open the printed local URL. `site/.env.example` points at
 `/fixtures/wexford-sample.geojson` and leaves the basemap empty, so the fields
-render on the paper land colour. To use the full locally built Wexford fixture
-and basemap:
+render on the paper land colour. To use the full locally built statewide fields,
+overview and Ireland basemap:
 
 ```bash
 cp site/.env.full.example site/.env.local
@@ -58,7 +60,7 @@ pnpm --dir site dev
 `site/.env.local`, the full fixture, the basemap extract and build output are
 gitignored.
 
-## Rebuild the Wexford fixture
+## Rebuild the data
 
 The pipeline expects the 2,910,851,366-byte 2025 parcels archive or its extracted
 GeoPackage at `$GOIRT_WORK_DIR`. Set that path explicitly if the default
@@ -70,10 +72,11 @@ export GOIRT_WORK_DIR=/home/voy/projects/firstmate/data/goirt-build-v1/work
 # Once: download, size-check, sha256-check and extract the source archive.
 bash pipeline/01_fetch.sh
 
-# Everything after that: inspect, validate lookup, process, write crops.json,
-# build overview dots, tile fields, extract basemap, scan the artifacts for
-# forbidden properties.
+# Small Wexford fixture for local development (CI uses the committed sample):
 bash pipeline/build.sh
+
+# Full Republic of Ireland 2025 build; every artifact stays local and gitignored:
+bash pipeline/build.sh --statewide
 ```
 
 `pipeline/build.sh` runs, in order:
@@ -82,13 +85,22 @@ bash pipeline/build.sh
 |---|---|---|
 | Full audit | `uv run python pipeline/02_inspect.py` | `$GOIRT_WORK_DIR/inspection-2025.json` |
 | Lookup check | `uv run python pipeline/03_lookup.py --check` | fails on an unknown 2025 crop or stale lookup metadata |
-| Process | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
-| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full Wexford) |
-| Overview | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
-| Places | `uv run python pipeline/09_places.py` | `site/public/data/places.json` (gitignored, all Republic) and `site/public/data/places-sample.json` (CI sample) |
-| Field tiles | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
-| Basemap | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
+| Process (fixture) | `uv run python pipeline/04_process.py` | `$GOIRT_WORK_DIR/wexford/fields.{fgb,geojson}`, the committed sample, `manifest.json` |
+| Process (statewide) | `uv run python pipeline/04_process.py --statewide` | `$GOIRT_WORK_DIR/statewide/fields.{fgb,geojson}` and `manifest.json` |
+| Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full map) |
+| Overview (fixture) | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
+| Overview (statewide) | `uv run python pipeline/08_overview.py --statewide` | `$GOIRT_WORK_DIR/statewide/overview.geojson`, `site/public/data/overview-2025-v1.pmtiles` (gitignored) |
+| Field tiles (fixture) | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
+| Field tiles (statewide) | `bash pipeline/05_tiles.sh --statewide` | `site/public/fixtures/fields-2025-v1.pmtiles` (gitignored) |
+| Basemap (fixture) | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
+| Basemap (statewide) | `bash pipeline/06_basemap.sh --statewide` | `site/public/basemap/ireland.pmtiles` (gitignored) |
 | Privacy scan | `uv run python pipeline/privacy_scan.py` | fails on any forbidden property |
+| Places | `uv run python pipeline/09_places.py` | `site/public/data/places.json` (gitignored, all Republic) and `site/public/data/places-sample.json` (CI sample) |
+
+The statewide process reads the 5 GB GeoPackage in 25 km spatial tiles so it
+never needs the whole field set in memory. `pipeline/04_process.py` and
+`pipeline/08_overview.py` list their scope flag, tile size and output paths under
+`--help`; the shell stages print their usage on an unknown argument.
 
 Build the native tools once:
 
@@ -104,10 +116,12 @@ export PMTILES_BIN="$HOME/go/bin/go-pmtiles"
 ```
 
 The basemap step uses the pinned Protomaps daily build `PROTOMAPS_BUILD`
-(default `20261029`) and the Wexford bbox `-7.10,52.10,-6.05,52.85`. Override
-`PROTOMAPS_BUILD` or `PROTOMAPS_BBOX` for a different build. If the native build
-or extract is unavailable, the app still runs from the committed sample on the
-paper background; PMTiles remains a local build artifact, not a CI dependency.
+(default `20261029`). The fixture uses the Wexford bbox `-7.10,52.10,-6.05,52.85`
+at z0–15; `--statewide` uses the Ireland bbox `-10.7,51.3,-5.3,55.5` at z0–14.
+Override `PROTOMAPS_BUILD`, `PROTOMAPS_BBOX` or `PROTOMAPS_MAX_ZOOM` for a
+different build. If the native build or extract is unavailable, the app still
+runs from the committed sample on the paper background; PMTiles remains a local
+build artifact, not a CI dependency.
 
 `pipeline/09_places.py` downloads place data: the GeoNames Ireland dump, its
 alternate-name file and the Tailte Éireann/OSi townland feature service. Like the
@@ -118,17 +132,20 @@ CI reads the committed `site/public/data/places-sample.json`.
 
 ## Zoom behaviour
 
-The map now opens at z10.2 and can zoom out to z5. Field polygons still start at
-z10. Between z5 and z10 the overview layer draws one soft dot per 20 ha of field,
-coloured by `crop_group` with a saturation boost, so a zoomed-out Wexford keeps
-its crop colours instead of going blank. Dense farmland dots appear first; sparse
+The map opens framed on the Republic (about z6.4 at 1440×900) and can zoom out
+to z5. Field polygons
+start at z10. Between z5 and z10 the overview layer draws one soft dot per
+`area_per_dot` hectares of field, coloured by `crop_group` with a saturation
+boost, so a zoomed-out country keeps its crop colours instead of going blank. The
+statewide build targets roughly 200–250k dots and raises `area_per_dot` from the
+20 ha Wexford default only when needed. Dense farmland dots appear first; sparse
 dots fade in by z7 or z8. The dots fade out by z10.5 as the field polygons take
 over.
 
 `site/.env.example` points `VITE_OVERVIEW_URL` at the committed
-`/data/overview-sample.geojson`. The full example points at the local
-`/data/overview.pmtiles`. Both GeoJSON and PMTiles overview sources are supported.
-A missing overview is logged and leaves the field map working.
+`/data/overview-sample.geojson`. `site/.env.full.example` points at the local
+`/data/overview-2025-v1.pmtiles`. Both GeoJSON and PMTiles overview sources are
+supported. A missing overview is logged and leaves the field map working.
 
 ## Field details
 
@@ -204,10 +221,10 @@ and never filters the crop field layer.
   it without resetting the viewport.
 - A county fits its bbox; a town recentres at about z12 and a townland at about
   z13, clamped to the map zoom limits.
-- The Wexford build keeps the all-Republic index but disables places outside its
-  basemap extent with an “available with the nationwide map” note. That guard is
-  the temporary `locationBounds` constant in `site/src/config.ts`; the cleanup
-  checklist is [`docs/STATEWIDE.md`](docs/STATEWIDE.md).
+- The statewide map covers the whole Republic, so every county, town and townland
+  in the index can be selected. `locationBounds` in `site/src/config.ts` is
+  `null`; the generic `withinBounds` helper remains for any future partial
+  deployment.
 - If the place index fails to load, only the location field is disabled; the map
   and crop search stay usable.
 
@@ -239,10 +256,11 @@ are present and loaded. The search smokes cover aliases, ambiguity, popular and
 no-match states, keyboard and ARIA behaviour, crop highlight and fit, group
 overview dots, the no-mapped-fields message, clearing, and the absence of
 per-keystroke network requests. The location smokes cover selecting a Wexford
-place and a county, the no-marker rule, the Wexford extent note, clearing,
-keyboard and ARIA behaviour, and no per-keystroke place requests. Neither suite
-needs the 5 GB source archive, a network connection or tippecanoe; CI runs these
-commands in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+place and an out-of-area county, the no-marker rule, clearing, keyboard and ARIA
+behaviour, and no per-keystroke place requests. Neither suite needs the 5 GB
+source archive, a network connection or tippecanoe; CI runs these commands in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml). The full statewide build
+is a local acceptance step, not a CI dependency.
 
 ## Repository layout
 
@@ -257,24 +275,25 @@ site/public/fixtures/wexford-sample.geojson  committed CI fixture
 site/public/data/overview-sample.geojson     committed overview CI sample
 site/public/data/places-sample.json          committed location CI sample
 site/public/data/places.json                 full all-Republic index (gitignored)
-site/public/data/crops.json                  generated crop reference
-site/public/fixtures/*.pmtiles               local full build (gitignored)
-site/public/data/*.pmtiles                   local overview build (gitignored)
+site/public/data/crops.json                  generated crop reference (CI sample)
+site/public/data/crops-full.json             statewide crop reference (gitignored)
+site/public/fixtures/*.pmtiles               local field tiles (gitignored)
+site/public/data/*.pmtiles                   local overview tiles (gitignored)
 site/public/basemap/*.pmtiles                local basemap (gitignored)
 ```
 
 ## Scope
 
-In v1: County Wexford fields, 2025 LPIS agricultural parcels, group fills,
+In v1: Republic of Ireland fields, 2025 LPIS agricultural parcels, group fills,
 outlines, selected outline, group patterns at z ≥ 12.5, the low-zoom overview
 dots from z5, the safe field popup, crop search with aliases and groups, location
-search over the all-Republic place index with a Wexford extent guard, attribution
-and the data/licences dialog.
+search over the all-Republic place index, attribution and the data/licences
+dialog.
 
 Out of scope: streets and addresses, runtime geocoding or reverse geocoding,
-filtering fields by place, per-crop low-zoom dots, the statewide build itself,
-deployment, high-contrast mode, county/region markers, harvest dates, other
-years, a Cork stress test, and any per-farmer or per-holding analysis.
+filtering fields by place, per-crop low-zoom dots, deployment, high-contrast
+mode, county/region markers, harvest dates, other years, and any per-farmer or
+per-holding analysis.
 
 ## Licence
 

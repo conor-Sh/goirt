@@ -95,7 +95,7 @@ region and index. The place model is `site/src/ui/location-model.ts`; the map
 wiring is `site/src/ui/location.ts`; the index is built by
 `pipeline/09_places.py` and documented in [DATA.md](DATA.md).
 
-The index covers all 26 Republic counties: 26 counties, 11,603 populated places
+The index covers all 26 Republic counties: 26 counties, 12,159 populated places
 and 50,380 townlands. English and Irish names are indexed where the
 source publishes them. The full index is a local build
 (`site/public/data/places.json`, gitignored); `site/.env.example` and CI read the
@@ -115,18 +115,19 @@ points the local full build at `places.json`.
   heading per type and enabled places ahead of disabled ones within each type,
   the county as a subtitle and the Irish name when it differs. Places of the same
   type that share a name in the same county add a nearest-town hint, such as
-  “near Gorey”, or their coordinates when the nearest town is also shared. An
-  out-of-area place is shown disabled with “Available with the nationwide map”.
+  “near Gorey”, or their coordinates when the nearest town is also shared. The
+  disabled-row path and its “Available with the nationwide map” note remain in the
+  model for a future partial deployment, but the statewide map bounds are `null`,
+  so every place is enabled today.
 - **No match:** the query is named in the status and live region; nothing is
   selected.
 - **Selection:** a removable pill shows the English and Irish name. A county fits
   its bbox; a town recentres at about z12 and a townland at about z13, clamped to
   the map zoom limits. Selection adds no pin or marker and never filters the crop
   field layer. Clearing removes the pill and leaves the viewport unchanged.
-- **Wexford build:** `locationBounds` in `site/src/config.ts` is a documented
-  temporary bbox derived from the Wexford basemap. Places outside it are disabled
-  instead of recentring to a blank basemap. The index is still all-Republic; the
-  guard is removed by [STATEWIDE.md](STATEWIDE.md), not by changing the index.
+- **Statewide bounds:** `locationBounds` in `site/src/config.ts` is `null`, so
+  every Republic place recentres the map. `withinBounds` stays as the generic
+  helper for a future partial deployment; see [STATEWIDE.md](STATEWIDE.md).
 - **Errors:** a failed index request disables only the location field with an
   unavailable message; the map and crop search remain usable.
 
@@ -148,5 +149,6 @@ English/Irish matching, exact/prefix/token-prefix/substring/subsequence ranking,
 diacritics, type and population ordering, popular entries, the result limit,
 disabled out-of-area places, grouping and the index schema. Playwright tests in
 `site/tests/e2e/location.spec.ts` select Enniscorthy and a county, assert the map
-recentres with no marker, check the Wexford extent guard, keyboard and ARIA
-behaviour, clearing, and the absence of per-keystroke place requests.
+recentres with no marker, select an out-of-area county to prove the guard is
+gone, and check keyboard and ARIA behaviour, clearing, and the absence of
+per-keystroke place requests.

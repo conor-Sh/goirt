@@ -37,7 +37,7 @@ The dialog repeats the obligations in full:
 > *Anonymous LPIS data for 2025*, licensed under CC BY 4.0. Modifications:
 > filtered to agricultural parcels, reduced to crop group and area (claimed or
 > eligible basis), geometry repaired where needed, reprojected, county joined,
-> and rendered as a local fixture. Not endorsed by DAFM.
+> and rendered as a local map. Not endorsed by DAFM.
 >
 > **Basemap:** © OpenStreetMap contributors, ODbL; tiles and style by Protomaps.
 >
@@ -53,10 +53,10 @@ The dialog repeats the obligations in full:
 > **Code:** Goirt, MIT. MapLibre (BSD-3-Clause) and PMTiles (BSD-3-Clause).
 >
 > **What this map is, and is not:** This map shows anonymised agricultural parcel
-> data for County Wexford. It is not a cadastral map, does not show ownership, and
-> is not suitable for legal, subsidy, or boundary determinations. Field boundaries
-> and areas are derived and simplified. Identifying holding attributes are
-> removed; the map is not claimed to be fully anonymous.
+> data for the Republic of Ireland. It is not a cadastral map, does not show
+> ownership, and is not suitable for legal, subsidy, or boundary determinations.
+> Field boundaries and areas are derived and simplified. Identifying holding
+> attributes are removed; the map is not claimed to be fully anonymous.
 
 The exact implementation text is in `site/src/ui/attribution.ts`; update both
 places together if the wording changes.
@@ -142,8 +142,7 @@ Source: GeoNames, *Ireland* dump, CC BY 4.0.
   preferred non-historic variants, places ranked by population.
 
 The bar links both sources and the dialog carries the full credit and licence.
-Keep both when the statewide build lands; the place index is already
-Republic-wide.
+Keep both in the statewide build; the place index is already Republic-wide.
 
 ## 7. Code and assets
 

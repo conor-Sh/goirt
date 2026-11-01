@@ -47,11 +47,19 @@ class DensityParams:
 DENSITY = DensityParams()
 
 
-def read_fields(path: Path | str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def read_fields(
+    path: Path | str,
+    *,
+    skip_features: int = 0,
+    max_features: int | None = None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Read geometry, crop_group and hectares without exposing any other field."""
     path = Path(path)
     meta, _fids, wkb, columns = pyogrio.raw.read(
-        path, columns=["crop_group", "hectares"]
+        path,
+        columns=["crop_group", "hectares"],
+        skip_features=skip_features,
+        max_features=max_features,
     )
     by_name = {str(name): index for index, name in enumerate(meta["fields"])}
     return (
@@ -59,6 +67,32 @@ def read_fields(path: Path | str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         np.asarray(columns[by_name["crop_group"]], dtype=object),
         np.asarray(columns[by_name["hectares"]], dtype=float),
     )
+
+
+def total_hectares(path: Path | str) -> float:
+    """Sum the safe hectares column in chunks without loading geometry."""
+    path = Path(path)
+    total = 0.0
+    start = 0
+    chunk = 500_000
+    while True:
+        meta, _fids, _wkb, columns = pyogrio.raw.read(
+            path,
+            columns=["hectares"],
+            read_geometry=False,
+            skip_features=start,
+            max_features=chunk,
+        )
+        by_name = {str(name): index for index, name in enumerate(meta["fields"])}
+        values = np.asarray(columns[by_name["hectares"]], dtype=float)
+        count = len(values)
+        if count == 0:
+            break
+        total += float(np.nansum(values))
+        start += count
+        if count < chunk:
+            break
+    return total
 
 
 def area_per_dot(total_hectares: float, max_dots: int, start: float = START_HA_PER_DOT) -> float:
@@ -115,14 +149,32 @@ def sample_field_dots(
 
 
 def drop_outside(
-    dots: list[tuple[str, float, float]], polygon: BaseGeometry
+    dots: list[tuple[str, float, float]],
+    polygons: BaseGeometry | list,
 ) -> list[tuple[str, float, float]]:
-    """Keep only dots inside the county polygon."""
+    """Keep only dots inside the clip polygon or any polygon in a list.
+
+    A prepared union of 26 counties is far slower to query than a short list of
+    prepared county polygons, so the statewide build passes the county list.
+    """
     if not dots:
         return []
     xs = np.array([dot[1] for dot in dots])
     ys = np.array([dot[2] for dot in dots])
-    inside = shapely.contains_xy(polygon, xs, ys)
+    if isinstance(polygons, BaseGeometry):
+        prepared = [prep(polygons)]
+    else:
+        prepared = [
+            item if hasattr(item, "context") else prep(item) for item in polygons
+        ]
+    inside = np.zeros(len(xs), dtype=bool)
+    for polygon in prepared:
+        remaining = ~inside
+        if not remaining.any():
+            break
+        inside[remaining] = shapely.contains_xy(
+            polygon.context, xs[remaining], ys[remaining]
+        )
     return [dot for dot, keep in zip(dots, inside, strict=True) if keep]
 
 
@@ -166,22 +218,16 @@ def assign_minzooms(
     return np.maximum(floors, draws).astype(np.int64), density
 
 
-def build_features(
-    geometries: np.ndarray,
-    groups: np.ndarray,
-    hectares: np.ndarray,
-    polygon: BaseGeometry,
+def _features_from_dots(
+    dots: list[tuple[str, float, float]],
+    polygon: BaseGeometry | list,
     *,
-    max_dots: int = DEFAULT_MAX_DOTS,
-    start_ha_per_dot: float = START_HA_PER_DOT,
-    seed: int = SEED,
-    params: DensityParams = DENSITY,
+    total: float,
+    per_dot: float,
+    max_dots: int,
+    rng: np.random.Generator,
+    params: DensityParams,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
-    """Sample, clip and minzoom one overview dot collection."""
-    rng = np.random.default_rng(seed)
-    total = float(np.nansum(np.maximum(hectares, 0.0)))
-    per_dot = area_per_dot(total, max_dots, start_ha_per_dot)
-    dots = sample_field_dots(geometries, groups, hectares, per_dot, rng)
     inside = drop_outside(dots, polygon)
     if len(inside) > max_dots:
         keep = np.sort(rng.choice(len(inside), size=max_dots, replace=False))
@@ -226,6 +272,71 @@ def build_features(
     return features, stats
 
 
+def build_features(
+    geometries: np.ndarray,
+    groups: np.ndarray,
+    hectares: np.ndarray,
+    polygon: BaseGeometry | list,
+    *,
+    max_dots: int = DEFAULT_MAX_DOTS,
+    start_ha_per_dot: float = START_HA_PER_DOT,
+    seed: int = SEED,
+    params: DensityParams = DENSITY,
+) -> tuple[list[dict[str, object]], dict[str, object]]:
+    """Sample, clip and minzoom one overview dot collection."""
+    rng = np.random.default_rng(seed)
+    total = float(np.nansum(np.maximum(hectares, 0.0)))
+    per_dot = area_per_dot(total, max_dots, start_ha_per_dot)
+    dots = sample_field_dots(geometries, groups, hectares, per_dot, rng)
+    return _features_from_dots(
+        dots,
+        polygon,
+        total=total,
+        per_dot=per_dot,
+        max_dots=max_dots,
+        rng=rng,
+        params=params,
+    )
+
+
+def build_features_chunked(
+    path: Path | str,
+    polygon: BaseGeometry | list,
+    *,
+    max_dots: int = DEFAULT_MAX_DOTS,
+    start_ha_per_dot: float = START_HA_PER_DOT,
+    seed: int = SEED,
+    params: DensityParams = DENSITY,
+    chunk_features: int = 100_000,
+) -> tuple[list[dict[str, object]], dict[str, object]]:
+    """Sample a large field file in chunks while keeping one seeded RNG."""
+    total = total_hectares(path)
+    per_dot = area_per_dot(total, max_dots, start_ha_per_dot)
+    rng = np.random.default_rng(seed)
+    dots: list[tuple[str, float, float]] = []
+    start = 0
+    while True:
+        geometries, groups, hectares = read_fields(
+            path, skip_features=start, max_features=chunk_features
+        )
+        count = len(hectares)
+        if count == 0:
+            break
+        dots.extend(sample_field_dots(geometries, groups, hectares, per_dot, rng))
+        start += count
+        if count < chunk_features:
+            break
+    return _features_from_dots(
+        dots,
+        polygon,
+        total=total,
+        per_dot=per_dot,
+        max_dots=max_dots,
+        rng=rng,
+        params=params,
+    )
+
+
 def write_features(path: Path | str, features: list[dict[str, object]], description: str) -> None:
     common.write_json(
         path,
@@ -242,3 +353,11 @@ def write_features(path: Path | str, features: list[dict[str, object]], descript
 
 def wgs84_wexford() -> BaseGeometry:
     return common.wexford_polygon(common.load_counties(common.COUNTIES_GEOJSON))
+
+
+def republic_counties() -> list:
+    """Prepared county polygons, faster to query than one prepared union."""
+    return [
+        county.prepared
+        for county in common.load_counties(common.COUNTIES_GEOJSON)
+    ]

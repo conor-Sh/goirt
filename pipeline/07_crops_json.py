@@ -50,32 +50,42 @@ def merge_bounds(
 
 
 def read_field_stats(
-    path: Path,
+    path: Path, chunk_features: int = 100_000
 ) -> tuple[dict[int, FieldStats], dict[str, FieldStats]]:
-    meta, _fids, wkb, columns = pyogrio.raw.read(
-        path, columns=["crop_id", "crop_group", "hectares"]
-    )
-    by_name = {str(name): index for index, name in enumerate(meta["fields"])}
-    crop_ids = columns[by_name["crop_id"]]
-    groups = columns[by_name["crop_group"]]
-    hectares = columns[by_name["hectares"]]
-
     crops: dict[int, FieldStats] = {}
     group_stats: dict[str, FieldStats] = {}
-    for raw_geometry, crop_id, group, area in zip(
-        wkb, crop_ids, groups, hectares, strict=True
-    ):
-        geometry = shapely.from_wkb(raw_geometry)
-        if geometry is None or geometry.is_empty:
-            continue
-        bounds = tuple(float(value) for value in geometry.bounds)
-        for stats, key in (
-            (crops, int(crop_id)),
-            (group_stats, str(group)),
+    start = 0
+    while True:
+        meta, _fids, wkb, columns = pyogrio.raw.read(
+            path,
+            columns=["crop_id", "crop_group", "hectares"],
+            skip_features=start,
+            max_features=chunk_features,
+        )
+        count = len(wkb)
+        if count == 0:
+            break
+        by_name = {str(name): index for index, name in enumerate(meta["fields"])}
+        crop_ids = columns[by_name["crop_id"]]
+        groups = columns[by_name["crop_group"]]
+        hectares = columns[by_name["hectares"]]
+        for raw_geometry, crop_id, group, area in zip(
+            wkb, crop_ids, groups, hectares, strict=True
         ):
-            entry = stats.setdefault(key, FieldStats())
-            entry.hectares += float(area) if area is not None else 0.0
-            entry.bounds = merge_bounds(entry.bounds, bounds)
+            geometry = shapely.from_wkb(raw_geometry)
+            if geometry is None or geometry.is_empty:
+                continue
+            bounds = tuple(float(value) for value in geometry.bounds)
+            for stats, key in (
+                (crops, int(crop_id)),
+                (group_stats, str(group)),
+            ):
+                entry = stats.setdefault(key, FieldStats())
+                entry.hectares += float(area) if area is not None else 0.0
+                entry.bounds = merge_bounds(entry.bounds, bounds)
+        start += count
+        if count < chunk_features:
+            break
     return crops, group_stats
 
 
@@ -151,13 +161,21 @@ def main() -> int:
     parser.add_argument(
         "--out", type=Path, default=common.REPO_ROOT / "site" / "public" / "data" / "crops.json"
     )
+    parser.add_argument(
+        "--chunk-features",
+        type=int,
+        default=100_000,
+        help="features read per chunk when summing totals and bboxes",
+    )
     args = parser.parse_args()
 
     if not args.fields.exists():
         raise SystemExit(f"missing {args.fields}; run pipeline/04_process.py first")
 
     rows = common.load_crops(args.crops)
-    crop_stats, group_stats = read_field_stats(args.fields)
+    crop_stats, group_stats = read_field_stats(
+        args.fields, chunk_features=args.chunk_features
+    )
     payload = build_payload(rows, crop_stats, group_stats)
     common.write_json(args.out, payload)
     print(
