@@ -308,7 +308,7 @@ closer in.
 
 The statewide build tiles the dot GeoJSON to
 `site/public/data/overview-2025-v1.pmtiles` with tippecanoe v2.82.0 and
-`-Z5 -z9 -D10 --drop-densest-as-needed -l overview`. The fixture build writes
+`-Z5 -z9 -r1 -D10 --drop-densest-as-needed -l overview`. The fixture build writes
 `site/public/data/overview.pmtiles`. Both are local and gitignored.
 
 The committed CI sample `site/public/data/overview-sample.geojson` is sampled

@@ -152,6 +152,7 @@ def main() -> int:
                 str(args.out),
                 "-Z5",
                 "-z9",
+                "-r1",
                 "-D10",
                 "--drop-densest-as-needed",
                 "-l",
