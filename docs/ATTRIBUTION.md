@@ -37,7 +37,7 @@ The dialog repeats the obligations in full:
 > *Anonymous LPIS data for 2025*, licensed under CC BY 4.0. Modifications:
 > filtered to agricultural parcels, reduced to crop group and area (claimed or
 > eligible basis), geometry repaired where needed, reprojected, county joined,
-> and rendered as a local fixture. Not endorsed by DAFM.
+> and rendered as a local map. Not endorsed by DAFM.
 >
 > **Basemap:** © OpenStreetMap contributors, ODbL; tiles and style by Protomaps.
 >

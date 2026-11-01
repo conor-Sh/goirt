@@ -355,10 +355,6 @@ def wgs84_wexford() -> BaseGeometry:
     return common.wexford_polygon(common.load_counties(common.COUNTIES_GEOJSON))
 
 
-def wgs84_republic() -> BaseGeometry:
-    return common.republic_polygon(common.load_counties(common.COUNTIES_GEOJSON))
-
-
 def republic_counties() -> list:
     """Prepared county polygons, faster to query than one prepared union."""
     return [
