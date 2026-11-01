@@ -416,11 +416,11 @@ The statewide field tile build used tippecanoe v2.82.0 with
 --extend-zooms-if-still-dropping` and no coalescing. The local
 `fields-2025-v1.pmtiles` is 348,180,930 bytes (348 MB, inside the 250–450 MB
 budget) and addresses 46,082 tiles from 1,091,585 source features. The statewide
-overview is 2,457,110 bytes (2.46 MB, under the 50 MB budget). The Ireland
+overview is 2,457,135 bytes (2.46 MB, under the 50 MB budget). The Ireland
 basemap is a 277,139,277-byte (277 MB) Protomaps extract from build `20261029`
 for bbox `-10.7,51.3,-5.3,55.5`, max zoom 14 (inside the 200–500 MB budget). The
-three statewide tiles together are about 628 MB, under the ~1 GB v1 budget. All
-are local, gitignored artifacts.
+three statewide tiles together are 627,777,342 bytes (about 628 MB), under the
+~1 GB v1 budget. All are local, gitignored artifacts.
 
 Spot checks at z12 over Wexford, Cork, Mayo, Donegal, Dublin and Kerry, and at
 z13–z14 over Wexford, decoded at least as many features in each tile as the

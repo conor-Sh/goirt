@@ -48,8 +48,11 @@ FlatGeobuf, so the whole field set never has to fit in memory:
 - `pipeline/privacy_scan.py` reads the statewide artifacts and fails on any
   property outside the five safe fields or the `crop_group`-only overview schema.
 
-Every statewide artifact is gitignored. The committed Wexford sample and
-`overview-sample.geojson` stay in the repository for CI.
+The measured local outputs are `fields-2025-v1.pmtiles` at 348,180,930 bytes,
+`overview-2025-v1.pmtiles` at 2,457,135 bytes and `basemap/ireland.pmtiles` at
+277,139,277 bytes; together the three statewide artifacts are 627,777,342 bytes
+(about 628 MB). Every statewide artifact is gitignored. The committed Wexford
+sample and `overview-sample.geojson` stay in the repository for CI.
 
 ## 3. Site shell and copy
 
