@@ -1,0 +1,2975 @@
+{
+  "places": [
+    {
+      "bbox": [
+        -7.1078,
+        52.4636,
+        -6.5049,
+        52.918
+      ],
+      "county": "Carlow",
+      "id": "county:carlow",
+      "lat": 52.69075,
+      "lon": -6.824854,
+      "name": "Carlow",
+      "name_ga": "Ceatharlach",
+      "search": [
+        "carlow",
+        "ceatharlach"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.0582,
+        53.7656,
+        -6.762,
+        54.3046
+      ],
+      "county": "Cavan",
+      "id": "county:cavan",
+      "lat": 54.03455,
+      "lon": -7.293278,
+      "name": "Cavan",
+      "name_ga": "An Cabhán",
+      "search": [
+        "cavan",
+        "an cabhan"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -9.9387,
+        52.5545,
+        -8.2824,
+        53.1687
+      ],
+      "county": "Clare",
+      "id": "county:clare",
+      "lat": 52.8578,
+      "lon": -8.936171,
+      "name": "Clare",
+      "name_ga": "An Clár",
+      "search": [
+        "clare",
+        "an clar"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -10.2484,
+        51.4199,
+        -7.8411,
+        52.3877
+      ],
+      "county": "Cork",
+      "id": "county:cork",
+      "lat": 51.9206,
+      "lon": -8.586881,
+      "name": "Cork",
+      "name_ga": "Corcaigh",
+      "search": [
+        "cork",
+        "corcaigh"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.8373,
+        54.4591,
+        -6.9213,
+        55.4469
+      ],
+      "county": "Donegal",
+      "id": "county:donegal",
+      "lat": 54.92105,
+      "lon": -7.95184,
+      "name": "Donegal",
+      "name_ga": "Dún na nGall",
+      "search": [
+        "donegal",
+        "dun na ngall"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -6.5469,
+        53.1782,
+        -5.9963,
+        53.6347
+      ],
+      "county": "Dublin",
+      "id": "county:dublin",
+      "lat": 53.40685,
+      "lon": -6.287397,
+      "name": "Dublin",
+      "name_ga": "Baile Átha Cliath",
+      "search": [
+        "dublin",
+        "baile atha cliath"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -10.3142,
+        52.9682,
+        -7.9673,
+        53.7189
+      ],
+      "county": "Galway",
+      "id": "county:galway",
+      "lat": 53.34365,
+      "lon": -8.872734,
+      "name": "Galway",
+      "name_ga": "Gaillimh",
+      "search": [
+        "galway",
+        "gaillimh"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -10.6812,
+        51.6883,
+        -9.1188,
+        52.6025
+      ],
+      "county": "Kerry",
+      "id": "county:kerry",
+      "lat": 52.1453,
+      "lon": -9.517264,
+      "name": "Kerry",
+      "name_ga": "Ciarraí",
+      "search": [
+        "kerry",
+        "ciarrai"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.1689,
+        52.8576,
+        -6.46,
+        53.4512
+      ],
+      "county": "Kildare",
+      "id": "county:kildare",
+      "lat": 53.15455,
+      "lon": -6.817518,
+      "name": "Kildare",
+      "name_ga": "Cill Dara",
+      "search": [
+        "kildare",
+        "cill dara"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.6741,
+        52.2431,
+        -6.9147,
+        52.894
+      ],
+      "county": "Kilkenny",
+      "id": "county:kilkenny",
+      "lat": 52.56845,
+      "lon": -7.188812,
+      "name": "Kilkenny",
+      "name_ga": "Cill Chainnigh",
+      "search": [
+        "kilkenny",
+        "cill chainnigh"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.7347,
+        52.7813,
+        -6.9319,
+        53.2157
+      ],
+      "county": "Laois",
+      "id": "county:laois",
+      "lat": 52.99965,
+      "lon": -7.398597,
+      "name": "Laois",
+      "name_ga": "Laois",
+      "search": [
+        "laois"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.4277,
+        53.806,
+        -7.5842,
+        54.4744
+      ],
+      "county": "Leitrim",
+      "id": "county:leitrim",
+      "lat": 54.138,
+      "lon": -8.051349,
+      "name": "Leitrim",
+      "name_ga": "Liatroim",
+      "search": [
+        "leitrim",
+        "liatroim"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -9.3676,
+        52.2802,
+        -8.1563,
+        52.7574
+      ],
+      "county": "Limerick",
+      "id": "county:limerick",
+      "lat": 52.5182,
+      "lon": -8.795926,
+      "name": "Limerick",
+      "name_ga": "Luimneach",
+      "search": [
+        "limerick",
+        "luimneach"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.036,
+        53.5217,
+        -7.3749,
+        53.9421
+      ],
+      "county": "Longford",
+      "id": "county:longford",
+      "lat": 53.7315,
+      "lon": -7.695571,
+      "name": "Longford",
+      "name_ga": "An Longfort",
+      "search": [
+        "longford",
+        "an longfort"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -6.6952,
+        53.6985,
+        -6.103,
+        54.1139
+      ],
+      "county": "Louth",
+      "id": "county:louth",
+      "lat": 53.9061,
+      "lon": -6.532542,
+      "name": "Louth",
+      "name_ga": "Lú",
+      "search": [
+        "louth",
+        "lu"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -10.3206,
+        53.472,
+        -8.5829,
+        54.3687
+      ],
+      "county": "Mayo",
+      "id": "county:mayo",
+      "lat": 53.9085,
+      "lon": -9.298463,
+      "name": "Mayo",
+      "name_ga": "Maigh Eo",
+      "search": [
+        "mayo",
+        "maigh eo"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.3437,
+        53.3821,
+        -6.2126,
+        53.9177
+      ],
+      "county": "Meath",
+      "id": "county:meath",
+      "lat": 53.6509,
+      "lon": -6.588759,
+      "name": "Meath",
+      "name_ga": "An Mhí",
+      "search": [
+        "meath",
+        "an mhi"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.3393,
+        53.9012,
+        -6.5497,
+        54.4214
+      ],
+      "county": "Monaghan",
+      "id": "county:monaghan",
+      "lat": 54.16065,
+      "lon": -6.946175,
+      "name": "Monaghan",
+      "name_ga": "Muineachán",
+      "search": [
+        "monaghan",
+        "muineachan"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.0839,
+        52.8482,
+        -6.9777,
+        53.4243
+      ],
+      "county": "Offaly",
+      "id": "county:offaly",
+      "lat": 53.13615,
+      "lon": -7.809622,
+      "name": "Offaly",
+      "name_ga": "Uíbh Fhailí",
+      "search": [
+        "offaly",
+        "uibh fhaili"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.8235,
+        53.2714,
+        -7.8758,
+        54.1252
+      ],
+      "county": "Roscommon",
+      "id": "county:roscommon",
+      "lat": 53.6988,
+      "lon": -8.217608,
+      "name": "Roscommon",
+      "name_ga": "Ros Comáin",
+      "search": [
+        "roscommon",
+        "ros comain"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -9.1366,
+        53.913,
+        -8.153,
+        54.473
+      ],
+      "county": "Sligo",
+      "id": "county:sligo",
+      "lat": 54.19365,
+      "lon": -8.730642,
+      "name": "Sligo",
+      "name_ga": "Sligeach",
+      "search": [
+        "sligo",
+        "sligeach"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.4801,
+        52.2021,
+        -7.3721,
+        53.1675
+      ],
+      "county": "Tipperary",
+      "id": "county:tipperary",
+      "lat": 52.6853,
+      "lon": -7.898155,
+      "name": "Tipperary",
+      "name_ga": "Tiobraid Árann",
+      "search": [
+        "tipperary",
+        "tiobraid arann"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -8.1626,
+        51.938,
+        -6.95,
+        52.3639
+      ],
+      "county": "Waterford",
+      "id": "county:waterford",
+      "lat": 52.15125,
+      "lon": -7.657869,
+      "name": "Waterford",
+      "name_ga": "Port Láirge",
+      "search": [
+        "waterford",
+        "port lairge"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.973,
+        53.318,
+        -6.9548,
+        53.7991
+      ],
+      "county": "Westmeath",
+      "id": "county:westmeath",
+      "lat": 53.5578,
+      "lon": -7.347834,
+      "name": "Westmeath",
+      "name_ga": "An Iarmhí",
+      "search": [
+        "westmeath",
+        "an iarmhi"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -7.0182,
+        52.1094,
+        -6.1408,
+        52.7975
+      ],
+      "county": "Wexford",
+      "id": "county:wexford",
+      "lat": 52.458,
+      "lon": -6.610186,
+      "name": "Wexford",
+      "name_ga": "Loch Garman",
+      "search": [
+        "wexford",
+        "loch garman"
+      ],
+      "type": "county"
+    },
+    {
+      "bbox": [
+        -6.7921,
+        52.682,
+        -5.998,
+        53.2344
+      ],
+      "county": "Wicklow",
+      "id": "county:wicklow",
+      "lat": 52.9573,
+      "lon": -6.381575,
+      "name": "Wicklow",
+      "name_ga": "Cill Mhantáin",
+      "search": [
+        "wicklow",
+        "cill mhantain"
+      ],
+      "type": "county"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964574",
+      "lat": 53.33306,
+      "lon": -6.24889,
+      "name": "Dublin",
+      "name_ga": "Baile Átha Cliath",
+      "population": 1024027,
+      "search": [
+        "dublin",
+        "baile atha cliath"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:6697759",
+      "lat": 53.29026,
+      "lon": -6.34151,
+      "name": "South Dublin",
+      "name_ga": "Contae Átha Cliath Theas",
+      "population": 301075,
+      "search": [
+        "south dublin",
+        "contae atha cliath theas"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2965140",
+      "lat": 51.89797,
+      "lon": -8.47061,
+      "name": "Cork",
+      "name_ga": "Corcaigh",
+      "population": 224004,
+      "search": [
+        "cork",
+        "corcaigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Limerick",
+      "id": "town:2962943",
+      "lat": 52.66472,
+      "lon": -8.62306,
+      "name": "Limerick",
+      "name_ga": "Luimneach",
+      "population": 102287,
+      "search": [
+        "limerick",
+        "luimneach"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Galway",
+      "id": "town:2964180",
+      "lat": 53.27245,
+      "lon": -9.05095,
+      "name": "Galway",
+      "name_ga": "Gaillimh",
+      "population": 85910,
+      "search": [
+        "galway",
+        "gaillimh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961284",
+      "lat": 53.2859,
+      "lon": -6.37344,
+      "name": "Tallaght",
+      "name_ga": "Tamhlacht",
+      "population": 81022,
+      "search": [
+        "tallaght",
+        "tamhlacht"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Waterford",
+      "id": "town:2960992",
+      "lat": 52.25833,
+      "lon": -7.11194,
+      "name": "Waterford",
+      "name_ga": "Port Láirge",
+      "population": 60079,
+      "search": [
+        "waterford",
+        "port lairge"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Louth",
+      "id": "town:2964661",
+      "lat": 53.71889,
+      "lon": -6.34778,
+      "name": "Drogheda",
+      "name_ga": "Droichead Átha",
+      "population": 44135,
+      "search": [
+        "drogheda",
+        "droichead atha"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Louth",
+      "id": "town:2964540",
+      "lat": 54.0,
+      "lon": -6.41667,
+      "name": "Dundalk",
+      "name_ga": "Dún Dealgan",
+      "population": 43112,
+      "search": [
+        "dundalk",
+        "dun dealgan"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961297",
+      "lat": 53.45972,
+      "lon": -6.21806,
+      "name": "Swords",
+      "name_ga": "Sord",
+      "population": 40776,
+      "search": [
+        "swords",
+        "sord"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Meath",
+      "id": "town:2962308",
+      "lat": 53.65278,
+      "lon": -6.68139,
+      "name": "Navan",
+      "name_ga": "An Uaimh",
+      "population": 33886,
+      "search": [
+        "navan",
+        "an uaimh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wicklow",
+      "id": "town:2966022",
+      "lat": 53.20278,
+      "lon": -6.09833,
+      "name": "Bray",
+      "name_ga": "Bré",
+      "population": 33512,
+      "search": [
+        "bray",
+        "bre"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964506",
+      "lat": 53.29395,
+      "lon": -6.13586,
+      "name": "Dún Laoghaire",
+      "name_ga": "Dún Laoghaire",
+      "population": 31239,
+      "search": [
+        "dun laoghaire"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Clare",
+      "id": "town:2964405",
+      "lat": 52.84361,
+      "lon": -8.98639,
+      "name": "Ennis",
+      "name_ga": "Inis",
+      "population": 27923,
+      "search": [
+        "ennis",
+        "inis"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Carlow",
+      "id": "town:2965768",
+      "lat": 52.84083,
+      "lon": -6.92611,
+      "name": "Carlow",
+      "name_ga": "Ceatharlach",
+      "population": 27351,
+      "search": [
+        "carlow",
+        "ceatharlach"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2964690",
+      "lat": 51.87444,
+      "lon": -8.435,
+      "name": "Douglas",
+      "name_ga": "Dúglas",
+      "population": 26883,
+      "search": [
+        "douglas",
+        "duglas"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kerry",
+      "id": "town:2961123",
+      "lat": 52.27042,
+      "lon": -9.70264,
+      "name": "Tralee",
+      "name_ga": "Trá Lí",
+      "population": 26079,
+      "search": [
+        "tralee",
+        "tra li"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Laois",
+      "id": "town:2962026",
+      "lat": 53.03441,
+      "lon": -7.29979,
+      "name": "Portlaoise",
+      "name_ga": "Port Laoise",
+      "population": 23494,
+      "search": [
+        "portlaoise",
+        "port laoise"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Westmeath",
+      "id": "town:3313472",
+      "lat": 53.42278,
+      "lon": -7.93722,
+      "name": "Athlone",
+      "name_ga": "Baile Átha Luain",
+      "population": 22869,
+      "search": [
+        "athlone",
+        "baile atha luain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2962290",
+      "lat": 53.18194,
+      "lon": -6.79667,
+      "name": "Droichead Nua",
+      "name_ga": "Droichead Nua",
+      "population": 22742,
+      "search": [
+        "droichead nua"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Westmeath",
+      "id": "town:2962361",
+      "lat": 53.52466,
+      "lon": -7.3385,
+      "name": "An Muileann gCearr",
+      "name_ga": "An Muileann gCearr",
+      "population": 22667,
+      "search": [
+        "an muileann gcearr"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Donegal",
+      "id": "town:2962961",
+      "lat": 54.95,
+      "lon": -7.73333,
+      "name": "Letterkenny",
+      "name_ga": "Leitir Ceanainn",
+      "population": 22549,
+      "search": [
+        "letterkenny",
+        "leitir ceanainn"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:3315278",
+      "lat": 53.2747,
+      "lon": -6.2253,
+      "name": "Sandyford",
+      "name_ga": "Áth an Ghainimh",
+      "population": 22288,
+      "search": [
+        "sandyford",
+        "ath an ghainimh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wicklow",
+      "id": "town:2963848",
+      "lat": 53.14083,
+      "lon": -6.06306,
+      "name": "Greystones",
+      "name_ga": "Na Clocha Liatha",
+      "population": 22009,
+      "search": [
+        "greystones",
+        "na clocha liatha"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2966794",
+      "lat": 53.60846,
+      "lon": -6.1831,
+      "name": "Balbriggan",
+      "name_ga": "Baile Brigín",
+      "population": 21722,
+      "search": [
+        "balbriggan",
+        "baile brigin"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kilkenny",
+      "id": "town:2963398",
+      "lat": 52.65417,
+      "lon": -7.25222,
+      "name": "Kilkenny",
+      "name_ga": "Cill Chainnigh",
+      "population": 21589,
+      "search": [
+        "kilkenny",
+        "cill chainnigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2960964",
+      "lat": 52.33417,
+      "lon": -6.4575,
+      "name": "Wexford",
+      "name_ga": "Loch Garman",
+      "population": 21524,
+      "search": [
+        "wexford",
+        "loch garman"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2962334",
+      "lat": 53.21583,
+      "lon": -6.66694,
+      "name": "Naas",
+      "name_ga": "An Nás",
+      "population": 20713,
+      "search": [
+        "naas",
+        "an nas"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Sligo",
+      "id": "town:2961423",
+      "lat": 54.26969,
+      "lon": -8.46943,
+      "name": "Sligo",
+      "name_ga": "Sligeach",
+      "population": 20608,
+      "search": [
+        "sligo",
+        "sligeach"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2965529",
+      "lat": 53.34165,
+      "lon": -6.54419,
+      "name": "Celbridge",
+      "name_ga": "Cill Droichid",
+      "population": 20288,
+      "search": [
+        "celbridge",
+        "cill droichid"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964303",
+      "lat": 53.38917,
+      "lon": -6.29694,
+      "name": "Finglas",
+      "name_ga": "Fionnghlas",
+      "population": 19768,
+      "search": [
+        "finglas",
+        "fionnghlas"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2966749",
+      "lat": 51.88333,
+      "lon": -8.58333,
+      "name": "Ballincollig",
+      "name_ga": "Baile an Chollaigh",
+      "population": 18621,
+      "search": [
+        "ballincollig",
+        "baile an chollaigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Tipperary",
+      "id": "town:2965353",
+      "lat": 52.355,
+      "lon": -7.70389,
+      "name": "Cluain Meala",
+      "name_ga": "Cluain Meala",
+      "population": 18369,
+      "search": [
+        "cluain meala"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2965715",
+      "lat": 51.81167,
+      "lon": -8.39861,
+      "name": "Carrigaline",
+      "name_ga": "Carraig Uí Leighin",
+      "population": 18239,
+      "search": [
+        "carrigaline",
+        "carraig ui leighin"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:3315404",
+      "lat": 53.29528,
+      "lon": -6.30889,
+      "name": "Templeogue",
+      "name_ga": "Teach Mealóg",
+      "population": 18076,
+      "search": [
+        "templeogue",
+        "teach mealog"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961911",
+      "lat": 53.30056,
+      "lon": -6.28278,
+      "name": "Rathfarnham",
+      "name_ga": "Ráth Fearnáin",
+      "population": 17333,
+      "search": [
+        "rathfarnham",
+        "rath fearnain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2962668",
+      "lat": 53.385,
+      "lon": -6.59361,
+      "name": "Maynooth",
+      "name_ga": "Maigh Nuad",
+      "population": 17259,
+      "search": [
+        "maynooth",
+        "maigh nuad"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2962725",
+      "lat": 53.45083,
+      "lon": -6.15444,
+      "name": "Malahide",
+      "name_ga": "Mullach Íde",
+      "population": 16550,
+      "search": [
+        "malahide",
+        "mullach ide"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2966110",
+      "lat": 53.38806,
+      "lon": -6.37556,
+      "name": "Blanchardstown",
+      "name_ga": "Baile Bhlainséir",
+      "population": 16511,
+      "search": [
+        "blanchardstown",
+        "baile bhlainseir"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Offaly",
+      "id": "town:2961086",
+      "lat": 53.27389,
+      "lon": -7.48889,
+      "name": "Tullamore",
+      "name_ga": "Tulach Mhór",
+      "population": 15598,
+      "search": [
+        "tullamore",
+        "tulach mhor"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2962974",
+      "lat": 53.36583,
+      "lon": -6.49556,
+      "name": "Leixlip",
+      "name_ga": "Léim an Bhradáin",
+      "population": 15504,
+      "search": [
+        "leixlip",
+        "leim an bhradain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:6691033",
+      "lat": 53.39845,
+      "lon": -6.16179,
+      "name": "Donaghmede",
+      "name_ga": "Domhnach Mide",
+      "population": 15299,
+      "search": [
+        "donaghmede",
+        "domhnach mide"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2962785",
+      "lat": 53.35736,
+      "lon": -6.44859,
+      "name": "Lucan",
+      "name_ga": "Leamhcán",
+      "population": 15269,
+      "search": [
+        "lucan",
+        "leamhcan"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wicklow",
+      "id": "town:7870988",
+      "lat": 53.09743,
+      "lon": -6.08411,
+      "name": "Kilquade",
+      "name_ga": "Cill Chomhaid",
+      "population": 14886,
+      "search": [
+        "kilquade",
+        "cill chomhaid"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Limerick",
+      "id": "town:7838907",
+      "lat": 52.67349,
+      "lon": -8.55333,
+      "name": "Castletroy",
+      "name_ga": "Caladh an Treoigh",
+      "population": 14733,
+      "search": [
+        "castletroy",
+        "caladh an treoigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:7838921",
+      "lat": 53.2803,
+      "lon": -6.3313,
+      "name": "Knocklyon",
+      "name_ga": "Cnoc Lín",
+      "population": 14628,
+      "search": [
+        "knocklyon",
+        "cnoc lin"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2965381",
+      "lat": 53.32444,
+      "lon": -6.39722,
+      "name": "Clondalkin",
+      "name_ga": "Cluain Dolcáin",
+      "population": 14508,
+      "search": [
+        "clondalkin",
+        "cluain dolcain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kerry",
+      "id": "town:2963370",
+      "lat": 52.0598,
+      "lon": -9.50858,
+      "name": "Killarney",
+      "name_ga": "Cill Airne",
+      "population": 14504,
+      "search": [
+        "killarney",
+        "cill airne"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961523",
+      "lat": 53.22611,
+      "lon": -6.12444,
+      "name": "Shankill",
+      "name_ga": "Seanchill",
+      "population": 14257,
+      "search": [
+        "shankill",
+        "seanchill"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2965260",
+      "lat": 51.85046,
+      "lon": -8.2948,
+      "name": "Cobh",
+      "name_ga": "An Cóbh",
+      "population": 14148,
+      "search": [
+        "cobh",
+        "an cobh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2962714",
+      "lat": 52.13333,
+      "lon": -8.63333,
+      "name": "Mallow",
+      "name_ga": "Mala",
+      "population": 13456,
+      "search": [
+        "mallow",
+        "mala"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wicklow",
+      "id": "town:2966883",
+      "lat": 52.79443,
+      "lon": -6.14958,
+      "name": "Arklow",
+      "name_ga": "An tInbhear Mór",
+      "population": 13399,
+      "search": [
+        "arklow",
+        "an tinbhear mor"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Mayo",
+      "id": "town:2965654",
+      "lat": 53.85,
+      "lon": -9.3,
+      "name": "Castlebar",
+      "name_ga": "Caisleán an Bharraigh",
+      "population": 13054,
+      "search": [
+        "castlebar",
+        "caislean an bharraigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wicklow",
+      "id": "town:2960936",
+      "lat": 52.975,
+      "lon": -6.04944,
+      "name": "Wicklow",
+      "name_ga": "Cill Mhantáin",
+      "population": 12957,
+      "search": [
+        "wicklow",
+        "cill mhantain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:3315280",
+      "lat": 53.26667,
+      "lon": -6.17417,
+      "name": "Foxrock",
+      "name_ga": "Carraig an tSionnaigh",
+      "population": 12870,
+      "search": [
+        "foxrock",
+        "carraig an tsionnaigh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Meath",
+      "id": "town:2966870",
+      "lat": 53.51163,
+      "lon": -6.39821,
+      "name": "Ashbourne",
+      "name_ga": "Cill Dhéagláin",
+      "population": 12679,
+      "search": [
+        "ashbourne",
+        "cill dheaglain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cork",
+      "id": "town:2962630",
+      "lat": 51.91526,
+      "lon": -8.18052,
+      "name": "Midleton",
+      "name_ga": "Mainister na Corann",
+      "population": 12496,
+      "search": [
+        "midleton",
+        "mainister na corann"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964532",
+      "lat": 53.29067,
+      "lon": -6.25714,
+      "name": "Dundrum",
+      "name_ga": "Dún Droma",
+      "population": 12152,
+      "search": [
+        "dundrum",
+        "dun droma"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Cavan",
+      "id": "town:2965535",
+      "lat": 53.99083,
+      "lon": -7.36056,
+      "name": "Cavan",
+      "name_ga": "An Cabhán",
+      "population": 11741,
+      "search": [
+        "cavan",
+        "an cabhan"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964963",
+      "lat": 53.32154,
+      "lon": -6.31439,
+      "name": "Crumlin",
+      "name_ga": "Cromghlinn",
+      "population": 11294,
+      "search": [
+        "crumlin",
+        "cromghlinn"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:7838923",
+      "lat": 53.35019,
+      "lon": -6.37778,
+      "name": "Palmerstown",
+      "name_ga": "Baile Phámar",
+      "population": 11130,
+      "search": [
+        "palmerstown",
+        "baile phamar"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961896",
+      "lat": 53.32028,
+      "lon": -6.26333,
+      "name": "Rathmines",
+      "name_ga": "Ráth Maonais",
+      "population": 11044,
+      "search": [
+        "rathmines",
+        "rath maonais"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2962696",
+      "lat": 53.37022,
+      "lon": -6.23646,
+      "name": "Marino",
+      "name_ga": "An Mairíne",
+      "population": 11023,
+      "search": [
+        "marino",
+        "an mairine"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Longford",
+      "id": "town:2962840",
+      "lat": 53.72536,
+      "lon": -7.79823,
+      "name": "Longford",
+      "name_ga": "An Longfort",
+      "population": 10952,
+      "search": [
+        "longford",
+        "an longfort"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Meath",
+      "id": "town:2963007",
+      "lat": 53.68194,
+      "lon": -6.23917,
+      "name": "Laytown",
+      "name_ga": "An Inse",
+      "population": 10889,
+      "search": [
+        "laytown",
+        "an inse"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:7869995",
+      "lat": 53.27866,
+      "lon": -6.40803,
+      "name": "Jobstown",
+      "name_ga": "Ráth Miontáin",
+      "population": 10825,
+      "search": [
+        "jobstown",
+        "rath miontain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2964745",
+      "lat": 53.31375,
+      "lon": -6.22274,
+      "name": "Donnybrook",
+      "name_ga": "Domhnach Broc",
+      "population": 10645,
+      "search": [
+        "donnybrook",
+        "domhnach broc"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Mayo",
+      "id": "town:2966778",
+      "lat": 54.11667,
+      "lon": -9.16667,
+      "name": "Ballina",
+      "name_ga": "Béal An Átha",
+      "population": 10556,
+      "search": [
+        "ballina",
+        "beal an atha"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Waterford",
+      "id": "town:2961120",
+      "lat": 52.16235,
+      "lon": -7.15244,
+      "name": "Trá Mhór",
+      "name_ga": "Trá Mhór",
+      "population": 10381,
+      "search": [
+        "tra mhor"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Clare",
+      "id": "town:3310247",
+      "lat": 52.70389,
+      "lon": -8.86417,
+      "name": "Shannon",
+      "name_ga": "An tSionna",
+      "population": 10256,
+      "search": [
+        "shannon",
+        "an tsionna"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2961461",
+      "lat": 53.581,
+      "lon": -6.107,
+      "name": "Skerries",
+      "name_ga": "Na Sceirí",
+      "population": 10043,
+      "search": [
+        "skerries",
+        "na sceiri"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2965882",
+      "lat": 53.26973,
+      "lon": -6.16058,
+      "name": "Cabinteely",
+      "name_ga": "Cábán tSíle",
+      "population": 10038,
+      "search": [
+        "cabinteely",
+        "caban tsile"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Tipperary",
+      "id": "town:2962304",
+      "lat": 52.86284,
+      "lon": -8.19953,
+      "name": "Nenagh",
+      "name_ga": "An tAonach",
+      "population": 9895,
+      "search": [
+        "nenagh",
+        "an taonach"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2963962",
+      "lat": 52.67472,
+      "lon": -6.2925,
+      "name": "Gorey",
+      "name_ga": "Guaire",
+      "population": 9822,
+      "search": [
+        "gorey",
+        "guaire"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:3315430",
+      "lat": 53.27556,
+      "lon": -6.3675,
+      "name": "Oldbawn",
+      "name_ga": "An Seanbhábhún",
+      "population": 9784,
+      "search": [
+        "oldbawn",
+        "an seanbhabhun"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2964403",
+      "lat": 52.50083,
+      "lon": -6.55778,
+      "name": "Enniscorthy",
+      "name_ga": "Inis Córthaidh",
+      "population": 9709,
+      "search": [
+        "enniscorthy",
+        "inis corthaidh"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Kildare",
+      "id": "town:2966837",
+      "lat": 52.99139,
+      "lon": -6.98028,
+      "name": "Athy",
+      "name_ga": "Baile Átha Í",
+      "population": 9677,
+      "search": [
+        "athy",
+        "baile atha i"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Galway",
+      "id": "town:2961099",
+      "lat": 53.51667,
+      "lon": -8.85,
+      "name": "Tuam",
+      "name_ga": "Tuaim",
+      "population": 9647,
+      "search": [
+        "tuam",
+        "tuaim"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Dublin",
+      "id": "town:2966670",
+      "lat": 53.28056,
+      "lon": -6.31639,
+      "name": "Ballyboden",
+      "name_ga": "",
+      "population": 9611,
+      "search": [
+        "ballyboden"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Meath",
+      "id": "town:2961107",
+      "lat": 53.555,
+      "lon": -6.79167,
+      "name": "Trim",
+      "name_ga": "Baile Átha Troim",
+      "population": 9563,
+      "search": [
+        "trim",
+        "baile atha troim"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2962252",
+      "lat": 52.39667,
+      "lon": -6.93667,
+      "name": "New Ross",
+      "name_ga": "Ros Mhic Thriúin",
+      "population": 8040,
+      "search": [
+        "new ross",
+        "ros mhic thriuin"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2965092",
+      "lat": 52.64424,
+      "lon": -6.22899,
+      "name": "Courtown",
+      "name_ga": "Baile na Cúirte",
+      "population": 3591,
+      "search": [
+        "courtown",
+        "baile na cuirte"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2965932",
+      "lat": 52.6553,
+      "lon": -6.65359,
+      "name": "Bunclody",
+      "name_ga": "Bun Clóidi",
+      "population": 1984,
+      "search": [
+        "bunclody",
+        "bun cloidi"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2965645",
+      "lat": 52.38639,
+      "lon": -6.44944,
+      "name": "Castlebridge",
+      "name_ga": "Droichead an Chaisleáin",
+      "population": 1840,
+      "search": [
+        "castlebridge",
+        "droichead an chaisleain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2961690",
+      "lat": 52.27184,
+      "lon": -6.38989,
+      "name": "Rosslare",
+      "name_ga": "Ros Láir",
+      "population": 1547,
+      "search": [
+        "rosslare",
+        "ros lair"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:2964318",
+      "lat": 52.58833,
+      "lon": -6.49972,
+      "name": "Ferns",
+      "name_ga": "Fearna",
+      "population": 1415,
+      "search": [
+        "ferns",
+        "fearna"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:3226389",
+      "lat": 52.72233,
+      "lon": -6.18905,
+      "name": "Castletown",
+      "name_ga": "Baile an Chaisleáin",
+      "population": 1195,
+      "search": [
+        "castletown",
+        "baile an chaisleain"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:3304313",
+      "lat": 52.51789,
+      "lon": -6.40619,
+      "name": "Ballinroad",
+      "name_ga": "",
+      "population": 1161,
+      "search": [
+        "ballinroad"
+      ],
+      "type": "town"
+    },
+    {
+      "county": "Wexford",
+      "id": "town:3302076",
+      "lat": 52.24917,
+      "lon": -6.35739,
+      "name": "Ballygerry",
+      "name_ga": "",
+      "population": 1123,
+      "search": [
+        "ballygerry"
+      ],
+      "type": "town"
+    },
+    {
+      "id": "townland:79ebbd74e69a",
+      "name": "Abartagh",
+      "name_ga": "Abartach",
+      "type": "townland",
+      "county": "Waterford",
+      "lon": -7.823446,
+      "lat": 52.01916,
+      "search": [
+        "abartagh",
+        "abartach"
+      ]
+    },
+    {
+      "id": "townland:7ab5ba84310d",
+      "name": "Abberanville",
+      "name_ga": "Abberanville",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.585639,
+      "lat": 53.258172,
+      "search": [
+        "abberanville"
+      ]
+    },
+    {
+      "id": "townland:9c2d03e17e57",
+      "name": "Abbernadoorny",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Donegal",
+      "lon": -8.157759,
+      "lat": 54.687946,
+      "search": [
+        "abbernadoorny"
+      ]
+    },
+    {
+      "id": "townland:3198c92779aa",
+      "name": "Abbert",
+      "name_ga": "An Abart",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.693031,
+      "lat": 53.41798,
+      "search": [
+        "abbert",
+        "an abart"
+      ]
+    },
+    {
+      "id": "townland:73a602fdcf38",
+      "name": "Abbert Demesne",
+      "name_ga": "Diméin na hAbarta",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.684854,
+      "lat": 53.42776,
+      "search": [
+        "abbert demesne",
+        "dimein na habarta"
+      ]
+    },
+    {
+      "id": "townland:c6d801d9840f",
+      "name": "Abbeville",
+      "name_ga": "Baile an Phíopaire",
+      "type": "townland",
+      "county": "Tipperary",
+      "lon": -8.064605,
+      "lat": 53.086194,
+      "search": [
+        "abbeville",
+        "baile an phiopaire"
+      ]
+    },
+    {
+      "id": "townland:9d929047ad47",
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Cork",
+      "lon": -9.476699,
+      "lat": 51.676592,
+      "search": [
+        "abbey",
+        "an mhainistir"
+      ]
+    },
+    {
+      "id": "townland:61703f6f0998",
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.389717,
+      "lat": 53.110378,
+      "search": [
+        "abbey",
+        "an mhainistir"
+      ]
+    },
+    {
+      "id": "townland:19478d3f94e3",
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Galway",
+      "lon": -8.747772,
+      "lat": 53.443551,
+      "search": [
+        "abbey",
+        "an mhainistir"
+      ]
+    },
+    {
+      "id": "townland:a0b8f0a1a669",
+      "name": "Abbey",
+      "name_ga": "An Mhainistir",
+      "type": "townland",
+      "county": "Limerick",
+      "lon": -8.459132,
+      "lat": 52.318866,
+      "search": [
+        "abbey",
+        "an mhainistir"
+      ]
+    },
+    {
+      "id": "townland:b937aad4e818",
+      "name": "Abbey East",
+      "name_ga": "An Mhainistir Thoir",
+      "type": "townland",
+      "county": "Clare",
+      "lon": -9.04522,
+      "lat": 53.134631,
+      "search": [
+        "abbey east",
+        "an mhainistir thoir"
+      ]
+    },
+    {
+      "id": "townland:eb2539283c52",
+      "name": "Abbey Island",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Donegal",
+      "lon": -8.200148,
+      "lat": 54.508604,
+      "search": [
+        "abbey island"
+      ]
+    },
+    {
+      "id": "townland:22538073be01",
+      "name": "Abbey Island",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Kerry",
+      "lon": -10.150462,
+      "lat": 51.755771,
+      "search": [
+        "abbey island"
+      ]
+    },
+    {
+      "id": "townland:9b9ccf6dbb4d",
+      "name": "Abbey Land",
+      "name_ga": "Fearann na Mainistreach",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.623268,
+      "lat": 53.69189,
+      "search": [
+        "abbey land",
+        "fearann na mainistreach"
+      ]
+    },
+    {
+      "id": "townland:6302a10268cd",
+      "name": "Abbey-Lands",
+      "name_ga": "Fearann na Mainistreach",
+      "type": "townland",
+      "county": "Cork",
+      "lon": -8.530704,
+      "lat": 51.71497,
+      "search": [
+        "abbey lands",
+        "fearann na mainistreach"
+      ]
+    },
+    {
+      "id": "townland:2a1b8f9a0ad3",
+      "name": "Abbey West",
+      "name_ga": "An Mhainistir Thiar",
+      "type": "townland",
+      "county": "Clare",
+      "lon": -9.062332,
+      "lat": 53.124971,
+      "search": [
+        "abbey west",
+        "an mhainistir thiar"
+      ]
+    },
+    {
+      "id": "townland:33e4dff2ca60",
+      "name": "Abbeycartron",
+      "name_ga": "Cartrún na Mainistreach",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.798666,
+      "lat": 53.734882,
+      "search": [
+        "abbeycartron",
+        "cartrun na mainistreach"
+      ]
+    },
+    {
+      "id": "townland:1d00fede2c42",
+      "name": "Abbeycartron",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Roscommon",
+      "lon": -8.187435,
+      "lat": 53.846874,
+      "search": [
+        "abbeycartron"
+      ]
+    },
+    {
+      "id": "townland:26c6926a6283",
+      "name": "Abbeyderg",
+      "name_ga": "Mainistir Dhearg",
+      "type": "townland",
+      "county": "Longford",
+      "lon": -7.797976,
+      "lat": 53.635275,
+      "search": [
+        "abbeyderg",
+        "mainistir dhearg"
+      ]
+    },
+    {
+      "id": "townland:925bc52bf3ea",
+      "name": "Abbeydown",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.62453,
+      "lat": 52.691971,
+      "search": [
+        "abbeydown"
+      ]
+    },
+    {
+      "id": "townland:3812c314c433",
+      "name": "Abbeyfarm",
+      "name_ga": "Feirm na Mainistreach",
+      "type": "townland",
+      "county": "Limerick",
+      "lon": -8.577468,
+      "lat": 52.404116,
+      "search": [
+        "abbeyfarm",
+        "feirm na mainistreach"
+      ]
+    },
+    {
+      "id": "townland:4a0f6d65b1e4",
+      "name": "Ablintown",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.528461,
+      "lat": 52.276361,
+      "search": [
+        "ablintown"
+      ]
+    },
+    {
+      "id": "townland:e6da02e604e3",
+      "name": "Aclamon",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.901261,
+      "lat": 52.320204,
+      "search": [
+        "aclamon"
+      ]
+    },
+    {
+      "id": "townland:947441058832",
+      "name": "Adamstown",
+      "name_ga": "Maigh Arnaí",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.724502,
+      "lat": 52.401171,
+      "search": [
+        "adamstown",
+        "maigh arnai"
+      ]
+    },
+    {
+      "id": "townland:5d629a4673f1",
+      "name": "Ahare",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.187334,
+      "lat": 52.710254,
+      "search": [
+        "ahare"
+      ]
+    },
+    {
+      "id": "townland:cde0eaeab5ff",
+      "name": "Aldridge",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.903842,
+      "lat": 52.213888,
+      "search": [
+        "aldridge"
+      ]
+    },
+    {
+      "id": "townland:d29a7d11d23d",
+      "name": "Allenstown Big",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.40063,
+      "lat": 52.220438,
+      "search": [
+        "allenstown big"
+      ]
+    },
+    {
+      "id": "townland:630d30511a66",
+      "name": "Allenstown Little",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.405544,
+      "lat": 52.22464,
+      "search": [
+        "allenstown little"
+      ]
+    },
+    {
+      "id": "townland:d3c0e6f4f41c",
+      "name": "Ambrosetown",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.668901,
+      "lat": 52.249874,
+      "search": [
+        "ambrosetown"
+      ]
+    },
+    {
+      "id": "townland:5a17d1991440",
+      "name": "Annagh",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.291224,
+      "lat": 52.568736,
+      "search": [
+        "annagh"
+      ]
+    },
+    {
+      "id": "townland:b989d52de303",
+      "name": "Annagh Central",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.351916,
+      "lat": 52.738517,
+      "search": [
+        "annagh central"
+      ]
+    },
+    {
+      "id": "townland:b43a8221a38c",
+      "name": "Annagh Long",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.350965,
+      "lat": 52.747214,
+      "search": [
+        "annagh long"
+      ]
+    },
+    {
+      "id": "townland:64c3e6659817",
+      "name": "Annagh Lower",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.340179,
+      "lat": 52.733652,
+      "search": [
+        "annagh lower"
+      ]
+    },
+    {
+      "id": "townland:54799789fc29",
+      "name": "Annagh Middle",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.362035,
+      "lat": 52.729336,
+      "search": [
+        "annagh middle"
+      ]
+    },
+    {
+      "id": "townland:08ffbbde8d84",
+      "name": "Annagh More",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.345226,
+      "lat": 52.725489,
+      "search": [
+        "annagh more"
+      ]
+    },
+    {
+      "id": "townland:37b72c8cf6e8",
+      "name": "Annagh Upper",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.372029,
+      "lat": 52.736098,
+      "search": [
+        "annagh upper"
+      ]
+    },
+    {
+      "id": "townland:cef1ee32edd4",
+      "name": "Annaghfin",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.492502,
+      "lat": 52.511235,
+      "search": [
+        "annaghfin"
+      ]
+    },
+    {
+      "id": "townland:52405395ea72",
+      "name": "Annaghgap",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.366578,
+      "lat": 52.750783,
+      "search": [
+        "annaghgap"
+      ]
+    },
+    {
+      "id": "townland:59dd259566e1",
+      "name": "Annaghhill",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.376512,
+      "lat": 52.744564,
+      "search": [
+        "annaghhill"
+      ]
+    },
+    {
+      "id": "townland:be61acb20340",
+      "name": "Annefield",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.947003,
+      "lat": 52.400927,
+      "search": [
+        "annefield"
+      ]
+    },
+    {
+      "id": "townland:556a553f701c",
+      "name": "Ardcandrisk",
+      "name_ga": "Ard Conrois",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.546355,
+      "lat": 52.352452,
+      "search": [
+        "ardcandrisk",
+        "ard conrois"
+      ]
+    },
+    {
+      "id": "townland:8f99aafff60e",
+      "name": "Ardcavan",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.445155,
+      "lat": 52.357753,
+      "search": [
+        "ardcavan"
+      ]
+    },
+    {
+      "id": "townland:ec52ef6595a9",
+      "name": "Ardcolm",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.437719,
+      "lat": 52.374177,
+      "search": [
+        "ardcolm"
+      ]
+    },
+    {
+      "id": "townland:ce4c0d602683",
+      "name": "Ardenagh Great",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.691161,
+      "lat": 52.295698,
+      "search": [
+        "ardenagh great"
+      ]
+    },
+    {
+      "id": "townland:85151b0416b5",
+      "name": "Ardenagh Little",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.697969,
+      "lat": 52.303009,
+      "search": [
+        "ardenagh little"
+      ]
+    },
+    {
+      "id": "townland:a4b843b3ac13",
+      "name": "Ardross",
+      "name_ga": "Ard Rois",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.938649,
+      "lat": 52.401194,
+      "search": [
+        "ardross",
+        "ard rois"
+      ]
+    },
+    {
+      "id": "townland:c4d2354ee50d",
+      "name": "Arklow",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.79407,
+      "lat": 52.271274,
+      "search": [
+        "arklow"
+      ]
+    },
+    {
+      "id": "townland:4e50159247dc",
+      "name": "Arnestown",
+      "name_ga": "Baile Arn",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.920523,
+      "lat": 52.377955,
+      "search": [
+        "arnestown",
+        "baile arn"
+      ]
+    },
+    {
+      "id": "townland:cd8f8cb42233",
+      "name": "Arnestown",
+      "name_ga": "Baile Arn",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.725769,
+      "lat": 52.289281,
+      "search": [
+        "arnestown",
+        "baile arn"
+      ]
+    },
+    {
+      "id": "townland:c6118a9fb7d7",
+      "name": "Arpinstown",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.57603,
+      "lat": 52.283696,
+      "search": [
+        "arpinstown"
+      ]
+    },
+    {
+      "id": "townland:8c49d5812522",
+      "name": "Arragorteen",
+      "name_ga": "Ardghoirtín",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.294034,
+      "lat": 52.63313,
+      "search": [
+        "arragorteen",
+        "ardghoirtin"
+      ]
+    },
+    {
+      "id": "townland:b9dae0d7766f",
+      "name": "Artramon",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.483928,
+      "lat": 52.381808,
+      "search": [
+        "artramon"
+      ]
+    },
+    {
+      "id": "townland:f1b5f5bd2c8c",
+      "name": "Ashwood Lower",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.193209,
+      "lat": 52.758615,
+      "search": [
+        "ashwood lower"
+      ]
+    },
+    {
+      "id": "townland:978c0010d58f",
+      "name": "Ashwood Upper",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.195562,
+      "lat": 52.764799,
+      "search": [
+        "ashwood upper"
+      ]
+    },
+    {
+      "id": "townland:401ae56b27e4",
+      "name": "Ask",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.261277,
+      "lat": 52.702094,
+      "search": [
+        "ask"
+      ]
+    },
+    {
+      "id": "townland:f2e59d328fe0",
+      "name": "Aska Beg",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.494523,
+      "lat": 52.666157,
+      "search": [
+        "aska beg"
+      ]
+    },
+    {
+      "id": "townland:a28564c383ea",
+      "name": "Aska More",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.474867,
+      "lat": 52.673556,
+      "search": [
+        "aska more"
+      ]
+    },
+    {
+      "id": "townland:719be42ae4bc",
+      "name": "Askabeg",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.401175,
+      "lat": 52.478233,
+      "search": [
+        "askabeg"
+      ]
+    },
+    {
+      "id": "townland:7ad8de64fef5",
+      "name": "Askaheige",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.636645,
+      "lat": 52.694385,
+      "search": [
+        "askaheige"
+      ]
+    },
+    {
+      "id": "townland:9b7ee07043f6",
+      "name": "Askakeel",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.435922,
+      "lat": 52.73259,
+      "search": [
+        "askakeel"
+      ]
+    },
+    {
+      "id": "townland:05d5009aa297",
+      "name": "Askasilla",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.387882,
+      "lat": 52.459274,
+      "search": [
+        "askasilla"
+      ]
+    },
+    {
+      "id": "townland:639e9871904c",
+      "name": "Askinamoe",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.522156,
+      "lat": 52.609633,
+      "search": [
+        "askinamoe"
+      ]
+    },
+    {
+      "id": "townland:302f45afcf9e",
+      "name": "Askinch Lower",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.262791,
+      "lat": 52.781659,
+      "search": [
+        "askinch lower"
+      ]
+    },
+    {
+      "id": "townland:c6ec1bf4b421",
+      "name": "Askinch Upper",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.271302,
+      "lat": 52.788354,
+      "search": [
+        "askinch upper"
+      ]
+    },
+    {
+      "id": "townland:d5fadf8297cc",
+      "name": "Askinfarney",
+      "name_ga": "Easca na Fearna",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.771963,
+      "lat": 52.473881,
+      "search": [
+        "askinfarney",
+        "easca na fearna"
+      ]
+    },
+    {
+      "id": "townland:2ab97850f0f8",
+      "name": "Askinfarney",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.678896,
+      "lat": 52.482452,
+      "search": [
+        "askinfarney"
+      ]
+    },
+    {
+      "id": "townland:4dc0c7576c9f",
+      "name": "Askingarran Lower",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.216565,
+      "lat": 52.603511,
+      "search": [
+        "askingarran lower"
+      ]
+    },
+    {
+      "id": "townland:cea91d1924cc",
+      "name": "Askingarran Upper",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.231319,
+      "lat": 52.603777,
+      "search": [
+        "askingarran upper"
+      ]
+    },
+    {
+      "id": "townland:169c2aa67e05",
+      "name": "Askinvillar Lower",
+      "name_ga": "Easca an Bhiolair Íochtarach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.755497,
+      "lat": 52.550356,
+      "search": [
+        "askinvillar lower",
+        "easca an bhiolair iochtarach"
+      ]
+    },
+    {
+      "id": "townland:55717195f5ac",
+      "name": "Askinvillar Upper",
+      "name_ga": "Easca an Bhiolair Uachtarach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.772047,
+      "lat": 52.552282,
+      "search": [
+        "askinvillar upper",
+        "easca an bhiolair uachtarach"
+      ]
+    },
+    {
+      "id": "townland:1a1b9c17f7d4",
+      "name": "Askunshin",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.613957,
+      "lat": 52.525826,
+      "search": [
+        "askunshin"
+      ]
+    },
+    {
+      "id": "townland:e06f8d562673",
+      "name": "Assagart",
+      "name_ga": "Agard Hae",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.728539,
+      "lat": 52.355821,
+      "search": [
+        "assagart",
+        "agard hae"
+      ]
+    },
+    {
+      "id": "townland:8062f37861ee",
+      "name": "Assaly Great",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.452043,
+      "lat": 52.263105,
+      "search": [
+        "assaly great"
+      ]
+    },
+    {
+      "id": "townland:30c80895332d",
+      "name": "Assaly Little",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.459755,
+      "lat": 52.259969,
+      "search": [
+        "assaly little"
+      ]
+    },
+    {
+      "id": "townland:3afbdc13a52f",
+      "name": "Aughathlappa",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.708073,
+      "lat": 52.51925,
+      "search": [
+        "aughathlappa"
+      ]
+    },
+    {
+      "id": "townland:c63a8c9edd0a",
+      "name": "Aughclare",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.921775,
+      "lat": 52.331386,
+      "search": [
+        "aughclare"
+      ]
+    },
+    {
+      "id": "townland:966eca1753b5",
+      "name": "Aughermon",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.679814,
+      "lat": 52.285324,
+      "search": [
+        "aughermon"
+      ]
+    },
+    {
+      "id": "townland:df2e5455145c",
+      "name": "Aughfad",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.642572,
+      "lat": 52.305829,
+      "search": [
+        "aughfad"
+      ]
+    },
+    {
+      "id": "townland:c32e19b3a27d",
+      "name": "Aughmore",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.392307,
+      "lat": 52.225162,
+      "search": [
+        "aughmore"
+      ]
+    },
+    {
+      "id": "townland:bc6280139d83",
+      "name": "Aughmore",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.421796,
+      "lat": 52.454086,
+      "search": [
+        "aughmore"
+      ]
+    },
+    {
+      "id": "townland:9c016ba75385",
+      "name": "Aughnagalley",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.546451,
+      "lat": 52.484071,
+      "search": [
+        "aughnagalley"
+      ]
+    },
+    {
+      "id": "townland:568d57918f5b",
+      "name": "Aughnagan",
+      "name_ga": "Áth na gCeann",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.62552,
+      "lat": 52.290116,
+      "search": [
+        "aughnagan",
+        "ath na gceann"
+      ]
+    },
+    {
+      "id": "townland:b3a90b57fbd9",
+      "name": "Aughnamaulmeen",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.442241,
+      "lat": 52.725203,
+      "search": [
+        "aughnamaulmeen"
+      ]
+    },
+    {
+      "id": "townland:1b915094b37c",
+      "name": "Aughullen",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.310513,
+      "lat": 52.749845,
+      "search": [
+        "aughullen"
+      ]
+    },
+    {
+      "id": "townland:39352c9575ef",
+      "name": "Bachelorshall",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.513444,
+      "lat": 52.306881,
+      "search": [
+        "bachelorshall"
+      ]
+    },
+    {
+      "id": "townland:45d34dd2021f",
+      "name": "Balcarrig",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.363494,
+      "lat": 52.603673,
+      "search": [
+        "balcarrig"
+      ]
+    },
+    {
+      "id": "townland:7aa3a4857aae",
+      "name": "Balcarrighill",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.357104,
+      "lat": 52.597688,
+      "search": [
+        "balcarrighill"
+      ]
+    },
+    {
+      "id": "townland:84bd076bb5fa",
+      "name": "Baldwinstown",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.57919,
+      "lat": 52.240801,
+      "search": [
+        "baldwinstown"
+      ]
+    },
+    {
+      "id": "townland:2c544febbb72",
+      "name": "Ballagh",
+      "name_ga": "Bealach na bhFiach",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.778006,
+      "lat": 52.410887,
+      "search": [
+        "ballagh",
+        "bealach na bhfiach"
+      ]
+    },
+    {
+      "id": "townland:aa08334cf229",
+      "name": "Ballagh",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.506309,
+      "lat": 52.192014,
+      "search": [
+        "ballagh"
+      ]
+    },
+    {
+      "id": "townland:fac594158384",
+      "name": "Ballagh Burrow",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.495043,
+      "lat": 52.190361,
+      "search": [
+        "ballagh burrow"
+      ]
+    },
+    {
+      "id": "townland:2af5178be7ad",
+      "name": "Ballaghablake",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.398728,
+      "lat": 52.398016,
+      "search": [
+        "ballaghablake"
+      ]
+    },
+    {
+      "id": "townland:f993e1e2b647",
+      "name": "Ballaghboy",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.35704,
+      "lat": 52.644753,
+      "search": [
+        "ballaghboy"
+      ]
+    },
+    {
+      "id": "townland:136d8982960f",
+      "name": "Ballaman",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.552367,
+      "lat": 52.62215,
+      "search": [
+        "ballaman"
+      ]
+    },
+    {
+      "id": "townland:a18dd8c5fdfb",
+      "name": "Ballare",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.365093,
+      "lat": 52.207663,
+      "search": [
+        "ballare"
+      ]
+    },
+    {
+      "id": "townland:8c8799962d9b",
+      "name": "Ballask",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.547549,
+      "lat": 52.204836,
+      "search": [
+        "ballask"
+      ]
+    },
+    {
+      "id": "townland:043604e58fe4",
+      "name": "Ballask",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.355577,
+      "lat": 52.194702,
+      "search": [
+        "ballask"
+      ]
+    },
+    {
+      "id": "townland:6d5fa7db1cdd",
+      "name": "Ballina",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.376391,
+      "lat": 52.42921,
+      "search": [
+        "ballina"
+      ]
+    },
+    {
+      "id": "townland:6cf1c9da0588",
+      "name": "Ballina",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.415718,
+      "lat": 52.39055,
+      "search": [
+        "ballina"
+      ]
+    },
+    {
+      "id": "townland:a4ba73734460",
+      "name": "Ballina",
+      "name_ga": "",
+      "type": "townland",
+      "county": "Wexford",
+      "lon": -6.413395,
+      "lat": 52.397971,
+      "search": [
+        "ballina"
+      ]
+    }
+  ],
+  "counts": {
+    "county": 26,
+    "town": 89,
+    "townland": 100
+  },
+  "source": {
+    "dataset": "Goirt Republic of Ireland place index",
+    "counties": "Tailte Éireann Counties — National Statutory Boundaries — 2019",
+    "towns": "GeoNames Ireland (CC BY 4.0)",
+    "townlands": "Tailte Éireann/OSi National Placenames Gazetteer, townlands",
+    "sample": true,
+    "note": "Sample committed for CI; the full index is a local pipeline build."
+  }
+}

@@ -1,4 +1,6 @@
-# Crop search
+# Search
+
+## Crop search
 
 The crop search field at the top of the map is built from the crop index that is
 already loaded to colour the fields (`site/public/data/crops.json` in the
@@ -85,6 +87,52 @@ rows. ArrowUp/Down move through options, Home/End jump to the ends, Enter
 selects, Escape closes the list (or clears an existing selection), and Tab
 leaves the field. Pointer users can select a row directly.
 
+## Location search
+
+A second field beside crop search finds counties, towns and townlands. It shares
+the combobox in `site/src/ui/combobox.ts` and adds its own ARIA labels, live
+region and index. The place model is `site/src/ui/location-model.ts`; the map
+wiring is `site/src/ui/location.ts`; the index is built by
+`pipeline/09_places.py` and documented in [DATA.md](DATA.md).
+
+The index covers all 26 Republic counties: 26 counties, 11,603 populated places
+and 50,380 townlands. English and Irish names are indexed where the
+source publishes them. The full index is a local build
+(`site/public/data/places.json`, gitignored); `site/.env.example` and CI read the
+committed `site/public/data/places-sample.json`, while `site/.env.full.example`
+points the local full build at `places.json`.
+
+- **Loading:** the index is fetched once, on first focus of the location field.
+  Typing performs no network requests, stores no queries and sends no analytics.
+- **Matching:** diacritic-insensitive exact, prefix, token prefix, substring and
+  subsequence over the normalised English and Irish forms. A county outranks a
+  town and a town outranks a townland at the same match quality; towns rank by
+  population, and in-area places rank ahead of out-of-area ones before the
+  7-result cap.
+- **Empty query:** popular counties and towns, preferring enabled places;
+  popular towns are not padded with disabled out-of-area places.
+- **Results:** grouped by Counties, Towns and villages, and Townlands, with one
+  heading per type and enabled places ahead of disabled ones within each type,
+  the county as a subtitle and the Irish name when it differs. Places of the same
+  type that share a name in the same county add a nearest-town hint, such as
+  “near Gorey”, or their coordinates when the nearest town is also shared. An
+  out-of-area place is shown disabled with “Available with the nationwide map”.
+- **No match:** the query is named in the status and live region; nothing is
+  selected.
+- **Selection:** a removable pill shows the English and Irish name. A county fits
+  its bbox; a town recentres at about z12 and a townland at about z13, clamped to
+  the map zoom limits. Selection adds no pin or marker and never filters the crop
+  field layer. Clearing removes the pill and leaves the viewport unchanged.
+- **Wexford build:** `locationBounds` in `site/src/config.ts` is a documented
+  temporary bbox derived from the Wexford basemap. Places outside it are disabled
+  instead of recentring to a blank basemap. The index is still all-Republic; the
+  guard is removed by [STATEWIDE.md](STATEWIDE.md), not by changing the index.
+- **Errors:** a failed index request disables only the location field with an
+  unavailable message; the map and crop search remain usable.
+
+The county bbox is used only for fitting. Town and townland coordinates come from
+their source points; the location field does not join them to fields.
+
 ## Tests
 
 Unit tests in `site/tests/search.test.ts` cover normalisation, plurals, data
@@ -94,3 +142,11 @@ cover `barley`, `grass`, `spuds`, `rape`, `beet`, the empty and no-match states,
 selecting and clearing, keyboard and ARIA behaviour, highlight and fit, group
 overview dots, the no-mapped-fields message, selecting a crop before its field
 tiles render, and the absence of extra network requests while typing.
+
+Location unit tests in `site/tests/location.test.ts` cover normalisation,
+English/Irish matching, exact/prefix/token-prefix/substring/subsequence ranking,
+diacritics, type and population ordering, popular entries, the result limit,
+disabled out-of-area places, grouping and the index schema. Playwright tests in
+`site/tests/e2e/location.spec.ts` select Enniscorthy and a county, assert the map
+recentres with no marker, check the Wexford extent guard, keyboard and ARIA
+behaviour, clearing, and the absence of per-keystroke place requests.

@@ -3,6 +3,8 @@ export interface ComboboxEntry<T> {
   label: string;
   meta?: string;
   kind?: string;
+  group?: string;
+  disabled?: boolean;
   value: T;
 }
 
@@ -107,41 +109,39 @@ export class Combobox<T> {
     switch (event.key) {
       case "ArrowDown": {
         event.preventDefault();
-        if (!this.openState) {
-          this.open();
-          this.setActive(0);
-        } else {
-          this.setActive(this.activeIndex + 1);
-        }
+        if (!this.openState) this.open();
+        this.moveActive(1);
         return;
       }
       case "ArrowUp": {
         event.preventDefault();
-        if (!this.openState) {
-          this.open();
-          this.setActive(this.entries.length - 1);
-        } else {
-          this.setActive(this.activeIndex <= 0 ? this.entries.length - 1 : this.activeIndex - 1);
-        }
+        if (!this.openState) this.open();
+        this.moveActive(-1);
         return;
       }
       case "Home": {
         if (!this.openState) return;
         event.preventDefault();
-        this.setActive(0);
+        const selectable = this.selectableIndices();
+        if (selectable.length > 0) this.setActive(selectable[0]);
         return;
       }
       case "End": {
         if (!this.openState) return;
         event.preventDefault();
-        this.setActive(this.entries.length - 1);
+        const selectable = this.selectableIndices();
+        if (selectable.length > 0) this.setActive(selectable.at(-1) ?? -1);
         return;
       }
       case "Enter": {
         if (!this.openState) return;
         event.preventDefault();
-        const index = this.activeIndex >= 0 ? this.activeIndex : 0;
-        this.select(index);
+        if (this.activeIndex >= 0) {
+          this.select(this.activeIndex);
+        } else {
+          const first = this.selectableIndices()[0];
+          if (first !== undefined) this.select(first);
+        }
         return;
       }
       case "Escape": {
@@ -162,12 +162,35 @@ export class Combobox<T> {
     }
   }
 
+  private selectableIndices(): number[] {
+    return this.entries
+      .map((entry, index) => (entry.disabled ? -1 : index))
+      .filter((index) => index >= 0);
+  }
+
+  private moveActive(delta: 1 | -1): void {
+    const selectable = this.selectableIndices();
+    if (selectable.length === 0) return;
+    const position = selectable.indexOf(this.activeIndex);
+    let next: number;
+    if (position < 0) {
+      next = delta > 0 ? selectable[0] : selectable[selectable.length - 1];
+    } else {
+      next =
+        selectable[
+          (position + delta + selectable.length) % selectable.length
+        ];
+    }
+    this.setActive(next);
+  }
+
   private setActive(index: number): void {
     if (this.entries.length === 0) return;
-    const length = this.entries.length;
-    this.activeIndex = ((index % length) + length) % length;
+    const entry = this.entries[index];
+    if (!entry || entry.disabled) return;
+    this.activeIndex = index;
     this.syncActive();
-    const element = this.config.listbox.children[this.activeIndex];
+    const element = this.optionElements()[this.activeIndex];
     if (element instanceof HTMLElement) element.scrollIntoView({ block: "nearest" });
   }
 
@@ -189,8 +212,8 @@ export class Combobox<T> {
   }
 
   private optionElements(): HTMLElement[] {
-    return Array.from(this.config.listbox.children).filter(
-      (child): child is HTMLElement => child instanceof HTMLElement,
+    return Array.from(
+      this.config.listbox.querySelectorAll<HTMLElement>('[role="option"]'),
     );
   }
 
@@ -200,11 +223,26 @@ export class Combobox<T> {
 
   private render(): void {
     const fragment = document.createDocumentFragment();
+    let lastGroup: string | undefined;
     this.entries.forEach((entry, index) => {
+      if (entry.group && entry.group !== lastGroup) {
+        const heading = document.createElement("div");
+        heading.className = "search-group-label";
+        heading.setAttribute("role", "presentation");
+        heading.textContent = entry.group;
+        fragment.append(heading);
+        lastGroup = entry.group;
+      }
+      if (entry.group === undefined) lastGroup = undefined;
+
       const option = document.createElement("div");
       option.id = this.optionId(index);
       option.className = "search-option";
       if (entry.kind) option.classList.add(`search-option-${entry.kind}`);
+      if (entry.disabled) {
+        option.classList.add("search-option-disabled");
+        option.setAttribute("aria-disabled", "true");
+      }
       option.setAttribute("role", "option");
       option.setAttribute("aria-selected", "false");
 
@@ -221,7 +259,7 @@ export class Combobox<T> {
       }
 
       option.addEventListener("pointermove", () => {
-        if (this.activeIndex !== index) this.setActive(index);
+        if (!entry.disabled && this.activeIndex !== index) this.setActive(index);
       });
       option.addEventListener("click", () => this.select(index));
       fragment.append(option);
@@ -231,7 +269,7 @@ export class Combobox<T> {
 
   private select(index: number): void {
     const entry = this.entries[index];
-    if (!entry) return;
+    if (!entry || entry.disabled) return;
     this.close();
     this.config.onSelect(entry);
   }

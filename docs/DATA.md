@@ -1,8 +1,8 @@
 # Data
 
 This document records the 2025 LPIS source, the row-to-parcel rule, the area and
-county rules, the crop lookup, the privacy-safe output schema, and the Wexford
-fixture outcomes. The evidence base is copied verbatim into
+county rules, the crop lookup, the privacy-safe output schema, the Wexford
+fixture outcomes, and the all-Republic place index used by location search. The evidence base is copied verbatim into
 [`research/`](research/); the build commands are in the [README](../README.md).
 
 ## 1. Source
@@ -304,7 +304,73 @@ The committed CI sample `site/public/data/overview-sample.geojson` is sampled
 from `site/public/fixtures/wexford-sample.geojson` with the same rules (17 dots
 at 20 ha/dot). CI never needs the source archive or tippecanoe.
 
-## 10. Outputs
+## 10. Place index
+
+`pipeline/09_places.py` builds the location index used by the separate place
+search field. It covers the 26 counties of the Republic only; Northern Ireland is
+excluded because the LPIS data and the map are Republic-only. The full index is a
+local build, `site/public/data/places.json` (gitignored). The committed
+`site/public/data/places-sample.json` is the only version CI and the fixture site
+read, so CI never needs the network.
+
+Sources:
+
+| Type | Source | Licence | Kept |
+|---|---|---|---|
+| County | Tailte Éireann, *Counties — National Statutory Boundaries — 2019* (cached in `data/lookup/counties.geojson`) | CC BY 4.0 | name, Irish name, representative point and bbox |
+| Town / village | GeoNames Ireland dump, `IE.zip` | CC BY 4.0 | populated places (`P`), English name, Irish alternate, coordinates, population |
+| Townland | Tailte Éireann/OSi *National Placenames Gazetteer*, townlands feature service | CC BY 4.0 | `English_Na`, `Irish_Name`, `County`, `Contae`, coordinates |
+
+GeoNames' alternate-name file provides the Irish town names (`isolanguage = ga`,
+preferred names first). The county Irish names are the `Contae` values published
+by the same OSi Gazetteer for the 26 counties. Townlands are queried with
+pagination, `outSR=4326` and a stable `OBJECTID_1` order; blank English names are
+dropped and records are de-duplicated by their stable source id, so same-named
+townlands at different points are all kept. Places are assigned to the Republic by
+point-in-county, so a GeoNames record that actually sits across the border is
+excluded.
+
+Build outcome:
+
+| Type | Full index | Committed sample |
+|---|---:|---:|
+| County | 26 | 26 |
+| Town / village | 11,603 | 89 |
+| Townland | 50,380 | 100 |
+| **Total** | **62,009** | **215** |
+
+The full index is about 17 MB after normalisation. The sample keeps every
+county, the largest towns, the Wexford towns over 1,000 people and a small
+townland slice, and is about 61 kB.
+
+Schema per place:
+
+| Field | Meaning |
+|---|---|
+| `id` | Stable public id (`county:wexford`, `town:<geonameid>`, hashed `townland:…`) |
+| `name` | English name |
+| `name_ga` | Irish name when the source has one |
+| `type` | `county`, `town` or `townland` |
+| `county` | English county name |
+| `lon`, `lat` | WGS84 representative point |
+| `bbox` | County only: WGS84 `[west, south, east, north]` |
+| `population` | Town only: GeoNames population |
+| `search` | Deduplicated, diacritic-insensitive normalised English and Irish forms |
+
+The index has no field data and no field-to-townland join. It is a place-name
+reference, not a spatial join table. Townland centroids are not attached to
+parcels, and selecting a place never filters the crop field layer.
+
+The site loads the index once when the location field is first focused; matching,
+ranking, grouping and selection behaviour are documented in [SEARCH.md](SEARCH.md).
+There is no marker or pin and no field filtering.
+
+The temporary Wexford build guards places outside the Wexford basemap bbox and
+shows them disabled with an “available with the nationwide map” note. The index
+itself is already all-Republic. The guard, `locationBounds` in
+`site/src/config.ts`, is removed by the checklist in [STATEWIDE.md](STATEWIDE.md).
+
+## 11. Outputs
 
 | Artifact | Path | Committed |
 |---|---|---|
@@ -319,6 +385,8 @@ at 20 ha/dot). CI never needs the source archive or tippecanoe.
 | Basemap extract | `site/public/basemap/wexford.pmtiles` | no |
 | CI crop reference JSON | `site/public/data/crops.json` | yes |
 | Full crop search index | `site/public/data/crops-full.json` | no |
+| Location index sample | `site/public/data/places-sample.json` | yes |
+| Full location index | `site/public/data/places.json` | no |
 
 The committed sample is 16 real anonymised parcels, two per displayed group, with
 the public schema only. It is clearly labelled as fixture data in its `name` and
@@ -332,12 +400,12 @@ PMTiles is 15 MB. The basemap is a 27 MB Protomaps extract from build
 `20261029` for bbox `-7.10,52.10,-6.05,52.85`, max zoom 15. Both are local,
 gitignored artifacts.
 
-## 11. Reproduce
+## 12. Reproduce
 
 ```bash
 export GOIRT_WORK_DIR=/path/to/large/work
 bash pipeline/01_fetch.sh   # once: download, verify, extract
-bash pipeline/build.sh      # inspect → lookup → process → JSON → overview → tiles → basemap → scan
+bash pipeline/build.sh      # inspect → lookup → process → JSON → overview → places → tiles → basemap → scan
 ```
 
 Full audit takes about 70 seconds for all 4.9M rows; processing the Wexford bbox
@@ -346,7 +414,7 @@ committed sample and the paper basemap still run; the full PMTiles fixture stays
 local build step. Do not commit the archive, the GeoPackage, full fixtures,
 basemap extracts or build output.
 
-## 12. Caveats carried forward
+## 13. Caveats carried forward
 
 - The data is anonymised by DAFM but a polygon plus crop, area and county can still
   be re-identifying in a small area. Data minimisation is the mitigation; see
@@ -359,3 +427,6 @@ basemap extracts or build output.
 - The 2019 county boundaries are generalised and reference-only.
 - The 2025 crop set is complete for this archive, but it is a single year. Do not
   infer a time series.
+- The location index is Republic-wide, but this Wexford build still disables
+  places outside its basemap extent. The limit is the `locationBounds` guard, not
+  the index; see [STATEWIDE.md](STATEWIDE.md).
