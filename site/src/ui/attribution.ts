@@ -56,7 +56,7 @@ export function renderDataDialog(): void {
       em("Anonymous LPIS data for 2025"),
       ", licensed under ",
       link(dataLicences.lpisLicence, "CC BY 4.0"),
-      ". Modifications: filtered to agricultural parcels, reduced to crop group and area (claimed or eligible basis), geometry repaired where needed, reprojected, county joined, and rendered as a local fixture. Not endorsed by DAFM.",
+      ". Modifications: filtered to agricultural parcels, reduced to crop group and area (claimed or eligible basis), geometry repaired where needed, reprojected, county joined, and rendered as a local map. Not endorsed by DAFM.",
     ]),
     paragraph([
       strong("Basemap: "),
@@ -93,7 +93,7 @@ export function renderDataDialog(): void {
     ]),
     paragraph([
       strong("What this map is, and is not: "),
-      "This map shows anonymised agricultural parcel data for County Wexford. It is not a cadastral map, does not show ownership, and is not suitable for legal, subsidy, or boundary determinations. Field boundaries and areas are derived and simplified. Identifying holding attributes are removed; the map is not claimed to be fully anonymous.",
+      "This map shows anonymised agricultural parcel data for the Republic of Ireland. It is not a cadastral map, does not show ownership, and is not suitable for legal, subsidy, or boundary determinations. Field boundaries and areas are derived and simplified. Identifying holding attributes are removed; the map is not claimed to be fully anonymous.",
     ]),
   );
 }

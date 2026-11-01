@@ -32,7 +32,7 @@ let protocolRegistered = false;
 function registerProtocol(): void {
   if (protocolRegistered) return;
   const protocol = new Protocol();
-  protocol.add(new PMTiles(new URL(basemapUrl || "/basemap/wexford.pmtiles", window.location.href).href));
+  protocol.add(new PMTiles(new URL(basemapUrl || "/basemap/ireland.pmtiles", window.location.href).href));
   if (isPmtiles(fieldsUrl)) {
     protocol.add(new PMTiles(new URL(fieldsUrl, window.location.href).href));
   }
@@ -59,7 +59,14 @@ function styleForBasemap(): StyleSpecification {
       ],
     };
   }
-  const baseLayers = basemapLayers();
+  const baseLayers = basemapLayers().map((layer) =>
+    layer.id === "background"
+      ? ({
+          ...layer,
+          paint: { "background-color": palette.water },
+        } as typeof layer)
+      : layer,
+  );
   return {
     version: 8,
     glyphs: GLYPHS_URL,
@@ -81,6 +88,11 @@ function showError(message: string): void {
   box.hidden = false;
 }
 
+/** Republic of Ireland extent used for the opening view. */
+const IRELAND_VIEW: [number, number, number, number] = [
+  -10.7, 51.3, -5.3, 55.5,
+];
+
 export function createMap(
   container: string,
   cropsReady: Promise<CropsFile | null>,
@@ -92,13 +104,21 @@ export function createMap(
   const map = new maplibregl.Map({
     container,
     style,
-    center: [-6.58, 52.45],
-    zoom: 10.2,
+    center: [-8.0, 53.35],
+    zoom: 7.5,
     minZoom: 5,
     maxZoom: 15,
     attributionControl: false,
     hash: false,
   });
+
+  map.fitBounds(
+    [
+      [IRELAND_VIEW[0], IRELAND_VIEW[1]],
+      [IRELAND_VIEW[2], IRELAND_VIEW[3]],
+    ],
+    { padding: 24, duration: 0 },
+  );
 
   map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
   map.addControl(new maplibregl.ScaleControl({ unit: "metric", maxWidth: 120 }), "bottom-left");
@@ -151,7 +171,7 @@ export function createMap(
         })
         .catch((error: unknown) => {
           const message = error instanceof Error ? error.message : String(error);
-          showError(`The Wexford field layer did not load. ${message}`);
+          showError(`The field layer did not load. ${message}`);
         });
     });
   });

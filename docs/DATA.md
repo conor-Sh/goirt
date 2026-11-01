@@ -1,9 +1,10 @@
 # Data
 
 This document records the 2025 LPIS source, the row-to-parcel rule, the area and
-county rules, the crop lookup, the privacy-safe output schema, the Wexford
-fixture outcomes, and the all-Republic place index used by location search. The evidence base is copied verbatim into
-[`research/`](research/); the build commands are in the [README](../README.md).
+county rules, the crop lookup, the privacy-safe output schema, the statewide and
+Wexford fixture outcomes, and the all-Republic place index used by location
+search. The evidence base is copied verbatim into [`research/`](research/); the
+build commands are in the [README](../README.md).
 
 ## 1. Source
 
@@ -90,8 +91,9 @@ The rule is:
 
 Nationally, 1,543,817 crop rows collapse to 1,464,950 `(parcel, crop, geometry)`
 parts: 10,691 groups had repeated geometry and 89,558 rows sat in those groups,
-folding 78,867 rows. The national retained count is not the Wexford fixture count;
-the county filter and the non-farmland filter reduce it further.
+folding 78,867 rows. The non-farmland filter and the no-area drop reduce those
+parts to the 1,091,585 statewide features; the separate Wexford fixture applies
+the same rules after its county clip.
 
 This choice avoids the two bad alternatives: publishing 4.9M rows would duplicate
 field parts and inflate totals, while dissolving only by parcel label would merge
@@ -122,8 +124,9 @@ parts, not by a single parcel polygon. That is the unit the map shows.
   The field popup shows the matching "Claimed area" or "Eligible area" text, so a
   fallback value is never presented as claimed.
 
-Wexford outcome: 51,644 features use claimed area, 33 use the eligible-area
-fallback, and 703 candidate parts had both area fields null or zero and were
+Statewide outcome: 1,091,031 features use claimed area, 554 use the eligible-area
+fallback, and 36,749 candidate parts had both area fields null or zero and were
+dropped. The separate Wexford fixture records 51,644 claimed, 33 eligible and 703
 dropped. No `acres`, `digitised`, or computed geometry area is displayed.
 
 ## 5. County join
@@ -138,24 +141,24 @@ part in this order:
 3. Otherwise, `"Ireland"`.
 
 County names are stored as English title case (`WEXFORD` → `Wexford`). The
-Wexford fixture keeps only features resolved to `Wexford`. `"Ireland"` is a
-fallback label, not a published county value in the fixture.
+statewide build keeps every feature and resolves all 26 statutory counties;
+`"Ireland"` is the fallback label for the small number of parts outside them. The
+Wexford fixture keeps only features resolved to `Wexford`.
 
-Wexford bbox outcome:
+Statewide candidate-part outcome:
 
 | County method | Candidate parts |
 |---|---:|
-| Representative point | 88,773 |
-| Largest overlap | 15 |
-| Fallback `Ireland` | 3 |
+| Representative point | 1,463,750 |
+| Largest overlap | 915 |
+| Fallback `Ireland` | 285 |
 
-Candidate parts resolved to other counties were Carlow 15,629, Kilkenny 4,699,
-Waterford 844, Wicklow 4,274 and Ireland 3. They are excluded from the Wexford
-fixture, not relabelled.
+Every one of the 26 Republic counties appears in `county_counts`, from Dublin
+8,206 and Louth 19,062 up to Cork 160,494 and Galway 139,898 candidate parts.
 
 The 2019 boundaries are generalised statutory boundaries for reference, not a
 boundary survey. A parcel that straddles a county line is assigned as one unit by
-the rule above; the fixture does not split geometry at county lines.
+the rule above; neither build splits geometry at county lines.
 
 ## 6. Crop lookup and non-farmland
 
@@ -190,8 +193,9 @@ reference, not a second hand-maintained source. The generator also sums each
 crop's and group's `hectares_total` and unions their WGS84 `bbox` from the
 processed fields, so search can detect mapped crops and fit their extent without
 querying whichever tiles happen to be loaded. The committed file uses the tiny
-CI sample; `pipeline/build.sh` writes the full Wexford index to the gitignored
-`site/public/data/crops-full.json`.
+CI sample; `pipeline/build.sh` writes the full map index to the gitignored
+`site/public/data/crops-full.json`. The statewide build reads the statewide
+FlatGeobuf in chunks, so the same generator covers the whole country.
 
 ## 7. Public schema and privacy
 
@@ -203,7 +207,7 @@ The only public feature properties are:
 | `crop_group` | string | One of the eight displayed groups |
 | `hectares` | float | Area in hectares, rounded to 0.1 ha |
 | `area_basis` | string | `claimed` for `claim_area`; `eligible` for the `eh_area` fallback |
-| `county` | string | English county name (`Wexford` in the fixture) |
+| `county` | string | English 2019 county name, or `Ireland` for the fallback |
 
 `pipeline/common.py` enforces this with an explicit allowlist in
 `safe_properties`/`assert_safe_properties`. The processing step cannot emit an
@@ -218,45 +222,51 @@ artifacts. No herd, holding, `par_lab`, sub-division, scheme, area-source or
 source feature id reaches tiles, JSON, logs or analytics. See
 [PRIVACY.md](PRIVACY.md) for the residual-risk position.
 
-## 8. Wexford fixture outcome
+## 8. Statewide outcome
 
-The bbox is the Wexford county polygon bounds in EPSG:2157:
-`[666969.41, 596172.33, 725554.53, 673160.41]`.
+The statewide source bbox in EPSG:2157 is
+`[416218.66, 519664.01, 734484.14, 966932.13]`; the retained features span
+`[-10.592, 51.422177, -5.994829, 55.382713]` in WGS84.
 
 | Measure | Result |
 |---|---:|
-| Candidate crop rows in the bbox | 89,614 |
-| Folded `(parcel, crop, geometry)` parts | 88,791 |
-| Parts outside Wexford | 25,449 |
-| Excluded non-farmland parts | 10,962 |
-| Dropped for no usable area | 703 |
-| **Retained Wexford features** | **51,677** |
-| Claimed-area features | 51,644 |
-| Eligible-area fallback features | 33 |
+| Candidate crop rows | 1,543,817 |
+| Folded `(parcel, crop, geometry)` parts | 1,464,950 |
+| Excluded non-farmland parts | 336,616 |
+| Dropped for no usable area | 36,749 |
+| **Retained features** | **1,091,585** |
+| Claimed-area features | 1,091,031 |
+| Eligible-area fallback features | 554 |
+| Total mapped hectares | 4,712,852.4 |
 
 Retained groups:
 
 | Group | Features | Hectares |
 |---|---:|---:|
-| Grassland | 36,549 | 119,991.1 |
-| Cereals | 11,102 | 45,791.3 |
-| Maize | 707 | 2,603.2 |
-| Oilseeds & break | 1,110 | 4,732.0 |
-| Roots | 923 | 3,112.4 |
-| Horticulture | 139 | 386.6 |
-| Fruit | 131 | 87.5 |
-| Fallow & environment | 1,016 | 1,443.5 |
+| Grassland | 1,007,264 | 4,345,480.3 |
+| Cereals | 57,859 | 279,404.6 |
+| Maize | 5,167 | 22,230.4 |
+| Oilseeds & break | 5,253 | 28,266.7 |
+| Roots | 5,168 | 20,331.8 |
+| Horticulture | 1,535 | 3,926.8 |
+| Fruit | 1,124 | 815.4 |
+| Fallow & environment | 8,215 | 12,396.4 |
 
-Permanent Pasture alone is 30,744 features and 103,825.6 ha, which is why
+Permanent Pasture alone is 854,391 features and 3,879,165.9 ha, which is why
 grassland is the calm base and the tillage groups carry the patterns. The largest
-tillage counts are Spring Barley 7,789, Winter Wheat 827, Spring Oats 921, Winter
-Oats 405, Maize 707 and Winter Oilseed Rape 201.
+tillage counts are Spring barley 27,974, Winter barley 10,346, Winter wheat
+9,624, Maize 5,167 and Winter oats 3,277.
+
+The Wexford fixture keeps the same rules after its county clip and remains the
+committed CI sample: 51,677 retained features, 178,147.6 ha. Its bbox in
+EPSG:2157 is `[666969.41, 596172.33, 725554.53, 673160.41]`.
 
 ## 9. Low-zoom overview dots
 
 The field polygons start at z10, so a second representation carries the map at
-lower zooms. `pipeline/08_overview.py` reads the processed Wexford
-`fields.fgb` (never the raw 5 GB source) and samples points inside every field.
+lower zooms. `pipeline/08_overview.py` reads the processed `fields.fgb` (never
+the raw 5 GB source) in chunks and samples points inside every field, so the
+statewide build stays memory-bounded.
 
 The sampling rule is:
 
@@ -266,13 +276,15 @@ The sampling rule is:
   proportionally instead of disappearing.
 - `area_per_dot` starts at 20 ha. If `total_hectares / 20` would exceed the dot
   cap, it is raised automatically to `total_hectares / cap`, so the cap is never
-  breached by definition. The Wexford cap is 10,000 dots; the national setting is
-  250,000.
+  breached by definition. The Wexford fixture cap is 10,000 dots; the national
+  setting is 250,000.
 - The seed is fixed (`20261030`), so a rebuild produces identical dots.
 - Points are rejected until they fall inside the field polygon, then any dot
-  outside the 2019 Wexford county polygon is dropped.
-- Wexford result: 178,147.6 ha, 20 ha/dot, 8,846 sampled, 4 outside the county
-  dropped, 8,842 published dots.
+  outside the Republic's 2019 county polygons is dropped.
+- Statewide result: 4,712,852.4 ha, 20 ha/dot, 234,879 sampled, 163 outside the
+  county polygons dropped, 234,716 published dots.
+- Wexford fixture result: 178,147.6 ha, 20 ha/dot, 8,846 sampled, 4 outside the
+  county dropped, 8,842 published dots.
 
 Each dot carries only `crop_group` (see [PRIVACY.md](PRIVACY.md)). No hectares,
 county, `crop_id`, parcel id or source id is attached.
@@ -280,9 +292,8 @@ county, `crop_id`, parcel id or source id is attached.
 ### Density and zoom
 
 A density window decides when each dot appears. Dots are counted on a 0.005°
-grid (about 350 m east-west and 550 m north-south at Wexford's latitude) over an
-11-by-11-cell window, roughly a 3.5 km box. For Irish field sizes the tuned
-thresholds are:
+grid (roughly 350 m east-west and 550 m north-south) over an 11-by-11-cell
+window, about a 3.5 km box. For Irish field sizes the tuned thresholds are:
 
 | Dots in the window | Minimum zoom | Meaning |
 |---|---:|---|
@@ -295,10 +306,10 @@ draw between z5 and z8 (ratio 1.6), so density falls away smoothly instead of in
 hard rings. Dense tillage areas therefore appear first; sparse farmland appears
 closer in.
 
-The full build tiles the dot GeoJSON to
-`site/public/data/overview.pmtiles` with tippecanoe v2.82.0 and
-`-Z5 -z9 -r1 -D10 --drop-densest-as-needed -l overview`. The PMTiles is local
-and gitignored.
+The statewide build tiles the dot GeoJSON to
+`site/public/data/overview-2025-v1.pmtiles` with tippecanoe v2.82.0 and
+`-Z5 -z9 -D10 --drop-densest-as-needed -l overview`. The fixture build writes
+`site/public/data/overview.pmtiles`. Both are local and gitignored.
 
 The committed CI sample `site/public/data/overview-sample.geojson` is sampled
 from `site/public/fixtures/wexford-sample.geojson` with the same rules (17 dots
@@ -335,9 +346,9 @@ Build outcome:
 | Type | Full index | Committed sample |
 |---|---:|---:|
 | County | 26 | 26 |
-| Town / village | 11,603 | 89 |
+| Town / village | 12,159 | 89 |
 | Townland | 50,380 | 100 |
-| **Total** | **62,009** | **215** |
+| **Total** | **62,565** | **215** |
 
 The full index is about 17 MB after normalisation. The sample keeps every
 county, the largest towns, the Wexford towns over 1,000 people and a small
@@ -365,24 +376,31 @@ The site loads the index once when the location field is first focused; matching
 ranking, grouping and selection behaviour are documented in [SEARCH.md](SEARCH.md).
 There is no marker or pin and no field filtering.
 
-The temporary Wexford build guards places outside the Wexford basemap bbox and
-shows them disabled with an “available with the nationwide map” note. The index
-itself is already all-Republic. The guard, `locationBounds` in
-`site/src/config.ts`, is removed by the checklist in [STATEWIDE.md](STATEWIDE.md).
+The statewide build sets `locationBounds` in `site/src/config.ts` to `null`, so
+every place in the index recentres the map. The disabled-row path and its
+“available with the nationwide map” note remain in the model for a future
+partial deployment; see [STATEWIDE.md](STATEWIDE.md).
 
 ## 11. Outputs
 
 | Artifact | Path | Committed |
 |---|---|---|
+| Statewide FlatGeobuf | `$GOIRT_WORK_DIR/statewide/fields.fgb` | no |
+| Statewide GeoJSON | `$GOIRT_WORK_DIR/statewide/fields.geojson` | no |
+| Statewide manifest | `$GOIRT_WORK_DIR/statewide/manifest.json` | no |
+| Statewide field PMTiles | `site/public/fixtures/fields-2025-v1.pmtiles` | no |
+| Statewide overview source | `$GOIRT_WORK_DIR/statewide/overview.geojson` | no |
+| Statewide overview PMTiles | `site/public/data/overview-2025-v1.pmtiles` | no |
+| Ireland basemap | `site/public/basemap/ireland.pmtiles` | no |
 | Wexford FlatGeobuf | `$GOIRT_WORK_DIR/wexford/fields.fgb` | no |
 | Wexford GeoJSON | `$GOIRT_WORK_DIR/wexford/fields.geojson` | no |
 | Wexford manifest | `$GOIRT_WORK_DIR/wexford/manifest.json` | no |
 | Tiny CI sample | `site/public/fixtures/wexford-sample.geojson` | yes |
-| Full field PMTiles | `site/public/fixtures/wexford-fields.pmtiles` | no |
-| Overview dot source | `$GOIRT_WORK_DIR/wexford/overview.geojson` | no |
-| Full overview PMTiles | `site/public/data/overview.pmtiles` | no |
+| Wexford field PMTiles | `site/public/fixtures/wexford-fields.pmtiles` | no |
+| Wexford overview source | `$GOIRT_WORK_DIR/wexford/overview.geojson` | no |
+| Wexford overview PMTiles | `site/public/data/overview.pmtiles` | no |
 | Overview CI sample | `site/public/data/overview-sample.geojson` | yes |
-| Basemap extract | `site/public/basemap/wexford.pmtiles` | no |
+| Wexford basemap | `site/public/basemap/wexford.pmtiles` | no |
 | CI crop reference JSON | `site/public/data/crops.json` | yes |
 | Full crop search index | `site/public/data/crops-full.json` | no |
 | Location index sample | `site/public/data/places-sample.json` | yes |
@@ -392,27 +410,40 @@ The committed sample is 16 real anonymised parcels, two per displayed group, wit
 the public schema only. It is clearly labelled as fixture data in its `name` and
 `description`. CI runs from it and never downloads the 5 GB archive.
 
-The full field tile build used tippecanoe v2.82.0 with
+The statewide field tile build used tippecanoe v2.82.0 with
 `-Z10 -z14 -B9 -l fields --generate-ids --simplification=2
 --detect-shared-borders --drop-densest-as-needed
---extend-zooms-if-still-dropping --maximum-tile-bytes=1500000`. The local
-PMTiles is 15 MB. The basemap is a 27 MB Protomaps extract from build
-`20261029` for bbox `-7.10,52.10,-6.05,52.85`, max zoom 15. Both are local,
-gitignored artifacts.
+--extend-zooms-if-still-dropping` and no coalescing. The local
+`fields-2025-v1.pmtiles` is 348,180,930 bytes (348 MB, inside the 250–450 MB
+budget) and addresses 46,082 tiles from 1,091,585 source features. The statewide
+overview is 2,457,110 bytes (2.46 MB, under the 50 MB budget). The Ireland
+basemap is a 277,139,277-byte (277 MB) Protomaps extract from build `20261029`
+for bbox `-10.7,51.3,-5.3,55.5`, max zoom 14 (inside the 200–500 MB budget). The
+three statewide tiles together are about 628 MB, under the ~1 GB v1 budget. All
+are local, gitignored artifacts.
+
+Spot checks at z12 over Wexford, Cork, Mayo, Donegal, Dublin and Kerry, and at
+z13–z14 over Wexford, decoded at least as many features in each tile as the
+source features whose envelopes intersect it (the tile buffer adds a few edge
+features); no non-empty tile was short of source parcels.
 
 ## 12. Reproduce
 
 ```bash
 export GOIRT_WORK_DIR=/path/to/large/work
-bash pipeline/01_fetch.sh   # once: download, verify, extract
-bash pipeline/build.sh      # inspect → lookup → process → JSON → overview → places → tiles → basemap → scan
+bash pipeline/01_fetch.sh              # once: download, verify, extract
+bash pipeline/build.sh                 # Wexford fixture
+bash pipeline/build.sh --statewide     # full Republic build
 ```
 
-Full audit takes about 70 seconds for all 4.9M rows; processing the Wexford bbox
-takes about 40 seconds. If `tippecanoe` or `go-pmtiles` is unavailable, the
-committed sample and the paper basemap still run; the full PMTiles fixture stays a
-local build step. Do not commit the archive, the GeoPackage, full fixtures,
-basemap extracts or build output.
+On this 8-core, 7 GB machine the full audit takes about 70 seconds for all 4.9M
+rows. The statewide process took about 16.6 minutes and peaked around 800 MB RSS
+thanks to the 25 km tile loop. Overview sampling and tiling took about 30 seconds
+including its tippecanoe pass; the field tiling pass took about 2 minutes; the
+basemap extract took 1 minute 42 seconds and transferred 302 MB. If `tippecanoe`
+or `go-pmtiles` is unavailable, the committed sample and the paper basemap still
+run; the full PMTiles artifacts stay local build steps. Do not commit the
+archive, the GeoPackage, full fixtures, basemap extracts or build output.
 
 ## 13. Caveats carried forward
 
@@ -427,6 +458,6 @@ basemap extracts or build output.
 - The 2019 county boundaries are generalised and reference-only.
 - The 2025 crop set is complete for this archive, but it is a single year. Do not
   infer a time series.
-- The location index is Republic-wide, but this Wexford build still disables
-  places outside its basemap extent. The limit is the `locationBounds` guard, not
-  the index; see [STATEWIDE.md](STATEWIDE.md).
+- The location index is Republic-wide and the statewide map enables every place.
+  `locationBounds` is `null`; the disabled-row path remains only for a future
+  partial deployment. See [STATEWIDE.md](STATEWIDE.md).

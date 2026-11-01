@@ -77,10 +77,14 @@ def default_artifacts() -> list[Path]:
     candidates = [
         common.SITE_FIXTURES / "wexford-sample.geojson",
         common.SITE_FIXTURES / "wexford-fields.pmtiles",
+        common.SITE_FIXTURES / "fields-2025-v1.pmtiles",
         common.SITE_DATA / "overview-sample.geojson",
         common.SITE_DATA / "overview.pmtiles",
+        common.SITE_DATA / "overview-2025-v1.pmtiles",
         common.WORK_DIR / "wexford" / "fields.fgb",
         common.WORK_DIR / "wexford" / "overview.geojson",
+        common.WORK_DIR / "statewide" / "fields.fgb",
+        common.WORK_DIR / "statewide" / "overview.geojson",
     ]
     return [path for path in candidates if path.exists()]
 

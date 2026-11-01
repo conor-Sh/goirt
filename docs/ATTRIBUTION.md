@@ -53,10 +53,10 @@ The dialog repeats the obligations in full:
 > **Code:** Goirt, MIT. MapLibre (BSD-3-Clause) and PMTiles (BSD-3-Clause).
 >
 > **What this map is, and is not:** This map shows anonymised agricultural parcel
-> data for County Wexford. It is not a cadastral map, does not show ownership, and
-> is not suitable for legal, subsidy, or boundary determinations. Field boundaries
-> and areas are derived and simplified. Identifying holding attributes are
-> removed; the map is not claimed to be fully anonymous.
+> data for the Republic of Ireland. It is not a cadastral map, does not show
+> ownership, and is not suitable for legal, subsidy, or boundary determinations.
+> Field boundaries and areas are derived and simplified. Identifying holding
+> attributes are removed; the map is not claimed to be fully anonymous.
 
 The exact implementation text is in `site/src/ui/attribution.ts`; update both
 places together if the wording changes.
