@@ -90,16 +90,17 @@ bash pipeline/build.sh --statewide
 | Crop JSON | `uv run python pipeline/07_crops_json.py` | `site/public/data/crops.json` (CI sample) and `site/public/data/crops-full.json` (full map) |
 | Overview (fixture) | `uv run python pipeline/08_overview.py` | `$GOIRT_WORK_DIR/wexford/overview.geojson`, `site/public/data/overview.pmtiles` (gitignored), `site/public/data/overview-sample.geojson` |
 | Overview (statewide) | `uv run python pipeline/08_overview.py --statewide` | `$GOIRT_WORK_DIR/statewide/overview.geojson`, `site/public/data/overview-2025-v1.pmtiles` (gitignored) |
-| Places | `uv run python pipeline/09_places.py` | `site/public/data/places.json` (gitignored, all Republic) and `site/public/data/places-sample.json` (CI sample) |
 | Field tiles (fixture) | `bash pipeline/05_tiles.sh` | `site/public/fixtures/wexford-fields.pmtiles` (gitignored) |
 | Field tiles (statewide) | `bash pipeline/05_tiles.sh --statewide` | `site/public/fixtures/fields-2025-v1.pmtiles` (gitignored) |
 | Basemap (fixture) | `bash pipeline/06_basemap.sh` | `site/public/basemap/wexford.pmtiles` (gitignored) |
 | Basemap (statewide) | `bash pipeline/06_basemap.sh --statewide` | `site/public/basemap/ireland.pmtiles` (gitignored) |
 | Privacy scan | `uv run python pipeline/privacy_scan.py` | fails on any forbidden property |
+| Places | `uv run python pipeline/09_places.py` | `site/public/data/places.json` (gitignored, all Republic) and `site/public/data/places-sample.json` (CI sample) |
 
 The statewide process reads the 5 GB GeoPackage in 25 km spatial tiles so it
-never needs the whole field set in memory. Each stage has a `--help` that lists
-its scope flag, tile size and output paths.
+never needs the whole field set in memory. `pipeline/04_process.py` and
+`pipeline/08_overview.py` list their scope flag, tile size and output paths under
+`--help`; the shell stages print their usage on an unknown argument.
 
 Build the native tools once:
 

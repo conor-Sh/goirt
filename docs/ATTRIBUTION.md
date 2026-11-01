@@ -142,8 +142,7 @@ Source: GeoNames, *Ireland* dump, CC BY 4.0.
   preferred non-historic variants, places ranked by population.
 
 The bar links both sources and the dialog carries the full credit and licence.
-Keep both when the statewide build lands; the place index is already
-Republic-wide.
+Keep both in the statewide build; the place index is already Republic-wide.
 
 ## 7. Code and assets
 
